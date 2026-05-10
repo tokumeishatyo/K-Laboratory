@@ -1,0 +1,66 @@
+---
+import { NAV, SITE } from '../config/site';
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner container">
+    <p class="site-footer__brand">{SITE.name}</p>
+    <nav class="site-footer__nav" aria-label="フッターナビゲーション">
+      <ul>
+        {NAV.footer.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <p class="site-footer__copy">{SITE.copyright}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--c-bg-alt);
+    border-top: 1px solid var(--c-border);
+    padding: 40px 0 32px;
+    margin-top: 80px;
+  }
+
+  .site-footer__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .site-footer__brand {
+    margin: 0;
+    font-weight: 700;
+    color: var(--c-text);
+  }
+
+  .site-footer__nav ul {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .site-footer__nav a {
+    font-size: 14px;
+    color: var(--c-text-sub);
+    text-decoration: none;
+  }
+  .site-footer__nav a:hover {
+    color: var(--c-orange-700);
+    text-decoration: underline;
+  }
+
+  .site-footer__copy {
+    margin: 0;
+    font-size: 13px;
+    color: var(--c-text-mute);
+  }
+</style>

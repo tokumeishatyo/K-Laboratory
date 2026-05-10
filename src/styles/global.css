@@ -1,0 +1,280 @@
+/* ===========================================
+   K Laboratory Corporate Site — global stylesheet
+   Theme: orange (primary) + green (secondary)
+   =========================================== */
+
+:root {
+  /* Brand orange — primary accent for CTA / key highlights */
+  --c-orange-900: #bf360c;
+  --c-orange-800: #d84315;
+  --c-orange-700: #e65100;
+  --c-orange-600: #f57c00;
+  --c-orange-500: #ff8f00;
+  --c-orange-200: #ffe0b2;
+  --c-orange-100: #fff3e0;
+  --c-orange-50:  #fff8f0;
+
+  /* Brand green — secondary accent (logo continuity) */
+  --c-green-900: #1b5e20;
+  --c-green-800: #2e7d32;
+  --c-green-700: #388e3c;
+  --c-green-500: #66bb6a;
+  --c-green-200: #c8e6c9;
+  --c-green-100: #e8f5e9;
+  --c-green-50:  #f1f8e9;
+
+  /* Neutrals */
+  --c-bg:        #ffffff;
+  --c-bg-alt:    #faf8f3;
+  --c-card-bg:   #ffffff;
+  --c-text:      #1a1a1a;
+  --c-text-sub:  #4a4a4a;
+  --c-text-mute: #8a8a8a;
+  --c-border:    #e6e2d8;
+  --c-divider:   #f0ede5;
+
+  /* Hero (dark) */
+  --c-hero-bg-1: #2b1505;
+  --c-hero-bg-2: #6b2c00;
+
+  /* Typography */
+  --ff-base: "Yu Gothic UI", "Yu Gothic", "Hiragino Sans", "Meiryo",
+             "Noto Sans JP", system-ui, -apple-system, "Segoe UI",
+             Roboto, sans-serif;
+  --ff-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+             "Liberation Mono", monospace;
+
+  /* Layout */
+  --container: 1100px;
+  --radius: 12px;
+  --radius-sm: 6px;
+  --shadow:    0 4px 24px rgba(191, 54, 12, 0.08);
+  --shadow-lg: 0 10px 40px rgba(191, 54, 12, 0.12);
+
+  /* Section spacing */
+  --section-py: clamp(56px, 9vw, 104px);
+}
+
+/* reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ff-base);
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--c-text);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--c-orange-700);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--c-orange-900);
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0 0 0.6em;
+  line-height: 1.4;
+  font-weight: 700;
+  color: var(--c-text);
+  letter-spacing: 0.01em;
+}
+
+h1 { font-size: clamp(28px, 4.5vw, 40px); }
+h2 { font-size: clamp(24px, 3.4vw, 32px); }
+h3 { font-size: clamp(18px, 2.2vw, 22px); }
+
+p {
+  margin: 0 0 1em;
+}
+
+strong {
+  font-weight: 700;
+}
+
+/* utility */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+main {
+  display: block;
+  min-height: 60vh;
+}
+
+.section {
+  padding: var(--section-py) 0;
+}
+
+.section--alt {
+  background: var(--c-bg-alt);
+}
+
+.section--green {
+  background: var(--c-green-50);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: clamp(24px, 3.2vw, 32px);
+  margin-bottom: 16px;
+}
+
+.section-title::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 28px;
+  background: var(--c-orange-700);
+  border-radius: 3px;
+}
+
+.section-lead {
+  font-size: 16px;
+  color: var(--c-text-sub);
+  margin-bottom: 40px;
+  max-width: 720px;
+}
+
+/* buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn--primary {
+  background: var(--c-orange-700);
+  color: #ffffff;
+  border-color: var(--c-orange-700);
+}
+.btn--primary:hover {
+  background: var(--c-orange-800);
+  border-color: var(--c-orange-800);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230, 81, 0, 0.35);
+  text-decoration: none;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--c-orange-700);
+  border-color: var(--c-orange-700);
+}
+.btn--outline:hover {
+  background: var(--c-orange-700);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* card */
+.card {
+  background: var(--c-card-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* tables (会社情報・略歴用) */
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.info-table th,
+.info-table td {
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--c-divider);
+  vertical-align: top;
+}
+
+.info-table th {
+  width: 30%;
+  font-weight: 600;
+  color: var(--c-text-sub);
+  background: var(--c-bg-alt);
+}
+
+@media (max-width: 600px) {
+  .info-table th,
+  .info-table td {
+    display: block;
+    width: 100%;
+    border-bottom: none;
+    padding: 8px 12px;
+  }
+  .info-table th {
+    background: transparent;
+    color: var(--c-orange-700);
+    padding-top: 16px;
+    border-top: 1px solid var(--c-divider);
+  }
+}
+
+/* skip link (accessibility) */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--c-orange-700);
+  color: #ffffff;
+  padding: 8px 16px;
+  z-index: 1000;
+}
+.skip-link:focus {
+  left: 8px;
+  top: 8px;
+}
