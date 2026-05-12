@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import { SITE } from '../config/site';
 import '../styles/global.css';
 
@@ -21,6 +22,28 @@ const {
 
 const fullTitle = title ? `${title} | ${SITE.name}` : SITE.name;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE.url).toString();
+const ogImage = new URL('/images/og-image.png', Astro.site ?? SITE.url).toString();
+
+// 構造化データ (schema.org Organization) — 検索エンジン向けの会社情報メタ情報。
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.company.legalName,
+  legalName: SITE.company.legalName,
+  url: SITE.url,
+  logo: new URL('/images/logo.png', SITE.url).toString(),
+  foundingDate: '2003-02',
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'JP',
+    addressRegion: '神奈川県',
+    addressLocality: '高座郡寒川町',
+  },
+  founder: {
+    '@type': 'Person',
+    name: SITE.company.representative,
+  },
+};
 ---
 
 <!doctype html>
@@ -39,8 +62,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE.url).toStrin
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(organizationJsonLd)}
+    />
   </head>
   <body>
     <a href="#main" class="skip-link">本文へスキップ</a>
@@ -49,5 +81,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? SITE.url).toStrin
       <slot />
     </main>
     <Footer />
+    <CookieConsent />
   </body>
 </html>

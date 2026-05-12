@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://1klab.com/sitemap-index.xml

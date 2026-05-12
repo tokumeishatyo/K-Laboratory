@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 // 有限会社 K Laboratory コーポレートサイト (https://1klab.com)
 // 静的ホスティング (CoreServer) 向けに、ディレクトリ形式 + 末尾スラッシュで出力する。
@@ -10,5 +11,12 @@ export default defineConfig({
     format: 'directory',
     inlineStylesheets: 'auto',
   },
-  integrations: [],
+  integrations: [
+    sitemap({
+      // SEO 上の優先度・更新頻度のヒント (Google は参考程度にしか見ないが付与しておく)
+      changefreq: 'monthly',
+      priority: 0.7,
+      lastmod: new Date(),
+    }),
+  ],
 });

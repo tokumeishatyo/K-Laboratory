@@ -1,0 +1,176 @@
+---
+// Cookie 同意バナー + Google Analytics 4 ローダー。
+//
+// 動作仕様:
+//   - 初回訪問時: バナーを表示。「同意する」「同意しない」を選択するまで GA はロードしない。
+//   - 「同意する」: localStorage に accepted を保存し、GA4 を動的にロード。
+//   - 「同意しない」: localStorage に declined を保存し、以後 GA はロードしない。
+//   - 既に判断済み: バナーを表示せず、accepted の場合のみ GA をロード。
+//
+// Astro の <script is:inline> でインラインスクリプトとして配信し、
+// hydration / bundler 経由のオーバーヘッドを避ける。
+
+import { SITE } from '../config/site';
+
+const GA_ID = SITE.ga.measurementId;
+const STORAGE_KEY = 'klab-cookie-consent';
+---
+
+<aside
+  id="cookie-consent"
+  class="cookie-banner"
+  role="region"
+  aria-label="Cookie 利用について"
+  hidden
+>
+  <p class="cookie-banner__text">
+    当サイトでは、サービス向上のため Google Analytics による匿名のアクセス解析を行っています。
+    Cookie の利用に同意いただけますか？詳細は<a href="/cookies/">クッキーポリシー</a>をご覧ください。
+  </p>
+  <div class="cookie-banner__actions">
+    <button type="button" id="cookie-accept" class="btn btn--primary cookie-banner__btn">
+      同意する
+    </button>
+    <button type="button" id="cookie-decline" class="btn btn--ghost-dark cookie-banner__btn">
+      同意しない
+    </button>
+  </div>
+</aside>
+
+<script is:inline define:vars={{ GA_ID, STORAGE_KEY }}>
+  (function () {
+    var banner = document.getElementById('cookie-consent');
+    var acceptBtn = document.getElementById('cookie-accept');
+    var declineBtn = document.getElementById('cookie-decline');
+
+    function loadGA() {
+      if (window.__klabGALoaded) return;
+      window.__klabGALoaded = true;
+
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', GA_ID, { anonymize_ip: true });
+    }
+
+    function safeGet(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        return null;
+      }
+    }
+    function safeSet(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        /* ignore */
+      }
+    }
+
+    var current = safeGet(STORAGE_KEY);
+
+    if (current === 'accepted') {
+      loadGA();
+    } else if (current === 'declined') {
+      // 何もしない (バナーも GA も非表示)
+    } else if (banner) {
+      banner.hidden = false;
+    }
+
+    if (acceptBtn) {
+      acceptBtn.addEventListener('click', function () {
+        safeSet(STORAGE_KEY, 'accepted');
+        if (banner) banner.hidden = true;
+        loadGA();
+      });
+    }
+    if (declineBtn) {
+      declineBtn.addEventListener('click', function () {
+        safeSet(STORAGE_KEY, 'declined');
+        if (banner) banner.hidden = true;
+      });
+    }
+  })();
+</script>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: 760px;
+    margin: 0 auto;
+    background: #1a1a1a;
+    color: #ffffff;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+    z-index: 100;
+  }
+
+  .cookie-banner[hidden] {
+    display: none;
+  }
+
+  .cookie-banner__text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .cookie-banner__text :global(a) {
+    color: var(--c-orange-200);
+    text-decoration: underline;
+  }
+  .cookie-banner__text :global(a:hover) {
+    color: var(--c-orange-100);
+  }
+
+  .cookie-banner__actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  .cookie-banner__btn {
+    font-size: 13px;
+    padding: 10px 18px;
+  }
+
+  /* バナー内の "同意しない" は暗背景上で読みやすい配色にする */
+  :global(.btn--ghost-dark) {
+    background: transparent;
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+  :global(.btn--ghost-dark:hover) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  @media (min-width: 720px) {
+    .cookie-banner {
+      flex-direction: row;
+      align-items: center;
+    }
+    .cookie-banner__text {
+      flex: 1;
+    }
+  }
+</style>
