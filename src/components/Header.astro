@@ -9,7 +9,15 @@ const isActive = (href: string) =>
 <header class="site-header">
   <div class="site-header__inner container">
     <a href="/" class="site-header__brand" aria-label={SITE.name}>
-      <span class="site-header__logo" aria-hidden="true"></span>
+      <img
+        src="/images/logo.png"
+        alt=""
+        width="36"
+        height="36"
+        class="site-header__logo"
+        loading="eager"
+        decoding="async"
+      />
       <span class="site-header__brand-name">{SITE.shortName}</span>
     </a>
     <nav class="site-nav" aria-label="メインナビゲーション">
@@ -61,13 +69,12 @@ const isActive = (href: string) =>
     color: var(--c-orange-700);
   }
 
-  /* Step 4 で実ロゴ画像に差し替える。それまではブランドカラーのプレースホルダ。 */
   .site-header__logo {
     width: 36px;
     height: 36px;
-    background: linear-gradient(135deg, var(--c-green-700), var(--c-orange-700));
-    border-radius: 8px;
     display: inline-block;
+    border-radius: 6px;
+    object-fit: contain;
   }
 
   .site-header__brand-name {

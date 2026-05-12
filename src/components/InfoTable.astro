@@ -1,0 +1,43 @@
+---
+// 会社情報・経歴などのキー/バリュー表示用テーブル。
+// global.css の .info-table スタイルを適用する。
+
+interface Row {
+  /** 行の見出し (左列) */
+  label: string;
+  /** 行の値 (右列)。プレーンテキスト前提。 */
+  value: string;
+}
+
+interface Props {
+  /** 表示する行 */
+  rows: Row[];
+  /** 任意のキャプション (テーブル上部に表示) */
+  caption?: string;
+}
+
+const { rows, caption } = Astro.props;
+---
+
+<table class="info-table">
+  {caption && <caption class="info-table__caption">{caption}</caption>}
+  <tbody>
+    {rows.map((row) => (
+      <tr>
+        <th scope="row">{row.label}</th>
+        <td>{row.value}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+<style>
+  .info-table__caption {
+    text-align: left;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--c-text);
+    padding: 0 0 12px;
+    caption-side: top;
+  }
+</style>

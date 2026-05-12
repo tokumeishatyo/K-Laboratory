@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import InfoTable from '../components/InfoTable.astro';
+import { SITE } from '../config/site';
+
+const companyRows = [
+  { label: '商号', value: SITE.company.legalName },
+  { label: '設立', value: SITE.company.founded },
+  { label: '所在地', value: SITE.company.address },
+  { label: '代表者', value: SITE.company.representative },
+  { label: '資本金', value: SITE.company.capital },
+  { label: '事業内容', value: '中小企業向け IT コンサルティング、IT 業務全般、システム開発' },
+];
+---
+
+<Layout
+  title="会社案内"
+  description="有限会社 K Laboratory の会社概要・事業内容をご案内します。"
+>
+  <section class="page-header">
+    <div class="container">
+      <h1>会社案内</h1>
+      <p class="page-header__lead">
+        K Laboratory の事業内容と会社概要をご案内します。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading title="事業内容" />
+      <p>
+        （仮）有限会社 K Laboratory は、中小企業のお客様を主な対象として、IT コンサルティング、IT 業務全般、システム開発を提供しています。経営層の意思決定に寄り添い、IT・AI の導入から定着までを伴走支援します。
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeading title="会社概要" />
+      <InfoTable rows={companyRows} />
+    </div>
+  </section>
+</Layout>

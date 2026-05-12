@@ -1,0 +1,47 @@
+---
+// ボタン共通コンポーネント。
+// href が指定された場合は <a>、なければ <button> として描画する。
+
+type Variant = 'primary' | 'outline' | 'ghost';
+
+interface Props {
+  /** 表示バリアント (デフォルト: primary) */
+  variant?: Variant;
+  /** 指定するとリンクボタンになる */
+  href?: string;
+  /** <button> 用の type 属性 (リンクのときは無視) */
+  type?: 'button' | 'submit' | 'reset';
+  /** 外部リンク (新規タブ + rel=noopener) として扱うか */
+  external?: boolean;
+  /** 追加の class */
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  external = false,
+  class: className,
+} = Astro.props;
+
+const variantClass = `btn--${variant}`;
+const isLink = href !== undefined;
+---
+
+{
+  isLink ? (
+    <a
+      href={href}
+      class:list={['btn', variantClass, className]}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class:list={['btn', variantClass, className]}>
+      <slot />
+    </button>
+  )
+}

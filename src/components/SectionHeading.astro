@@ -1,0 +1,38 @@
+---
+// セクション見出しの共通コンポーネント。
+// global.css の .section-title / .section-lead スタイルを適用する。
+
+interface Props {
+  /** 見出しテキスト */
+  title: string;
+  /** 任意のリード文 (1〜2 文程度) */
+  lead?: string;
+  /** 任意の id (アンカーリンク用) */
+  id?: string;
+  /** 中央寄せにするか (デフォルトは左寄せ) */
+  align?: 'left' | 'center';
+}
+
+const { title, lead, id, align = 'left' } = Astro.props;
+---
+
+<header class:list={['heading', { 'heading--center': align === 'center' }]}>
+  <h2 class="section-title" id={id}>{title}</h2>
+  {lead && <p class="section-lead">{lead}</p>}
+</header>
+
+<style>
+  .heading {
+    margin-bottom: 8px;
+  }
+  .heading--center {
+    text-align: center;
+  }
+  .heading--center :global(.section-title) {
+    justify-content: center;
+  }
+  .heading--center :global(.section-lead) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>

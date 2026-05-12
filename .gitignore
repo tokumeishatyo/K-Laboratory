@@ -29,5 +29,6 @@ Thumbs.db
 .astro/
 
 # original assets (kept locally; not deployed)
-Logo.png
-prof.png
+# ルート直下のみを対象 (派生物 public/images/* は対象外)
+/Logo.png
+/prof.png

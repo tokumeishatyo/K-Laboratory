@@ -1,17 +1,415 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Button from '../components/Button.astro';
+
+// セールスページ骨格。文言はすべて仮 (フェーズ1終盤で一括確定)。
+// 画像 (メール画像など) は Step 4 で実物を配置する。
+
+const problems = [
+  { icon: '❓', text: 'AI が話題だが、自社で何にどう使えるかわからない' },
+  { icon: '💼', text: '業務効率化のため IT 投資をしたいが、判断材料が足りない' },
+  { icon: '🤝', text: 'ベンダーに相談したいが、対等に話せる相手が見つからない' },
+  { icon: '📉', text: '過去に導入した IT が現状にフィットしなくなってきた' },
+];
+
+const services = [
+  {
+    title: 'IT コンサルティング',
+    body:
+      '（仮）現状分析・課題整理から戦略立案、ベンダー選定支援まで。経営目線で IT の意思決定を伴走します。',
+  },
+  {
+    title: 'システム開発',
+    body:
+      '（仮）AI 駆動開発の手法で、要件定義から実装・運用までを高速かつ高品質に。小規模から段階的に始められます。',
+  },
+  {
+    title: 'AI 導入支援',
+    body:
+      '（仮）業務への AI 適用の設計・実装・運用定着までを一貫支援。何から始めるかの整理段階から相談可能です。',
+  },
+];
+
+const strengths = [
+  {
+    no: '01',
+    title: 'AI 駆動開発の実戦力',
+    body:
+      '（仮）Claude を中核に、要件定義から実装・テスト・ドキュメント生成まで開発全工程をカバー。少人数で大きな成果を出すノウハウを蓄積しています。',
+    accent: true,
+  },
+  {
+    no: '02',
+    title: '30 年のフルスタック経験',
+    body:
+      '（仮）ネットワーク／インフラ／バックエンド／フロントエンドまでカバー。新旧両方の技術スタックに対応します。',
+    accent: false,
+  },
+  {
+    no: '03',
+    title: 'ビジネスと技術の両面理解',
+    body:
+      '（仮）独立起業で経営・広告運用を実体験。技術一辺倒にならず、経営課題からプロジェクトを俯瞰します。',
+    accent: false,
+  },
+];
 ---
 
 <Layout>
+  {/* ===== Hero ===== */}
+  <section class="hero">
+    <div class="hero__inner container">
+      <p class="hero__eyebrow">中小企業の IT・AI 導入を、伴走支援。</p>
+      <h1 class="hero__title">
+        経営の課題を、<br />
+        <span class="hero__title-accent">AI 時代の解像度</span>で。
+      </h1>
+      <p class="hero__lead">
+        （仮・キャッチコピー）30 年のフルスタック経験と AI 駆動開発で、「何から始めればよいかわからない」を、最短ルートの答えに変えます。
+      </p>
+      <div class="hero__cta">
+        <Button href="#contact" variant="primary">お問い合わせ</Button>
+        <Button href="/about/" variant="ghost">会社案内を見る</Button>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== 課題提起 ===== */}
   <section class="section">
     <div class="container">
-      <h1>トップページ（仮）</h1>
-      <p class="section-lead">
-        このページはステップ 3 でセールスページとしての骨格を作り、フェーズ 1 終盤で本文を一括確定します。
-      </p>
-      <p>
-        現在の表示はプロジェクト雛形の動作確認用です。ヘッダー・フッター・配色・ナビゲーションが想定どおりに描画されていることをご確認ください。
-      </p>
+      <SectionHeading
+        title="こんなお悩み、ありませんか？"
+        lead="（仮）IT・AI を活用したいが何から手をつければ良いかわからない、そんな経営者の声を私たちはよく耳にします。"
+      />
+      <ul class="problem-list">
+        {
+          problems.map((p) => (
+            <li class="problem-item">
+              <span class="problem-item__icon" aria-hidden="true">{p.icon}</span>
+              <p class="problem-item__text">{p.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  {/* ===== サービス ===== */}
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeading
+        title="提供サービス"
+        lead="（仮）中小企業のあらゆる IT 課題に、伴走スタイルで応えます。"
+      />
+      <div class="service-grid">
+        {
+          services.map((s) => (
+            <article class="service-card">
+              <h3 class="service-card__title">{s.title}</h3>
+              <p class="service-card__body">{s.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* ===== 強み ===== */}
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title="3 つの強み"
+        lead="（仮）K Laboratory が選ばれる理由をご紹介します。"
+      />
+      <div class="strengths">
+        {
+          strengths.map((s) => (
+            <article class:list={['strength', { 'strength--accent': s.accent }]}>
+              <span class="strength__no">{s.no}</span>
+              <h3 class="strength__title">{s.title}</h3>
+              <p class="strength__body">{s.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* ===== 代表メッセージ ===== */}
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeading
+        title="代表メッセージ"
+        lead="（仮）K Laboratory 代表 川﨑 伸之 より。"
+      />
+      <div class="rep-message">
+        <div class="rep-message__photo">
+          <img
+            src="/images/prof.jpg"
+            alt="代表者 川﨑 伸之"
+            width="800"
+            height="619"
+            loading="lazy"
+            decoding="async"
+            class="rep-message__photo-img"
+          />
+        </div>
+        <div class="rep-message__body">
+          <p>
+            （仮）30 年前にネットワーク業界へ飛び込んだ私は、いま再び、AI という新しい時代の波を感じています。経営者の皆さまが踏み出す一歩を、技術と経営の両面から支えるのが K Laboratory の役割です。
+          </p>
+          <Button href="/profile/" variant="outline">代表略歴を見る</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== CTA / お問い合わせ ===== */}
+  <section class="section cta-section" id="contact">
+    <div class="container">
+      <SectionHeading
+        title="お問い合わせ"
+        lead="（仮）まずはお気軽にご相談ください。メールにてお問い合わせを承ります。"
+        align="center"
+      />
+      <div class="cta-contact">
+        <p class="cta-contact__label">メールアドレス</p>
+        <img
+          src="/images/email.png"
+          alt="メールアドレス (画像表示によるスパム対策)"
+          width="320"
+          height="40"
+          loading="lazy"
+          decoding="async"
+          class="cta-contact__email"
+        />
+        <p class="cta-contact__note">
+          ※ スパム対策のため、メールアドレスは画像で表示しています。
+        </p>
+      </div>
     </div>
   </section>
 </Layout>
+
+<style>
+  /* ===== Hero ===== */
+  .hero {
+    position: relative;
+    background: linear-gradient(135deg, var(--c-hero-bg-1), var(--c-hero-bg-2));
+    color: #ffffff;
+    padding: clamp(72px, 11vw, 128px) 0;
+    overflow: hidden;
+  }
+  .hero__inner {
+    max-width: 880px;
+  }
+  .hero__eyebrow {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin: 0 0 24px;
+    color: #ffffff;
+  }
+  .hero__title {
+    color: #ffffff;
+    font-size: clamp(30px, 5.4vw, 52px);
+    line-height: 1.3;
+    margin: 0 0 24px;
+    letter-spacing: 0.01em;
+  }
+  .hero__title-accent {
+    color: var(--c-orange-500);
+  }
+  .hero__lead {
+    font-size: clamp(15px, 1.6vw, 18px);
+    line-height: 1.9;
+    margin: 0 0 36px;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 720px;
+  }
+  .hero__cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ===== 課題提起 ===== */
+  .problem-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .problem-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px;
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-border);
+    border-left: 4px solid var(--c-orange-700);
+    border-radius: var(--radius-sm);
+  }
+  .problem-item__icon {
+    font-size: 24px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .problem-item__text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--c-text);
+  }
+
+  /* ===== サービス ===== */
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .service-card {
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px 24px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  .service-card__title {
+    font-size: 18px;
+    margin: 0 0 12px;
+    color: var(--c-orange-900);
+  }
+  .service-card__body {
+    margin: 0;
+    font-size: 14px;
+    color: var(--c-text-sub);
+    line-height: 1.8;
+  }
+
+  /* ===== 強み ===== */
+  .strengths {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .strength {
+    position: relative;
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 32px 24px 28px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .strength:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  .strength--accent {
+    background: linear-gradient(135deg, var(--c-orange-100) 0%, #ffffff 100%);
+    border-color: var(--c-orange-200);
+  }
+  .strength--accent::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--c-orange-500), var(--c-orange-700));
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .strength__no {
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--c-green-700);
+    letter-spacing: 0.2em;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .strength--accent .strength__no {
+    color: var(--c-orange-700);
+  }
+  .strength__title {
+    font-size: 17px;
+    margin: 0 0 12px;
+    color: var(--c-text);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .strength__body {
+    font-size: 14px;
+    color: var(--c-text-sub);
+    margin: 0;
+    line-height: 1.8;
+  }
+
+  /* ===== 代表メッセージ ===== */
+  .rep-message {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .rep-message__photo-img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: block;
+  }
+  .rep-message__body p {
+    margin-bottom: 24px;
+    line-height: 1.9;
+  }
+  @media (max-width: 720px) {
+    .rep-message {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  /* ===== CTA ===== */
+  .cta-section {
+    background: var(--c-orange-50);
+  }
+  .cta-contact {
+    text-align: center;
+    margin-top: 24px;
+  }
+  .cta-contact__label {
+    font-size: 14px;
+    color: var(--c-text-sub);
+    margin: 0 0 12px;
+    letter-spacing: 0.08em;
+  }
+  .cta-contact__email {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 12px 20px;
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow);
+  }
+  .cta-contact__note {
+    font-size: 13px;
+    color: var(--c-text-mute);
+    margin: 16px 0 0;
+  }
+</style>

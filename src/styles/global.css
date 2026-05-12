@@ -264,6 +264,58 @@ main {
   }
 }
 
+/* page header (下層ページ共通の見出しエリア) */
+.page-header {
+  background: var(--c-bg-alt);
+  padding: clamp(48px, 7vw, 72px) 0 clamp(32px, 5vw, 48px);
+  border-bottom: 1px solid var(--c-border);
+}
+.page-header h1 {
+  margin-bottom: 8px;
+}
+.page-header__lead {
+  color: var(--c-text-sub);
+  margin: 0;
+  font-size: 15px;
+}
+
+/* 法的文書 (プライバシー・クッキー等) */
+.legal-doc {
+  max-width: 760px;
+}
+.legal-doc h2 {
+  font-size: 20px;
+  margin: 40px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--c-orange-200);
+  color: var(--c-text);
+}
+.legal-doc h2:first-child {
+  margin-top: 0;
+}
+.legal-doc h3 {
+  font-size: 16px;
+  margin: 24px 0 8px;
+  color: var(--c-orange-900);
+}
+.legal-doc p,
+.legal-doc li {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--c-text);
+}
+.legal-doc ul,
+.legal-doc ol {
+  padding-left: 1.4em;
+  margin: 0 0 1em;
+}
+.legal-doc__updated {
+  text-align: right;
+  font-size: 13px;
+  color: var(--c-text-mute);
+  margin-top: 48px;
+}
+
 /* skip link (accessibility) */
 .skip-link {
   position: absolute;

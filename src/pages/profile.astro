@@ -1,0 +1,114 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import InfoTable from '../components/InfoTable.astro';
+import { SITE } from '../config/site';
+
+// 提供された略歴文をもとに、年表 + 文章で構成。
+// 年は要確認の箇所があるため、フェーズ1終盤で確定する。
+
+const careerRows = [
+  { label: '（要確認）卒業後', value: '法人対象のセールスマンとしてキャリアをスタート' },
+  { label: '（要確認）在職中', value: '3 年連続で全国トップの営業成績を獲得' },
+  { label: '1995 年頃', value: 'Windows 95 とインターネットの普及を機に IT 業界へ転身' },
+  { label: '2003 年 2 月', value: '有限会社 K Laboratory を設立、独立' },
+  { label: '2003 年〜', value: 'IT コンサルティング・システム開発に約 30 年従事' },
+  { label: '近年', value: 'AI の飛躍的発展を新たな時代の要請と捉え、AI 駆動開発へシフト' },
+];
+---
+
+<Layout
+  title="代表略歴"
+  description="有限会社 K Laboratory 代表 川﨑 伸之 の略歴をご紹介します。"
+>
+  <section class="page-header">
+    <div class="container">
+      <h1>代表略歴</h1>
+      <p class="page-header__lead">
+        代表者 {SITE.company.representative} の経歴をご紹介します。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="profile-hero">
+        <div class="profile-hero__photo">
+          <img
+            src="/images/prof.jpg"
+            alt="代表者 川﨑 伸之"
+            width="800"
+            height="619"
+            loading="eager"
+            decoding="async"
+            class="profile-hero__photo-img"
+          />
+        </div>
+        <div class="profile-hero__intro">
+          <p class="profile-hero__name">{SITE.company.representative}</p>
+          <p class="profile-hero__role">代表取締役</p>
+          <p class="profile-hero__summary">
+            （仮）30 年にわたる IT 領域での経験を土台に、近年は AI 駆動開発を軸とした事業を展開。中小企業の IT・AI 導入の伴走支援を主な活動領域としています。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeading title="略歴" />
+      <InfoTable rows={careerRows} />
+      <p class="profile-note">
+        （仮）詳細な略歴は確定後に更新します。年については一部、確認の上で正式な情報に置き換えます。
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .profile-hero {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .profile-hero__name {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--c-text);
+  }
+  .profile-hero__role {
+    font-size: 14px;
+    color: var(--c-orange-700);
+    font-weight: 600;
+    margin: 0 0 16px;
+    letter-spacing: 0.04em;
+  }
+  .profile-hero__summary {
+    margin: 0;
+    line-height: 1.9;
+    color: var(--c-text-sub);
+  }
+  @media (max-width: 720px) {
+    .profile-hero {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  .profile-hero__photo-img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: block;
+  }
+
+  .profile-note {
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--c-text-mute);
+  }
+</style>
