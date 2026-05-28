@@ -2,179 +2,739 @@
 import Layout from '../layouts/Layout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import Button from '../components/Button.astro';
+import { SITE } from '../config/site';
 
-// セールスページ骨格。文言はすべて仮 (フェーズ1終盤で一括確定)。
-// 画像 (メール画像など) は Step 4 で実物を配置する。
+// =============================================================
+//  K Laboratory 公式トップページ
+//  DRM (Direct Response Marketing) 型のストーリー仕立てで構成。
+//  共感 → 不安 → 希望 → 信念 → 信頼 → 証拠 → 行動 の流れ。
+//  ターゲット: AI を導入したいが何から始めればよいかわからない
+//              中小・中堅企業の経営者。
+// =============================================================
 
+// ---- セクション 2: お悩みリスト ----
 const problems = [
-  { icon: '❓', text: 'AI が話題だが、自社で何にどう使えるかわからない' },
-  { icon: '💼', text: '業務効率化のため IT 投資をしたいが、判断材料が足りない' },
-  { icon: '🤝', text: 'ベンダーに相談したいが、対等に話せる相手が見つからない' },
-  { icon: '📉', text: '過去に導入した IT が現状にフィットしなくなってきた' },
+  {
+    icon: '🤔',
+    title: '展示会で見かける AI ソリューションは、自社にはオーバースペックで高額すぎる',
+    body: [
+      '東京ビッグサイトや幕張メッセで開催される IT・AI 系の展示会に足を運ぶと、目に飛び込んでくるのは大企業向けの大規模ソリューションばかりです。「全社最適」「数百万件の業務を自動化」── 提示される金額は、数千万円から、場合によっては億単位。',
+      'もちろん、それらは素晴らしいシステムです。けれど、社員数十名〜数百名規模の中小・中堅企業にとっては、機能も予算も明らかに過剰。試しに見積もりをもらった瞬間、提示価格を見て静かにブースを離れた経験はありませんか？',
+      '一方で、ちょうど良い規模の選択肢は、不思議なほど世の中に出回っていません。「中小企業向け」と謳う製品は機能が削られすぎて、本質的な業務改善には届かない。私たちがまず向き合っているのは、まさにこの「規模のミスマッチ」です。',
+    ],
+  },
+  {
+    icon: '💡',
+    title: 'AI を業務に活かしたい気持ちはあるが、何から始めればよいかわからない',
+    body: [
+      '毎日のように「AI で業務効率化」「生成 AI が変える働き方」というニュースを目にします。同業他社が AI を導入し始めたという話も耳に入ってくる。なんとなく「うちでも何か使えるはずだ」という感覚はある ── でも、具体的に何から始めればよいかが、わからない。',
+      'ChatGPT や Gemini を社員に試させてみる？　社内勉強会を開く？　外部セミナーに参加してみる？　いざ動こうとすると選択肢が多すぎて、しかも一つひとつの判断材料が不足しています。「うちの業務に本当に合うのか」「どこまでやれば成果が出るのか」「投資した分のリターンはあるのか」── 確信が持てない状態が続きます。',
+      '結局、目の前の業務に追われて先送り。気づけば半年、一年が過ぎ、後発組としての焦りだけが大きくなっていく。多くの経営者が、この「動けない状態」に置かれています。',
+    ],
+  },
+  {
+    icon: '🚪',
+    title: 'IT エージェントに相談しても「仕様が固まってから出直して」と言われる',
+    body: [
+      '「このままではいけない」と一念発起して、IT エージェントや SIer の窓口に相談に出向く。応対担当者は丁寧に話を聞いてくれます。けれど、ある時点で必ずこう聞かれます。「で、具体的にどんな機能が必要ですか？」「業務要件はどこまで固まっていますか？」',
+      'こちらとしては、その「具体的に何が必要か」を一緒に考えてほしくて足を運んだのに、相手が前提としているのは「お客様側で要件は整理されている」状態です。「業務要件を整理してから、改めてお越しください」「RFP（提案依頼書）を作成いただけますか」── 入口で押し戻される。',
+      '業界の慣行として、IT エージェントは案件のスコープを明確にしてから稼働するのが標準です。これは合理的な仕組みではあるのですが、「相談から始めたい」企業にとっては、最初の扉が閉ざされているのと同じです。',
+    ],
+  },
+  {
+    icon: '🤝',
+    title: 'ふわっとした要望段階から、一緒に整理してくれる相手が見つからない',
+    body: [
+      '入口でつまずいた後、「では誰に相談すればいいのか」と考えます。経営コンサルタント？　彼らはビジネスの整理は得意ですが、AI の現場感はあまり持っていない。IT コンサルタント？　技術には詳しいが、経営者の悩みをビジネス側の言葉で返してくれる人は、想像以上に少ない。',
+      '「経営の言葉」と「技術の言葉」── この両方を行き来できる相談相手は、世の中に本当に少ないのが現実です。多くの専門家は片側に寄っていて、もう片側を翻訳できません。結果として、せっかく時間を取って相談しても、噛み合わない打ち合わせが続くことになります。',
+      'やがて、「相談相手を探すこと」自体に疲れてしまいます。「とりあえず社内でやれる範囲で何かやろう」── そう諦めるか、判断を先送りにするか。これも、多くの企業が陥っているパターンです。',
+    ],
+  },
 ];
 
-const services = [
+// ---- セクション 3: 放置リスク ----
+const risks = [
   {
-    title: 'IT コンサルティング',
-    body:
-      '（仮）現状分析・課題整理から戦略立案、ベンダー選定支援まで。経営目線で IT の意思決定を伴走します。',
+    title: '競合は、もう動き始めています',
+    body: [
+      '「うちの業界はまだ AI なんて関係ない」── 数年前まではその感覚で問題ありませんでした。しかし今この瞬間にも、同業他社の若手や経営者が、ChatGPT や Claude を業務に組み込み始めています。営業資料の下書き、議事録の要約、見積もりの試算、顧客対応のドラフト ── 小さな業務改善が、静かに、しかし確実に積み重ねられています。',
+      '怖いのは、それが「目に見えない」ことです。AI 活用は、外向きの派手なアピールにはなりません。けれど内部では、同じ業務にかかる時間が半分、三分の一になっています。1 人あたりの生産性が、気づかぬうちに数十パーセント差で開いていく ── これが、今まさに進行している現実です。',
+      '3 年後、5 年後、その差はどれほどになっているでしょうか。「あれば便利」だった AI は、すでに「ないと勝負にならない」フェーズへと入りつつあります。先に動いた企業との差は、追いつけば縮まる距離ではなく、時間を追うごとに加速度的に広がる距離です。',
+    ],
   },
   {
-    title: 'システム開発',
-    body:
-      '（仮）AI 駆動開発の手法で、要件定義から実装・運用までを高速かつ高品質に。小規模から段階的に始められます。',
+    title: '「決まってから動く」では、もう遅い',
+    body: [
+      '中小・中堅企業の経営判断は、堅実で慎重です。「リスクを洗い出し、要件を固め、見積もりを比較し、稟議を通してから着手する」── これは長年機能してきた、信頼できる意思決定プロセスでした。',
+      'ところが、AI 領域ではこの順序が機能しません。検討に半年、要件定義に半年、開発に一年 ── 合計 2 年が過ぎる間に、AI の性能は数世代進化し、参考にしていた事例は古くなり、当初想定していた要件そのものが時代遅れになります。「決まってから動く」アプローチは、AI 領域では「決まる頃には市場が違う」と同じ意味になりつつあります。',
+      '必要なのは、慎重さを失わず、けれど「小さく試しながら判断する」スタイルへの切り替えです。これは技術の話ではなく、経営判断そのもの ── 御社の「いつものやり方」を、いつ・どこで変えるかという、本質的な選択を迫られているのです。',
+    ],
   },
   {
-    title: 'AI 導入支援',
-    body:
-      '（仮）業務への AI 適用の設計・実装・運用定着までを一貫支援。何から始めるかの整理段階から相談可能です。',
+    title: '外注依存は、社内に何も残しません',
+    body: [
+      'IT 投資の伝統的なスタイルは「外注に丸投げ、納品されたものを使う」でした。確かに、自社で技術を抱えなくて済む分、初期の負担は軽く済みます。けれど、その代償は数年後に確実に現れます。',
+      '業務が変化するたびに、機能追加や改修が必要になります。社内に知識がなければ、毎回外注を頼るしかありません。1 回あたり数十万円〜数百万円が、年に何度も発生し、5 年、10 年と積み上がっていく ── これが「外注依存型」企業の、見えにくいランニングコストです。さらに困るのは、外注先が変わると引き継ぎがうまくいかず、過去の投資そのものが無駄になることも珍しくありません。',
+      'AI を「外注して納品を受け取って終わり」にしてしまうと、まったく同じ構造が AI 領域でも繰り返されます。AI は「導入して終わり」の技術ではなく、「使いながら磨いていく」技術です。社内に AI を理解する人材を残さなければ、御社は永遠に外部の手を借り続けることになります。',
+    ],
+  },
+  {
+    title: 'AI 業務は、スピードの次元が違う',
+    body: [
+      'AI 活用の話を聞くと、つい「業務が少し早くなる」「数倍速くなる」というイメージで捉えがちです。けれど、現場で AI 駆動開発に取り組んでいる人間の感覚は、まったく違います。これは「速くなる」のではなく、次元そのものが変わる現象 ── いわゆるパラダイムシフトです。',
+      '従来の改善であれば、「2 か月かかっていた業務が 1 か月に短縮される」という量的な変化が現実的な目標でした。AI 駆動の現場では違います。2 か月が 1 週間になる、半年が数日で完成する ── 桁が変わる短縮が、特別な事例ではなく日常になりつつあります。これは新興国が固定電話を飛び越えてスマートフォン社会へ一気にジャンプした「リープフロッグ（蛙跳び）」と同じ構図が、今、あらゆる業務領域で起きているということです。慎重な経営判断のサイクルそのものが、変化のスピードに追いつかなくなっています。',
+      'さらにもう一段の変化が控えています。やがて「AI を使っているか」自体が、企業への信頼を決める時代が訪れます。たとえば近年、AI を活用した高度なセキュリティ診断が登場しつつあります。やがて取引の場では、「あの会社は AI によるセキュリティ診断を受けているか」「分析結果は AI で検証済みか」が、提案を信頼するかどうかの前提になっていくでしょう。AI を使っていないこと自体が、信頼を失う材料になる ── そんな時代は、もうすぐそこまで来ています。',
+    ],
   },
 ];
 
+// ---- セクション 4: 私たちの約束 ----
+const promises = [
+  {
+    title: 'ふわっとした段階から、OK です',
+    body: [
+      '多くの IT パートナーは「業務要件が明確化されてから着手します」と言います。けれど私たちは、その逆です。「やりたいことはあるが、整理できていない」── まさにその段階こそが、私たちにご相談いただきたいタイミングです。',
+      '経営者の頭の中には、「業務のここがしんどい」「他社はもう動き始めているらしい」「AI で何かできそうな気がする」といった断片的な感覚があるはずです。それを引き出し、構造化し、技術的な解決方針へと翻訳していくのが、私たちの最初の仕事です。要件定義そのものを、御社と一緒に作り上げていきます。',
+      '「こんな漠然とした話で相談していいのだろうか」── そんな遠慮は不要です。むしろ、明確な要件をすでにお持ちの方は、別の IT エージェントの方が向いている場合もあります。私たちが本領を発揮するのは、ゼロから一緒に考える段階です。',
+    ],
+  },
+  {
+    title: '30 年のフルスタック経験 × AI 駆動開発',
+    body: [
+      'AI 領域には、最新技術に飛びついた若手エンジニアが多くいます。彼らの技術力は本物です。けれど、中小・中堅企業の経営者の悩みを「経営の言葉」で受け止め、ビジネスの文脈で技術を語れる人材は、想像以上に少ないのが実情です。',
+      '私たち K Laboratory の代表は、Windows 95 とインターネット普及期から IT 業界に身を投じ、ネットワーク・インフラ・業務システム・Web・モバイル SDK と、技術の地層を 30 年積み重ねてきました。さらに近年は、Claude を中核に据えた AI 駆動開発へ自らシフトし、最前線の実戦感覚を持っています。新旧両方の技術への地続きの理解 ── これが私たちの土台です。',
+      '加えて、社会人のスタートは法人営業で、3 年連続全国トップの実績。独立後は経営・広告運用も自ら実体験しています。「経営の言葉」と「技術の言葉」、両方を行き来できる ── ふわっとした段階からの伴走を可能にしている、もう一つの理由がここにあります。',
+    ],
+  },
+  {
+    title: '最終ゴールは、御社の「自走」です',
+    body: [
+      '一般的な IT 案件は、「成果物を納品した時点で関係終了」というスタイルです。納品後の改善や拡張は、再び見積もりを取り、契約を結び、外注を頼る ── 私たちはこのモデルを採用しません。',
+      '私たちのゴールは、「御社が AI を使いこなして、自社で業務改善できる組織になる」ことです。実装作業を進めながら、御社担当者さまへナレッジを段階的に移譲していきます。なぜそのコードがそう書かれているのか、運用で何に気をつけるべきか、改善のときに何を見るべきか ──「使い続けられる知識」として残します。最終的に「もう私たちの手は要らない」と言っていただくのが、目指す姿です。',
+      'もちろん、その後も気軽に相談できる関係は続きます。一度作った信頼は、御社が新しい課題に直面したときに、また呼んでいただける窓口になります。「外注先」ではなく「信頼できる相談相手」── これが、私たちが築きたい関係性です。',
+    ],
+  },
+];
+
+// ---- セクション 5: 比較表 ----
+const comparison = [
+  {
+    label: '相談開始のタイミング',
+    other: '仕様・要件が固まってから',
+    ours: 'ふわっとした課題段階から OK',
+  },
+  {
+    label: 'ゴール',
+    other: '成果物の納品',
+    ours: '御社の内製能力構築',
+  },
+  {
+    label: '関与スタイル',
+    other: '工程ごとの請負',
+    ours: '上流から運用まで伴走',
+  },
+  {
+    label: '対応する人材',
+    other: '案件にアサインされた担当',
+    ours: '代表が直接、相談から実装まで',
+  },
+  {
+    label: '最終的な姿',
+    other: '外注依存が続く',
+    ours: '御社が AI を自走できる',
+  },
+];
+
+// ---- セクション 8: 3 つの強み ----
 const strengths = [
   {
-    no: '01',
     title: 'AI 駆動開発の実戦力',
-    body:
-      '（仮）Claude を中核に、要件定義から実装・テスト・ドキュメント生成まで開発全工程をカバー。少人数で大きな成果を出すノウハウを蓄積しています。',
     accent: true,
+    body: [
+      'AI を活用する、と聞くと「コードを少し書いてもらう」「議事録を要約させる」程度のイメージを持たれるかもしれません。私たちが実践しているのは、もう一段深いスタイルです。要件定義の段階から、設計・実装・テスト・ドキュメント生成・運用まで、開発の全工程に Claude や Gemini を中核として組み込みます。',
+      'これにより、従来は数名のチームで数ヶ月かかっていた開発を、少人数で短期間に完遂できるようになりました。実際に、本サイト（1klab.com）や、エージェント向けの営業資料も、AI 駆動開発の手法で短期間に仕上げています。<strong class="strength-item__highlight">「AI が書いた」のではなく、「AI と協働して人間が判断しながら作った」</strong> ── これが私たちの実戦スタイルです。',
+      'このノウハウを、御社の業務改善にそのまま持ち込みます。「AI で何ができるのか」を抽象論ではなく、現場で動くものとしてお見せします。机上の理論ではなく、私たち自身が日々運用している手法だからこそ、お渡しできる確かさがあります。',
+    ],
   },
   {
-    no: '02',
     title: '30 年のフルスタック経験',
-    body:
-      '（仮）ネットワーク／インフラ／バックエンド／フロントエンドまでカバー。新旧両方の技術スタックに対応します。',
     accent: false,
+    body: [
+      '「30 年」という数字は単なる年数ではありません。Windows 95 とインターネットの普及という大きな技術転換の中でキャリアを始め、その後の Web の隆盛、モバイルの登場、クラウドの普及、そして今の AI 時代まで ── 技術の地殻変動を、現場で何度もくぐり抜けてきた経験です。',
+      '技術領域も幅広く積み重ねてきました。ネットワーク・インフラの構築、業務システムの設計と実装、Web フロントエンド、iOS・Android のモバイル SDK、そして近年の AI 駆動開発まで。新しい技術が現れたときに「では古い技術はもう要らない」となる業界ではありません。御社に既にある業務システムを活かしながら、新しい AI 領域を接続していく ── 新旧両方を知っているからこそ、できる仕事があります。',
+      '前のセクションでも触れましたが、これは私たちが繰り返し強調したい強みです。「最新の AI だけ知っている」「レガシーだけ知っている」── 偏った専門性では、中小・中堅企業の現実には対応しきれません。両方を地続きで持っていることが、私たちの土台です。',
+    ],
   },
   {
-    no: '03',
-    title: 'ビジネスと技術の両面理解',
-    body:
-      '（仮）独立起業で経営・広告運用を実体験。技術一辺倒にならず、経営課題からプロジェクトを俯瞰します。',
+    title: 'ビジネスと技術の、両面理解',
     accent: false,
+    body: [
+      'エンジニアであり、同時に経営者でもある。私たち K Laboratory の代表は、この二つの立場を本気で生きてきました。社会人のスタートは法人営業で、3 年連続全国トップの成績。商品ではなく、お客様の課題を聞き出して解決を設計する仕事の中で、ビジネスの本質を学びました。',
+      '独立後は、自社の経営・財務・マーケティング・広告運用までを自ら手がけてきました。月額予算 1,000 万円規模の広告運用を回した経験もあります。技術一辺倒では知り得ない「事業を回す側」の感覚 ── キャッシュフロー、人材投資、意思決定の重み ── これらを実体験として持っています。',
+      'こちらも前のセクションで触れた、私たちが繰り返し強調したい強みです。経営の言葉で語れるエンジニアは、世の中に本当に少ない。だからこそ、ふわっとした経営課題を技術言語に翻訳できる ── 御社にとっての翻訳者・伴走者として、私たちが機能できる根本の理由が、ここにあります。',
+    ],
+  },
+];
+
+// ---- セクション 9: 実績・事例 ----
+const cases = [
+  {
+    tag: '事例 1',
+    industry: '経営コンサルティング／投資ファンド（中堅）',
+    title: '3 サイト一斉リプレース＆運用基盤の内製化',
+    rows: [
+      { label: '規模', value: 'コーポレートサイト 3 つ、ニュース 1,000 件超 / 投資先情報 90 社 / ブログ 326 件' },
+      { label: '課題', value: 'WordPress 運用の負荷と恒常的なセキュリティリスクに疲弊' },
+      { label: 'アプローチ', value: '静的サイトジェネレーター + クラウドホスティングへ移行、AI 駆動開発で短期完遂' },
+      { label: '成果', value: 'Lighthouse 99〜100 / CRITICAL〜MEDIUM 14 件のセキュリティ対応 / 管理画面を内製しサーバーレス化、運用負荷を大幅に低減' },
+    ],
+  },
+  {
+    tag: '事例 2',
+    industry: 'クリエイティブ／コンテンツ制作業',
+    title: '市販ソリューションでは満たせない業務を、AI で自社向け内製',
+    rows: [
+      { label: '課題', value: '既存の AI 画像生成サービスでは「同じキャラクター × 複数シーン量産」ができず、業務に組み込めない' },
+      { label: 'アプローチ', value: '生成 AI API を直接活用し、自社業務に最適化した独自データ構造とワークフローを設計・実装' },
+      { label: '成果', value: '非プログラマでも使えるデスクトップアプリ化（macOS / Windows）。外部 SaaS への依存を最小化し、自社固有業務に最適化したツールが手元に残る' },
+    ],
+  },
+];
+
+// ---- セクション 10: ご提供フロー ----
+const steps = [
+  { no: 'Step 1', title: '初回相談（無料）', body: '経営課題と AI 活用の可能性を、対話を通して整理します。' },
+  { no: 'Step 2', title: 'アセスメント', body: '業務を棚卸しし、AI 適用で効果が大きい領域を特定・優先順位付け。' },
+  { no: 'Step 3', title: 'PoC・実装', body: '小さく始めて、早期に成果を可視化。投資判断のリスクを下げます。' },
+  { no: 'Step 4', title: '内製化体制構築', body: '知識・運用ノウハウを御社に移譲。最終的に自走できる状態へ。' },
+];
+
+// ---- セクション 11: 3 ヶ月集中伴走プラン ----
+const planContents = [
+  {
+    label: '初週（月〜金）',
+    body:
+      '御社オフィスへ訪問し、対面でのキックオフ集中ウィーク。経営者さま・担当者さまと直接お会いし、信頼関係と方向性の土台を作る最初の 5 日間です。AI 活用の優先順位も、この 1 週間で一気に整理します。',
+  },
+  {
+    label: '第 2 週以降（週 1 日）',
+    body:
+      '御社担当者さまが「消化できる速度」で、段階的に内製化を進めます。AI 駆動開発の実戦を見ていただきながら、ナレッジを段階的に移譲します。',
+  },
+  {
+    label: '期間（全 3 ヶ月）',
+    body:
+      '3 ヶ月で「御社が AI を自走できる状態」へ到達することにコミットします。だらだら続く長期契約ではなく、明確な終わりがある短期集中プランです。',
+  },
+];
+
+const planPromises = [
+  {
+    no: '①',
+    title: '経営者ご自身のコミット',
+    body:
+      'AI 活用と内製化は、全社で取り組まなければ意味がありません。担当者任せの「部分最適」では、組織は変わりません。経営者ご自身が、プロジェクトの旗振り役を担っていただくことを、最初のお約束とさせていただきます。',
+  },
+  {
+    no: '②',
+    title: '専任担当者のアサイン',
+    body:
+      'ナレッジを御社に残すためには、受け取る側の担当者が必要です。本プロジェクトを「優先順位 1 位」として動ける専任担当者を、御社からアサインいただきます。複数業務に追われる状態では、ナレッジは定着しません。',
+  },
+];
+
+// ---- セクション 12: よくあるご質問 ----
+const faqs = [
+  {
+    q: '仕様がまだ固まっていません。それでも相談できますか？',
+    a: 'むしろ、固まっていない段階こそ私たちの出番です。「やりたいこと」「困っていること」を伺いながら、経営課題を技術的な解決方針に翻訳していくのが最初の仕事です。',
+  },
+  {
+    q: '週 1 日からの稼働で、本当に成果が出るのですか？',
+    a: '出ます。フェーズによっては週 1 日が最適なこともあります（むしろ詰め込み過ぎは内製化を阻害します）。立ち上げ期は週 2〜3 日、PoC 期は週 4 日、運用定着期は週 1 日、と柔軟に組み合わせます。',
+  },
+  {
+    q: 'AI 導入にはどれくらいの予算が必要ですか？',
+    a: 'お客様のスタート地点と目指す姿によって大きく変わります。初回相談（無料）で現状を伺った上で、規模感を含めた進め方をご提案します。',
+  },
+  {
+    q: '既存の業務システムがありますが、活かせますか？',
+    a: '活かせます。30 年のフルスタック経験により、新旧両方の技術スタックに対応できます。レガシー連携や段階的な刷新も得意領域です。',
+  },
+  {
+    q: 'AI 導入はリスクが高そうで、踏み切れません。',
+    a: 'だからこそ「小さく始める」設計を重視しています。PoC（小規模実証）で効果を確かめてから本格投資に進めます。初回相談は無料ですので、まずは話を聞くところからお気軽にどうぞ。',
   },
 ];
 ---
 
 <Layout>
-  {/* ===== Hero ===== */}
+  {/* ===== セクション 1: Hero ===== */}
   <section class="hero">
     <div class="hero__inner container">
-      <p class="hero__eyebrow">中小企業の IT・AI 導入を、伴走支援。</p>
+      <p class="hero__eyebrow">中小・中堅企業の経営者の皆さまへ</p>
       <h1 class="hero__title">
-        経営の課題を、<br />
-        <span class="hero__title-accent">AI 時代の解像度</span>で。
+        「AI、何から始めれば…」<br />
+        <span class="hero__title-accent">そのまま、置き去りにしていませんか？</span>
       </h1>
       <p class="hero__lead">
-        （仮・キャッチコピー）30 年のフルスタック経験と AI 駆動開発で、「何から始めればよいかわからない」を、最短ルートの答えに変えます。
+        AI 活用の必要性は感じている。けれど、自社にとって「何が正解か」がわからない ──
+        そんな経営者のために、<strong>有限会社 K Laboratory</strong> は、ふわっとした
+        相談段階から内製化までを伴走します。
       </p>
       <div class="hero__cta">
-        <Button href="#contact" variant="primary">お問い合わせ</Button>
-        <Button href="/about/" variant="ghost">会社案内を見る</Button>
+        <Button href="#contact" variant="primary">まずは無料でご相談</Button>
+        <Button href="#why-different" variant="ghost">他社との違いを見る</Button>
       </div>
     </div>
   </section>
 
-  {/* ===== 課題提起 ===== */}
+  {/* ===== セクション 2: 共感 ===== */}
   <section class="section">
     <div class="container">
       <SectionHeading
         title="こんなお悩み、ありませんか？"
-        lead="（仮）IT・AI を活用したいが何から手をつければ良いかわからない、そんな経営者の声を私たちはよく耳にします。"
+        lead="私たちのもとに最も多く寄せられるのは、こんな声です。一つでも当てはまるなら、このページを最後までお読みください。"
       />
-      <ul class="problem-list">
+      <ol class="problem-list">
         {
-          problems.map((p) => (
+          problems.map((p, i) => (
             <li class="problem-item">
-              <span class="problem-item__icon" aria-hidden="true">{p.icon}</span>
-              <p class="problem-item__text">{p.text}</p>
+              <header class="problem-item__header">
+                <span class="problem-item__no">{String(i + 1).padStart(2, '0')}</span>
+                <span class="problem-item__icon" aria-hidden="true">{p.icon}</span>
+                <h3 class="problem-item__title">{p.title}</h3>
+              </header>
+              <div class="problem-item__body">
+                {p.body.map((para) => <p>{para}</p>)}
+              </div>
             </li>
           ))
         }
-      </ul>
+      </ol>
     </div>
   </section>
 
-  {/* ===== サービス ===== */}
-  <section class="section section--alt">
+  {/* ===== セクション 3: 放置リスク ===== */}
+  <section class="section section--dark">
     <div class="container">
       <SectionHeading
-        title="提供サービス"
-        lead="（仮）中小企業のあらゆる IT 課題に、伴走スタイルで応えます。"
+        title="このまま、放置するとどうなるか。"
+        lead="厳しいことを申し上げますが、これは事実です。AI 活用の判断を先送りにすることには、見えないコストがあります。"
       />
-      <div class="service-grid">
+      <div class="risks">
         {
-          services.map((s) => (
-            <article class="service-card">
-              <h3 class="service-card__title">{s.title}</h3>
-              <p class="service-card__body">{s.body}</p>
+          risks.map((r, i) => (
+            <article class="risk">
+              <span class="risk__bar" aria-hidden="true"></span>
+              <header class="risk__header">
+                <span class="risk__no">RISK {String(i + 1).padStart(2, '0')}</span>
+                <h3 class="risk__title">{r.title}</h3>
+              </header>
+              <div class="risk__body">
+                {r.body.map((para) => <p>{para}</p>)}
+              </div>
             </article>
           ))
         }
       </div>
+      <p class="risks__close">
+        では、どうすればよいのか ── 次にお話しするのが、私たちのご提案です。
+      </p>
     </div>
   </section>
 
-  {/* ===== 強み ===== */}
+  {/* ===== セクション 4: 解決策 ===== */}
   <section class="section">
     <div class="container">
       <SectionHeading
-        title="3 つの強み"
-        lead="（仮）K Laboratory が選ばれる理由をご紹介します。"
+        title="私たち K Laboratory が、伴走します。"
+        lead="「外注して納品を受け取って終わり」ではありません。御社が AI を使いこなせる組織になるまで、構想段階から運用定着まで、伴走するパートナーです。"
       />
-      <div class="strengths">
+      <ol class="promise-list">
         {
-          strengths.map((s) => (
-            <article class:list={['strength', { 'strength--accent': s.accent }]}>
-              <span class="strength__no">{s.no}</span>
-              <h3 class="strength__title">{s.title}</h3>
-              <p class="strength__body">{s.body}</p>
-            </article>
+          promises.map((p, i) => (
+            <li class="promise-item">
+              <header class="promise-item__header">
+                <span class="promise-item__no">{String(i + 1).padStart(2, '0')}</span>
+                <span class="promise-item__check" aria-hidden="true">✓</span>
+                <h3 class="promise-item__title">{p.title}</h3>
+              </header>
+              <div class="promise-item__body">
+                {p.body.map((para) => <p>{para}</p>)}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  {/* ===== セクション 5: 比較 ===== */}
+  <section class="section section--alt" id="why-different">
+    <div class="container">
+      <SectionHeading
+        title="通常の IT エージェントとの違い"
+        lead="「仕様未確定 OK」「内製化志向」── この 2 つを設計思想として持つ会社は、業界ではむしろ少数派です。"
+      />
+      <div class="compare-table">
+        <div class="compare-row compare-row--head">
+          <div class="compare-cell compare-cell--label"></div>
+          <div class="compare-cell compare-cell--other">通常の IT エージェント</div>
+          <div class="compare-cell compare-cell--ours">K Laboratory</div>
+        </div>
+        {
+          comparison.map((c) => (
+            <div class="compare-row">
+              <div class="compare-cell compare-cell--label">{c.label}</div>
+              <div class="compare-cell compare-cell--other">{c.other}</div>
+              <div class="compare-cell compare-cell--ours">{c.ours}</div>
+            </div>
           ))
         }
       </div>
     </div>
   </section>
 
-  {/* ===== 代表メッセージ ===== */}
-  <section class="section section--alt">
+  {/* ===== セクション 6: ★ 倫理的姿勢 ===== */}
+  <section class="section section--manifesto">
+    <div class="container">
+      <p class="manifesto__eyebrow">私たちの信念</p>
+      <h2 class="manifesto__title">
+        私たちは、あえて<br />
+        <span class="manifesto__title-mark">「週 5 日」にしない</span>ことを提案します。
+      </h2>
+      <div class="manifesto__body">
+        <p>
+          一般的な IT エージェントの標準は「週 5 日フル稼働」です。月単価は積み上がり、
+          売上は維持できます。けれど、本当に御社のためになるでしょうか？
+        </p>
+        <p>
+          内製化のために御社担当者さまへナレッジを移譲していくとき、週 5 日みっちり
+          詰め込まれた情報を、人は<strong>消化しきれません</strong>。結果は、中途半端な知識のまま
+          稼働を続けるか、途中で挫折してしまうか ── どちらにせよ、内製化は実現しません。
+        </p>
+        <p>
+          かといって、密度を落とした週 5 日稼働を続ければ、確かに弊社の売上は維持され
+          ます。<strong>けれどそれは、御社の利益にはなりません</strong>。私たちは、それを良しと
+          しません。
+        </p>
+        <div class="manifesto__quote">
+          <p>
+            だから、私たちは「あえて稼働率を落とす」逆提案も躊躇しません。<br />
+            <strong>自社の売上ではなく、御社の自立を最優先に考える</strong> ──<br />
+            これが、K Laboratory の信念です。
+          </p>
+        </div>
+        <p>
+          週 1 日からの稼働も可能です。立ち上げ期は週 2 日で相談ベース、PoC 期は週 4 日で
+          実装支援、運用定着期は週 1 日で振り返り会議のみ ── 御社担当者さまの消化速度に
+          合わせた稼働量をご提案します。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== セクション 7: 代表メッセージ ===== */}
+  <section class="section">
     <div class="container">
       <SectionHeading
-        title="代表メッセージ"
-        lead="（仮）K Laboratory 代表 川﨑 伸之 より。"
+        title="代表よりご挨拶"
+        lead="どんな会社か、誰が伴走するのか。判断材料として、私自身のことをお話しさせてください。"
       />
-      <div class="rep-message">
-        <div class="rep-message__photo">
+      <div class="rep">
+        <div class="rep__photo">
           <img
             src="/images/prof.jpg"
-            alt="代表者 川﨑 伸之"
+            alt="有限会社 K Laboratory 代表 川﨑 伸之"
             width="800"
             height="619"
             loading="lazy"
             decoding="async"
-            class="rep-message__photo-img"
           />
         </div>
-        <div class="rep-message__body">
+        <div class="rep__body">
+          <p class="rep__name">川﨑 伸之</p>
+          <p class="rep__role">有限会社 K Laboratory 代表取締役</p>
           <p>
-            （仮）30 年前にネットワーク業界へ飛び込んだ私は、いま再び、AI という新しい時代の波を感じています。経営者の皆さまが踏み出す一歩を、技術と経営の両面から支えるのが K Laboratory の役割です。
+            大学卒業後、法人対象のセールスマンとして社会人をスタート。3 年連続で全国トップの
+            営業成績を残しました。
           </p>
-          <Button href="/profile/" variant="outline">代表略歴を見る</Button>
+          <p>
+            ちょうど Windows 95 とインターネットの普及が始まった時期で、「時代の要請」を強く感じて
+            IT の世界に飛び込みました。それから 30 年、ネットワークから業務システム、Web、
+            モバイルまで、技術の現場を走り続けてきました。
+          </p>
+          <p>
+            <strong>そして近年 ── あの 1995 年のインターネット普及期と同じ感覚を、AI に感じています。</strong>
+            自分自身がいま、AI 駆動開発へとシフトし、その実戦経験を中小・中堅企業の経営者の
+            皆さまにお渡ししたいと考えるようになりました。
+          </p>
+          <p>
+            「何から始めればよいかわからない」── そのままにしないでください。
+            まずは話をするところからで構いません。
+          </p>
+          <div class="rep__cta">
+            <Button href="/profile/" variant="outline">略歴の詳細を見る</Button>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  {/* ===== CTA / お問い合わせ ===== */}
+  {/* ===== セクション 8: 3 つの強み ===== */}
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeading
+        title="K Laboratory の 3 つの強み"
+        lead="経営課題を技術言語に翻訳できる人材は、世の中に多くいません。3 つの軸が揃っているのが、私たちの特徴です。"
+      />
+      <ol class="strength-list">
+        {
+          strengths.map((s, i) => (
+            <li class:list={['strength-item', { 'strength-item--accent': s.accent }]}>
+              <header class="strength-item__header">
+                <span class="strength-item__no">STRENGTH {String(i + 1).padStart(2, '0')}</span>
+                <span class="strength-item__star" aria-hidden="true">★</span>
+                <h3 class="strength-item__title">{s.title}</h3>
+              </header>
+              <div class="strength-item__body">
+                {s.body.map((para) => <p set:html={para} />)}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  {/* ===== セクション 9: 実績 ===== */}
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title="実績のご紹介"
+        lead="守秘義務の都合で詳細はお伝えできない部分もありますが、代表例を匿名化してご紹介します。"
+      />
+      <div class="cases">
+        {
+          cases.map((c) => (
+            <article class="case">
+              <p class="case__tag">{c.tag}　|　{c.industry}</p>
+              <h3 class="case__title">{c.title}</h3>
+              <dl class="case__rows">
+                {
+                  c.rows.map((r) => (
+                    <div class="case__row">
+                      <dt>{r.label}</dt>
+                      <dd>{r.value}</dd>
+                    </div>
+                  ))
+                }
+              </dl>
+            </article>
+          ))
+        }
+      </div>
+      <p class="cases__note">※ 業種・規模は実在の案件を基に匿名化しています。詳細はお問い合わせください。</p>
+    </div>
+  </section>
+
+  {/* ===== セクション 10: フロー ===== */}
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeading
+        title="ご提供の流れ"
+        lead="ご相談から内製化体制構築まで、4 ステップで段階的に伴走します。各ステップで判断ポイントを設け、お客様が「これで進める」と確信してから次に進みます。"
+      />
+      <div class="steps">
+        {
+          steps.map((s, i) => (
+            <div class="step">
+              <div class="step__head">
+                <span class="step__no">{s.no}</span>
+                {i < steps.length - 1 && <span class="step__arrow" aria-hidden="true">▶</span>}
+              </div>
+              <h3 class="step__title">{s.title}</h3>
+              <p class="step__body">{s.body}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="steps__highlight">
+        <strong>初回相談（オンライン 60 分）は無料です。</strong>「まだ何も決まっていない」段階でも、お気軽にどうぞ。
+      </p>
+    </div>
+  </section>
+
+  {/* ===== セクション 11: 3 ヶ月集中伴走プラン ===== */}
+  <section class="section section--plan" id="plan">
+    <div class="container">
+      <SectionHeading
+        title="3 ヶ月集中伴走プラン"
+        lead="私たちが本気で伴走できるお客様の数は限られています。長期契約でだらだら続くスタイルではなく、3 ヶ月で「御社が自走できる状態」へお連れする ── 短期集中のワンプライスプランをご用意しました。"
+      />
+
+      <p class="plan-badge">先行 3 社限定</p>
+
+      <div class="price-card">
+        <div class="price-card__primary">
+          <p class="price-card__heading">3 ヶ月一括前払い</p>
+          <p class="price-card__amount">
+            <span class="price-card__amount-value">60</span>
+            <span class="price-card__amount-unit">万円</span>
+          </p>
+          <p class="price-card__sub">税別 ／ 実質月額 20 万円・<strong>15 万円お得</strong></p>
+        </div>
+
+        <div class="price-card__divider" aria-hidden="true">または</div>
+
+        <div class="price-card__secondary">
+          <p class="price-card__heading">月払い（3 ヶ月分割）</p>
+          <p class="price-card__amount price-card__amount--small">
+            <span class="price-card__amount-value">25</span>
+            <span class="price-card__amount-unit">万円</span>
+            <span class="price-card__amount-mult">× 3 回</span>
+          </p>
+          <p class="price-card__sub">税別 ／ 合計 75 万円</p>
+        </div>
+      </div>
+
+      <div class="plan-investment">
+        <p class="plan-investment__lead">
+          中小企業で<strong>派遣スタッフを 1 名、3 ヶ月雇い入れる予算</strong>。それと同じ規模の投資で、御社の中に AI 活用のナレッジと運用力が「資産」として残ります。
+        </p>
+        <div class="plan-investment__compare">
+          <div class="plan-investment__col plan-investment__col--other">
+            <p class="plan-investment__col-label">派遣社員 1 人を 3 ヶ月</p>
+            <p class="plan-investment__col-body">
+              終わったあとに残るのは、<br /><strong>人件費の記録だけ。</strong>
+            </p>
+          </div>
+          <div class="plan-investment__arrow" aria-hidden="true">VS</div>
+          <div class="plan-investment__col plan-investment__col--ours">
+            <p class="plan-investment__col-label">K Laboratory 3 ヶ月集中伴走</p>
+            <p class="plan-investment__col-body">
+              御社の中に、<br /><strong>AI を回せる力が残る。</strong>
+            </p>
+          </div>
+        </div>
+        <p class="plan-investment__close">
+          同じくらいの予算で、<strong>得るものが決定的に違います。</strong>
+        </p>
+        <p class="plan-investment__note">
+          ※ 全国対応。初週の訪問にかかる交通費・宿泊費は、料金に含まれています。
+        </p>
+      </div>
+
+      <p class="plan-reassurance">
+        3 ヶ月で<strong>終わります</strong>。延長前提のだらだらしたお付き合いはしません。
+        短期で集中し、御社の中に「使い続けられる力」を残します。
+      </p>
+
+      <div class="plan-block">
+        <h3 class="plan-block__title">プラン内容</h3>
+        <dl class="plan-contents">
+          {
+            planContents.map((c) => (
+              <div class="plan-contents__row">
+                <dt>{c.label}</dt>
+                <dd>{c.body}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <div class="plan-block">
+        <h3 class="plan-block__title">このプランをお引き受けする上での、相互のお約束</h3>
+        <p class="plan-block__lead">
+          私たちが本気で伴走するために、御社にも、いくつかお願いしたいことがあります。
+          これは「条件」ではなく、3 ヶ月で成果を出すために必要な、お互いの覚悟です。
+        </p>
+        <ol class="plan-promises">
+          {
+            planPromises.map((p) => (
+              <li class="plan-promise">
+                <span class="plan-promise__no">{p.no}</span>
+                <div class="plan-promise__body">
+                  <h4 class="plan-promise__title">{p.title}</h4>
+                  <p class="plan-promise__text">{p.body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <aside class="plan-decision">
+        <p class="plan-decision__label">弊社からの一つの提案</p>
+        <h3 class="plan-decision__title">決断は、最初の 1 週間で。</h3>
+        <div class="plan-decision__body">
+          <p>
+            無料相談を経て契約を結んでいただきます。けれど、本当に「やる」と決めていただくのは、その時点ではありません。
+          </p>
+          <p>
+            初週のキックオフ集中ウィーク ── 月曜から金曜まで、私たちが御社に深く入り込んで一緒に動く 5 日間 ── を実際に体験していただいた上で、「やはり止めたい」と感じられたら、遠慮なくお伝えください。その時点でクローズします。初週分のキックオフ料として <strong>15 万円（税別）</strong>のお支払いで完了です。
+          </p>
+          <p>
+            「うまくいかなかったのに、なぜ支払いが必要なのか」── そう感じられるかもしれません。けれど「合わなかった」のは、私たちの見極め不足や相性の問題でもあり、御社だけの責任ではありません。それでも私たちは 5 日間、御社のために本気で稼働します。相応の対価として、初週分のお支払いはお引き受けいただきます。
+          </p>
+          <p>
+            同時に申し上げたいのは、AI 活用と内製化で一歩抜け出すには、<strong>経営者の覚悟が絶対に必要</strong>ということです。他人任せでは、必ずうまくいきません。「やる」と決めることそのものに、覚悟と投資が伴います。私たちは、その覚悟をお持ちの企業さまだけと、ご一緒したいと考えています。
+          </p>
+          <p>
+            「全額返金保証」のような形で安心を演出するつもりはありません。私たちが提供するのは、<strong>初週を一緒に走ってから決めていただく</strong>という、もう一段現実的な仕組みです。最終決断は、初週が終わってから。考える時間は、十分にあります。
+          </p>
+        </div>
+      </aside>
+
+      <p class="plan-scarcity">
+        現時点で受け付けているのは <strong>3 社まで</strong>。
+        先行 3 社が埋まり次第、新規募集は停止し、それ以降は空き待ちとなります。
+      </p>
+
+      <div class="plan-cta">
+        <Button href="#contact" variant="primary">まずは無料でご相談</Button>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== セクション 12: FAQ ===== */}
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title="よくあるご質問"
+        lead="お問い合わせ前によく寄せられる疑問にお答えします。"
+      />
+      <div class="faqs">
+        {
+          faqs.map((f) => (
+            <details class="faq">
+              <summary class="faq__q">
+                <span class="faq__q-icon">Q</span>
+                <span class="faq__q-text">{f.q}</span>
+              </summary>
+              <div class="faq__a">
+                <span class="faq__a-icon">A</span>
+                <p class="faq__a-text">{f.a}</p>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* ===== セクション 12: 最後の一押し ===== */}
   <section class="section cta-section" id="contact">
     <div class="container">
       <SectionHeading
-        title="お問い合わせ"
-        lead="（仮）まずはお気軽にご相談ください。メールにてお問い合わせを承ります。"
+        title="まずは、話を聞くところから。"
+        lead="初回相談は無料です。経営課題を整理しに来るだけ、でも構いません。気構えずにご連絡ください。"
         align="center"
       />
       <div class="cta-contact">
-        <p class="cta-contact__label">メールアドレス</p>
+        <p class="cta-contact__label">お問い合わせ先メールアドレス</p>
         <img
           src="/images/email.png"
           alt="メールアドレス (画像表示によるスパム対策)"
@@ -185,7 +745,8 @@ const strengths = [
           class="cta-contact__email"
         />
         <p class="cta-contact__note">
-          ※ スパム対策のため、メールアドレスは画像で表示しています。
+          ※ スパム対策のため、メールアドレスは画像で表示しています。<br />
+          お問い合わせをいただきましたら、通常 2 営業日以内に代表より直接ご返信します。
         </p>
       </div>
     </div>
@@ -198,11 +759,11 @@ const strengths = [
     position: relative;
     background: linear-gradient(135deg, var(--c-hero-bg-1), var(--c-hero-bg-2));
     color: #ffffff;
-    padding: clamp(72px, 11vw, 128px) 0;
+    padding: clamp(80px, 12vw, 132px) 0;
     overflow: hidden;
   }
   .hero__inner {
-    max-width: 880px;
+    max-width: 920px;
   }
   .hero__eyebrow {
     display: inline-block;
@@ -213,14 +774,14 @@ const strengths = [
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.04em;
-    margin: 0 0 24px;
+    margin: 0 0 28px;
     color: #ffffff;
   }
   .hero__title {
     color: #ffffff;
-    font-size: clamp(30px, 5.4vw, 52px);
-    line-height: 1.3;
-    margin: 0 0 24px;
+    font-size: clamp(28px, 5.2vw, 52px);
+    line-height: 1.35;
+    margin: 0 0 28px;
     letter-spacing: 0.01em;
   }
   .hero__title-accent {
@@ -228,10 +789,14 @@ const strengths = [
   }
   .hero__lead {
     font-size: clamp(15px, 1.6vw, 18px);
-    line-height: 1.9;
-    margin: 0 0 36px;
-    color: rgba(255, 255, 255, 0.92);
-    max-width: 720px;
+    line-height: 1.95;
+    margin: 0 0 40px;
+    color: rgba(255, 255, 255, 0.94);
+    max-width: 760px;
+  }
+  .hero__lead strong {
+    color: var(--c-orange-200);
+    font-weight: 700;
   }
   .hero__cta {
     display: flex;
@@ -239,154 +804,1063 @@ const strengths = [
     flex-wrap: wrap;
   }
 
-  /* ===== 課題提起 ===== */
+  /* ===== 共感 (problems) ===== */
   .problem-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
   .problem-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 24px;
     background: var(--c-card-bg);
     border: 1px solid var(--c-border);
     border-left: 4px solid var(--c-orange-700);
     border-radius: var(--radius-sm);
+    padding: 28px 32px 24px;
+  }
+  .problem-item__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--c-divider);
+  }
+  .problem-item__no {
+    flex-shrink: 0;
+    font-family: var(--ff-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--c-orange-700);
+    letter-spacing: 0.15em;
   }
   .problem-item__icon {
-    font-size: 24px;
-    line-height: 1;
     flex-shrink: 0;
+    font-size: 28px;
+    line-height: 1;
   }
-  .problem-item__text {
+  .problem-item__title {
     margin: 0;
-    font-size: 15px;
-    line-height: 1.7;
+    font-size: 17px;
+    font-weight: 700;
     color: var(--c-text);
+    line-height: 1.55;
   }
-
-  /* ===== サービス ===== */
-  .service-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-  }
-  .service-card {
-    background: var(--c-card-bg);
-    border: 1px solid var(--c-border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 28px 24px;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .service-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-  }
-  .service-card__title {
-    font-size: 18px;
-    margin: 0 0 12px;
-    color: var(--c-orange-900);
-  }
-  .service-card__body {
-    margin: 0;
-    font-size: 14px;
+  .problem-item__body p {
+    margin: 0 0 1em;
+    font-size: 15px;
+    line-height: 1.95;
     color: var(--c-text-sub);
-    line-height: 1.8;
+  }
+  .problem-item__body p:last-child {
+    margin-bottom: 0;
+  }
+  @media (max-width: 600px) {
+    .problem-item {
+      padding: 24px 22px 20px;
+    }
+    .problem-item__header {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .problem-item__title {
+      flex-basis: 100%;
+      font-size: 16px;
+    }
   }
 
-  /* ===== 強み ===== */
-  .strengths {
+  /* ===== 放置リスク (risks) ===== */
+  .section--dark {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2b1505 100%);
+    color: #ffffff;
+  }
+  .section--dark :global(.section-title) {
+    color: #ffffff;
+  }
+  .section--dark :global(.section-title::before) {
+    background: var(--c-orange-500);
+  }
+  .section--dark :global(.section-lead) {
+    color: rgba(255, 255, 255, 0.88);
+  }
+  .risks {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 8px;
   }
-  .strength {
+  .risk {
     position: relative;
-    background: var(--c-card-bg);
-    border: 1px solid var(--c-border);
+    padding: 28px 32px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 32px 24px 28px;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  .strength:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-  }
-  .strength--accent {
-    background: linear-gradient(135deg, var(--c-orange-100) 0%, #ffffff 100%);
-    border-color: var(--c-orange-200);
-  }
-  .strength--accent::before {
-    content: '';
+  .risk__bar {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--c-orange-500), var(--c-orange-700));
-    border-radius: var(--radius) var(--radius) 0 0;
+    width: 4px;
+    height: 100%;
+    background: var(--c-orange-500);
+    border-radius: var(--radius) 0 0 var(--radius);
   }
-  .strength__no {
+  .risk__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    flex-wrap: wrap;
+  }
+  .risk__no {
+    flex-shrink: 0;
     font-family: var(--ff-mono);
     font-size: 12px;
     font-weight: 700;
-    color: var(--c-green-700);
-    letter-spacing: 0.2em;
-    display: block;
-    margin-bottom: 12px;
+    color: var(--c-orange-500);
+    letter-spacing: 0.18em;
+    padding: 3px 10px;
+    border: 1px solid var(--c-orange-500);
+    border-radius: 999px;
   }
-  .strength--accent .strength__no {
-    color: var(--c-orange-700);
-  }
-  .strength__title {
-    font-size: 17px;
-    margin: 0 0 12px;
-    color: var(--c-text);
-    font-weight: 700;
-    line-height: 1.4;
-  }
-  .strength__body {
-    font-size: 14px;
-    color: var(--c-text-sub);
+  .risk__title {
     margin: 0;
-    line-height: 1.8;
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 700;
+    line-height: 1.55;
+  }
+  .risk__body p {
+    margin: 0 0 1em;
+    font-size: 15px;
+    line-height: 1.95;
+    color: rgba(255, 255, 255, 0.88);
+  }
+  .risk__body p:last-child {
+    margin-bottom: 0;
+  }
+  .risks__close {
+    margin: 48px 0 0;
+    font-size: 17px;
+    color: #ffffff;
+    text-align: center;
+    font-weight: 600;
+  }
+  @media (max-width: 600px) {
+    .risk {
+      padding: 24px 22px 20px;
+    }
+    .risk__title {
+      font-size: 16px;
+    }
   }
 
-  /* ===== 代表メッセージ ===== */
-  .rep-message {
+  /* ===== 解決策 (promise) ===== */
+  .promise-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 32px;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .promise-item {
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-orange-200);
+    border-left: 4px solid var(--c-orange-700);
+    border-radius: var(--radius-sm);
+    padding: 28px 32px 24px;
+  }
+  .promise-item__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--c-divider);
+    flex-wrap: wrap;
+  }
+  .promise-item__no {
+    flex-shrink: 0;
+    font-family: var(--ff-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--c-orange-700);
+    letter-spacing: 0.15em;
+  }
+  .promise-item__check {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--c-orange-700);
+    color: #ffffff;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .promise-item__title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--c-text);
+    line-height: 1.55;
+  }
+  .promise-item__body p {
+    margin: 0 0 1em;
+    font-size: 15px;
+    line-height: 1.95;
+    color: var(--c-text-sub);
+  }
+  .promise-item__body p:last-child {
+    margin-bottom: 0;
+  }
+  @media (max-width: 600px) {
+    .promise-item {
+      padding: 24px 22px 20px;
+    }
+    .promise-item__title {
+      flex-basis: 100%;
+      font-size: 16px;
+    }
+  }
+
+  /* ===== 比較表 (compare) ===== */
+  .compare-table {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--c-card-bg);
+  }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1.5fr 1.6fr;
+    border-bottom: 1px solid var(--c-divider);
+  }
+  .compare-row:last-child {
+    border-bottom: none;
+  }
+  .compare-row--head {
+    background: var(--c-bg-alt);
+    font-weight: 700;
+  }
+  .compare-cell {
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .compare-cell--label {
+    background: var(--c-bg-alt);
+    color: var(--c-text);
+    font-weight: 600;
+  }
+  .compare-cell--other {
+    color: var(--c-text-sub);
+  }
+  .compare-cell--ours {
+    background: var(--c-orange-50);
+    color: var(--c-orange-900);
+    font-weight: 600;
+  }
+  .compare-row--head .compare-cell--ours {
+    background: var(--c-orange-700);
+    color: #ffffff;
+  }
+  .compare-row--head .compare-cell--other {
+    color: var(--c-text-sub);
+  }
+  @media (max-width: 640px) {
+    .compare-row {
+      grid-template-columns: 1fr;
+    }
+    .compare-cell--label {
+      padding-bottom: 4px;
+    }
+  }
+
+  /* ===== Manifesto (週5日にしない) ===== */
+  .section--manifesto {
+    background: var(--c-orange-50);
+    padding: clamp(72px, 11vw, 120px) 0;
+  }
+  .manifesto__eyebrow {
+    display: inline-block;
+    padding: 6px 16px;
+    background: var(--c-orange-700);
+    color: #ffffff;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin: 0 0 24px;
+  }
+  .manifesto__title {
+    font-size: clamp(26px, 4.2vw, 40px);
+    line-height: 1.45;
+    margin: 0 0 32px;
+    color: var(--c-text);
+  }
+  .manifesto__title-mark {
+    background: linear-gradient(transparent 60%, var(--c-orange-200) 60%);
+    padding: 0 4px;
+    color: var(--c-orange-900);
+  }
+  .manifesto__body {
+    max-width: 760px;
+  }
+  .manifesto__body p {
+    font-size: 16px;
+    line-height: 1.95;
+    margin: 0 0 1.2em;
+    color: var(--c-text);
+  }
+  .manifesto__body strong {
+    color: var(--c-orange-900);
+    font-weight: 700;
+  }
+  .manifesto__quote {
+    margin: 36px 0;
+    padding: 28px 32px;
+    background: var(--c-card-bg);
+    border-left: 6px solid var(--c-orange-700);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    box-shadow: var(--shadow);
+  }
+  .manifesto__quote p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.9;
+  }
+
+  /* ===== 代表メッセージ (rep) ===== */
+  .rep {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 40px;
     align-items: start;
   }
-  .rep-message__photo-img {
+  .rep__photo img {
     width: 100%;
     height: auto;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     display: block;
   }
-  .rep-message__body p {
-    margin-bottom: 24px;
-    line-height: 1.9;
+  .rep__name {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--c-text);
+  }
+  .rep__role {
+    font-size: 14px;
+    color: var(--c-orange-700);
+    font-weight: 600;
+    margin: 0 0 24px;
+    letter-spacing: 0.04em;
+  }
+  .rep__body p {
+    line-height: 1.95;
+    margin: 0 0 1.2em;
+    color: var(--c-text);
+  }
+  .rep__body strong {
+    color: var(--c-orange-900);
+    font-weight: 700;
+  }
+  .rep__cta {
+    margin-top: 16px;
   }
   @media (max-width: 720px) {
-    .rep-message {
+    .rep {
       grid-template-columns: 1fr;
       gap: 20px;
     }
   }
 
+  /* ===== 3 つの強み ===== */
+  .strength-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .strength-item {
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-border);
+    border-left: 4px solid var(--c-orange-700);
+    border-radius: var(--radius-sm);
+    padding: 28px 32px 24px;
+  }
+  .strength-item--accent {
+    background: linear-gradient(135deg, var(--c-orange-100) 0%, #ffffff 100%);
+    border-color: var(--c-orange-200);
+    border-left-color: var(--c-orange-500);
+  }
+  .strength-item__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--c-divider);
+    flex-wrap: wrap;
+  }
+  .strength-item__no {
+    flex-shrink: 0;
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--c-green-700);
+    letter-spacing: 0.18em;
+    padding: 3px 10px;
+    border: 1px solid var(--c-green-700);
+    border-radius: 999px;
+  }
+  .strength-item--accent .strength-item__no {
+    color: var(--c-orange-700);
+    border-color: var(--c-orange-700);
+  }
+  .strength-item__star {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--c-green-700);
+    color: #ffffff;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .strength-item--accent .strength-item__star {
+    background: var(--c-orange-700);
+  }
+  .strength-item__title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--c-text);
+    line-height: 1.55;
+  }
+  .strength-item__body p {
+    margin: 0 0 1em;
+    font-size: 15px;
+    line-height: 1.95;
+    color: var(--c-text-sub);
+  }
+  .strength-item__body p:last-child {
+    margin-bottom: 0;
+  }
+  .strength-item__body :global(.strength-item__highlight) {
+    font-weight: 700;
+    color: var(--c-orange-900);
+    background: linear-gradient(transparent 62%, var(--c-orange-200) 62%);
+    padding: 0 2px;
+  }
+  @media (max-width: 600px) {
+    .strength-item {
+      padding: 24px 22px 20px;
+    }
+    .strength-item__title {
+      flex-basis: 100%;
+      font-size: 16px;
+    }
+  }
+
+  /* ===== 実績 (cases) ===== */
+  .cases {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .case {
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px 28px 24px;
+  }
+  .case__tag {
+    margin: 0 0 8px;
+    font-size: 12px;
+    color: var(--c-orange-700);
+    letter-spacing: 0.04em;
+    font-weight: 700;
+  }
+  .case__title {
+    font-size: 18px;
+    margin: 0 0 20px;
+    color: var(--c-text);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .case__rows {
+    margin: 0;
+  }
+  .case__row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+    padding: 10px 0;
+    border-top: 1px solid var(--c-divider);
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .case__row:first-of-type {
+    border-top: none;
+  }
+  .case__row dt {
+    color: var(--c-text-sub);
+    font-weight: 600;
+    margin: 0;
+  }
+  .case__row dd {
+    color: var(--c-text);
+    margin: 0;
+  }
+  .cases__note {
+    margin: 20px 0 0;
+    font-size: 12px;
+    color: var(--c-text-mute);
+  }
+  @media (max-width: 600px) {
+    .case__row {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+  }
+
+  /* ===== フロー (steps) ===== */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .step {
+    position: relative;
+    padding: 28px 24px 24px;
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-border);
+    border-top: 4px solid var(--c-orange-700);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .step__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .step__no {
+    font-family: var(--ff-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--c-orange-700);
+    letter-spacing: 0.1em;
+  }
+  .step__arrow {
+    color: var(--c-orange-300, var(--c-orange-200));
+    font-size: 14px;
+  }
+  .step__title {
+    font-size: 16px;
+    margin: 0 0 10px;
+    color: var(--c-text);
+    font-weight: 700;
+  }
+  .step__body {
+    margin: 0;
+    font-size: 13px;
+    color: var(--c-text-sub);
+    line-height: 1.8;
+  }
+  .steps__highlight {
+    margin: 32px 0 0;
+    padding: 20px 28px;
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-orange-200);
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    color: var(--c-text);
+    text-align: center;
+  }
+  .steps__highlight strong {
+    color: var(--c-orange-700);
+  }
+
+  /* ===== Plan (3 ヶ月集中伴走プラン) ===== */
+  .section--plan {
+    background: linear-gradient(180deg, #ffffff 0%, var(--c-orange-50) 100%);
+  }
+  .plan-badge {
+    display: inline-block;
+    margin: 8px 0 24px;
+    padding: 8px 20px;
+    background: var(--c-orange-700);
+    color: #ffffff;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .price-card {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 32px;
+    padding: 40px 48px;
+    background: var(--c-card-bg);
+    border: 2px solid var(--c-orange-700);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    max-width: 880px;
+  }
+  .price-card__primary,
+  .price-card__secondary {
+    text-align: center;
+  }
+  .price-card__heading {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: var(--c-text-sub);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .price-card__amount {
+    margin: 0;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    color: var(--c-orange-900);
+    font-weight: 700;
+  }
+  .price-card__amount-value {
+    font-size: clamp(48px, 7vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .price-card__amount-unit {
+    font-size: clamp(20px, 2.4vw, 26px);
+  }
+  .price-card__amount-mult {
+    font-size: clamp(16px, 1.8vw, 20px);
+    margin-left: 6px;
+    color: var(--c-text-sub);
+    font-weight: 600;
+  }
+  .price-card__amount--small .price-card__amount-value {
+    font-size: clamp(36px, 5vw, 52px);
+    color: var(--c-text);
+  }
+  .price-card__amount--small .price-card__amount-unit {
+    color: var(--c-text);
+  }
+  .price-card__sub {
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: var(--c-text-mute);
+  }
+  .price-card__sub strong {
+    color: var(--c-orange-900);
+    font-weight: 700;
+  }
+  .price-card__divider {
+    color: var(--c-text-mute);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    padding: 12px 0;
+    border-left: 1px solid var(--c-divider);
+    border-right: 1px solid var(--c-divider);
+    padding-left: 32px;
+    padding-right: 32px;
+    border-left: none;
+  }
+  @media (max-width: 720px) {
+    .price-card {
+      grid-template-columns: 1fr;
+      padding: 32px 24px;
+      gap: 20px;
+    }
+    .price-card__divider {
+      padding: 0;
+      border: none;
+      border-top: 1px solid var(--c-divider);
+      padding-top: 20px;
+    }
+  }
+  .plan-investment {
+    margin: 32px 0 0;
+    padding: 28px 32px;
+    background: var(--c-orange-50);
+    border: 1px solid var(--c-orange-200);
+    border-radius: var(--radius);
+  }
+  .plan-investment__lead {
+    margin: 0 0 20px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--c-text);
+  }
+  .plan-investment__lead strong {
+    color: var(--c-orange-900);
+    font-weight: 700;
+  }
+  .plan-investment__compare {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 20px;
+  }
+  .plan-investment__col {
+    padding: 20px;
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    text-align: center;
+  }
+  .plan-investment__col--ours {
+    background: linear-gradient(135deg, var(--c-orange-100) 0%, #ffffff 100%);
+    border-color: var(--c-orange-200);
+  }
+  .plan-investment__col-label {
+    margin: 0 0 8px;
+    font-size: 12px;
+    color: var(--c-text-sub);
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+  .plan-investment__col-body {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--c-text);
+  }
+  .plan-investment__col-body strong {
+    font-weight: 700;
+  }
+  .plan-investment__col--ours .plan-investment__col-body strong {
+    color: var(--c-orange-900);
+  }
+  .plan-investment__arrow {
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--c-text-mute);
+    letter-spacing: 0.1em;
+  }
+  .plan-investment__close {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.7;
+    color: var(--c-text);
+    text-align: center;
+  }
+  .plan-investment__close strong {
+    color: var(--c-orange-900);
+    background: linear-gradient(transparent 62%, var(--c-orange-200) 62%);
+    padding: 0 4px;
+  }
+  .plan-investment__note {
+    margin: 20px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--c-divider);
+    font-size: 12px;
+    color: var(--c-text-mute);
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    .plan-investment {
+      padding: 22px 20px;
+    }
+    .plan-investment__compare {
+      grid-template-columns: 1fr;
+    }
+    .plan-investment__arrow {
+      padding: 4px 0;
+    }
+  }
+
+  .plan-reassurance {
+    margin: 32px 0 0;
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--c-text);
+    max-width: 720px;
+  }
+  .plan-reassurance strong {
+    color: var(--c-orange-900);
+    background: linear-gradient(transparent 62%, var(--c-orange-200) 62%);
+    padding: 0 4px;
+    font-weight: 700;
+  }
+  .plan-block {
+    margin-top: 48px;
+  }
+  .plan-block__title {
+    font-size: 19px;
+    margin: 0 0 16px;
+    padding-left: 14px;
+    border-left: 4px solid var(--c-orange-700);
+    color: var(--c-text);
+    line-height: 1.5;
+  }
+  .plan-block__lead {
+    margin: 0 0 20px;
+    font-size: 14px;
+    color: var(--c-text-sub);
+    line-height: 1.85;
+    max-width: 760px;
+  }
+  .plan-contents {
+    margin: 0;
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .plan-contents__row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0;
+    padding: 18px 22px;
+    border-top: 1px solid var(--c-divider);
+    align-items: start;
+  }
+  .plan-contents__row:first-of-type {
+    border-top: none;
+  }
+  .plan-contents__row dt {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--c-orange-900);
+    line-height: 1.6;
+  }
+  .plan-contents__row dd {
+    margin: 0;
+    font-size: 14px;
+    color: var(--c-text);
+    line-height: 1.85;
+  }
+  @media (max-width: 600px) {
+    .plan-contents__row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+  .plan-promises {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .plan-promise {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 20px;
+    padding: 22px 26px;
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-orange-200);
+    border-radius: var(--radius-sm);
+  }
+  .plan-promise__no {
+    font-family: var(--ff-mono);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--c-orange-700);
+    line-height: 1;
+  }
+  .plan-promise__title {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--c-text);
+  }
+  .plan-promise__text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--c-text-sub);
+  }
+  @media (max-width: 600px) {
+    .plan-promise {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 20px 22px;
+    }
+    .plan-promise__no {
+      font-size: 28px;
+    }
+  }
+  .plan-decision {
+    margin: 48px 0 0;
+    padding: 32px 36px 28px;
+    background: var(--c-card-bg);
+    border: 1px solid var(--c-orange-200);
+    border-left: 6px solid var(--c-orange-700);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    box-shadow: var(--shadow);
+  }
+  .plan-decision__label {
+    display: inline-block;
+    margin: 0 0 12px;
+    padding: 4px 12px;
+    background: var(--c-orange-700);
+    color: #ffffff;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .plan-decision__title {
+    margin: 0 0 20px;
+    font-size: clamp(20px, 3vw, 26px);
+    color: var(--c-orange-900);
+    line-height: 1.5;
+    font-weight: 700;
+  }
+  .plan-decision__body p {
+    margin: 0 0 1em;
+    font-size: 15px;
+    line-height: 1.95;
+    color: var(--c-text);
+  }
+  .plan-decision__body p:last-child {
+    margin-bottom: 0;
+  }
+  .plan-decision__body strong {
+    font-weight: 700;
+    color: var(--c-orange-900);
+    background: linear-gradient(transparent 62%, var(--c-orange-200) 62%);
+    padding: 0 4px;
+  }
+  @media (max-width: 600px) {
+    .plan-decision {
+      padding: 24px 22px 20px;
+    }
+  }
+
+  .plan-scarcity {
+    margin: 48px 0 32px;
+    padding: 20px 28px;
+    background: rgba(0, 0, 0, 0.04);
+    border-left: 4px solid var(--c-text);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--c-text);
+  }
+  .plan-scarcity strong {
+    color: var(--c-orange-900);
+    font-weight: 700;
+  }
+  .plan-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  /* ===== FAQ ===== */
+  .faqs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    max-width: 820px;
+  }
+  .faq {
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    background: var(--c-card-bg);
+    overflow: hidden;
+  }
+  .faq[open] {
+    border-color: var(--c-orange-200);
+    box-shadow: var(--shadow);
+  }
+  .faq__q {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 24px;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+    color: var(--c-text);
+    transition: background 0.2s;
+  }
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+  .faq__q:hover {
+    background: var(--c-orange-50);
+  }
+  .faq__q-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--c-orange-700);
+    color: #ffffff;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+  }
+  .faq__q-text {
+    flex: 1;
+    line-height: 1.7;
+    padding-top: 2px;
+  }
+  .faq__a {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 6px 24px 22px;
+    border-top: 1px solid var(--c-divider);
+  }
+  .faq__a-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--c-green-100);
+    color: var(--c-green-900);
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  .faq__a-text {
+    flex: 1;
+    margin: 8px 0 0;
+    line-height: 1.85;
+    color: var(--c-text-sub);
+  }
+
   /* ===== CTA ===== */
   .cta-section {
-    background: var(--c-orange-50);
+    background: linear-gradient(180deg, var(--c-orange-50), #ffffff);
   }
   .cta-contact {
     text-align: center;
@@ -401,15 +1875,16 @@ const strengths = [
   .cta-contact__email {
     display: inline-block;
     margin: 0 auto;
-    padding: 12px 20px;
+    padding: 14px 24px;
     background: var(--c-card-bg);
-    border: 1px solid var(--c-border);
+    border: 2px solid var(--c-orange-200);
     border-radius: var(--radius-sm);
     box-shadow: var(--shadow);
   }
   .cta-contact__note {
     font-size: 13px;
     color: var(--c-text-mute);
-    margin: 16px 0 0;
+    margin: 20px 0 0;
+    line-height: 1.85;
   }
 </style>
