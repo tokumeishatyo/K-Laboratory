@@ -75,6 +75,25 @@ console.log('Building site assets to public/images/ ...');
   console.log('  - prof.jpg        (max-width 800px)');
 }
 
+// 5) 悩みセクション用のインフォグラフィック画像 (横 1400px、JPEG 化)
+{
+  const problemsDir = path.join(DEST, 'problems');
+  await fs.mkdir(problemsDir, { recursive: true });
+  for (const n of ['01', '02', '03', '04']) {
+    const src = path.join(ROOT, `ChatGPT${n}.png`);
+    const out = path.join(problemsDir, `problem-${n}.jpg`);
+    try {
+      await sharp(src)
+        .resize({ width: 1400, withoutEnlargement: true })
+        .jpeg({ quality: 85, mozjpeg: false })
+        .toFile(out);
+      console.log(`  - problems/problem-${n}.jpg`);
+    } catch (e) {
+      console.log(`  - problems/problem-${n}.jpg  (skipped: ${e.code || e.message})`);
+    }
+  }
+}
+
 // 4) メールアドレスのダミー画像 (Bot 対策、Step 4 では仮アドレス)
 {
   const out = path.join(DEST, 'email.png');

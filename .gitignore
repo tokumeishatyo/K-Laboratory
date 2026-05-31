@@ -32,3 +32,4 @@ Thumbs.db
 # ルート直下のみを対象 (派生物 public/images/* は対象外)
 /Logo.png
 /prof.png
+/ChatGPT*.png

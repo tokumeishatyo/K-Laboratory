@@ -298,18 +298,31 @@ const faqs = [
       />
       <ol class="problem-list">
         {
-          problems.map((p, i) => (
-            <li class="problem-item">
-              <header class="problem-item__header">
-                <span class="problem-item__no">{String(i + 1).padStart(2, '0')}</span>
-                <span class="problem-item__icon" aria-hidden="true">{p.icon}</span>
-                <h3 class="problem-item__title">{p.title}</h3>
-              </header>
-              <div class="problem-item__body">
-                {p.body.map((para) => <p>{para}</p>)}
-              </div>
-            </li>
-          ))
+          problems.map((p, i) => {
+            const num = String(i + 1).padStart(2, '0');
+            return (
+              <li class="problem-item">
+                <header class="problem-item__header">
+                  <span class="problem-item__no">{num}</span>
+                  <h3 class="problem-item__title">{p.title}</h3>
+                </header>
+                <figure class="problem-item__figure">
+                  <img
+                    src={`/images/problems/problem-${num}.jpg`}
+                    alt={`お悩み ${num}：${p.title}`}
+                    width="1400"
+                    height="788"
+                    loading="lazy"
+                    decoding="async"
+                    class="problem-item__img"
+                  />
+                </figure>
+                <div class="problem-item__body">
+                  {p.body.map((para) => <p>{para}</p>)}
+                </div>
+              </li>
+            );
+          })
         }
       </ol>
     </div>
@@ -836,17 +849,27 @@ const faqs = [
     color: var(--c-orange-700);
     letter-spacing: 0.15em;
   }
-  .problem-item__icon {
-    flex-shrink: 0;
-    font-size: 28px;
-    line-height: 1;
-  }
   .problem-item__title {
     margin: 0;
     font-size: 17px;
     font-weight: 700;
     color: var(--c-text);
     line-height: 1.55;
+  }
+  .problem-item__figure {
+    margin: 0 0 24px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-bg-alt);
+    box-shadow: var(--shadow);
+  }
+  .problem-item__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
   }
   .problem-item__body p {
     margin: 0 0 1em;
