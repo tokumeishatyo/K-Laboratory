@@ -92,6 +92,59 @@ console.log('Building site assets to public/images/ ...');
       console.log(`  - problems/problem-${n}.jpg  (skipped: ${e.code || e.message})`);
     }
   }
+  // 悩みセクションの「語りかけ」用バストアップ
+  {
+    const src = path.join(ROOT, 'ChatGPT00.png');
+    const out = path.join(problemsDir, 'asker.jpg');
+    try {
+      await sharp(src)
+        .resize({ width: 600, withoutEnlargement: true })
+        .jpeg({ quality: 88, mozjpeg: false })
+        .toFile(out);
+      console.log(`  - problems/asker.jpg`);
+    } catch (e) {
+      console.log(`  - problems/asker.jpg  (skipped: ${e.code || e.message})`);
+    }
+  }
+}
+
+// 6) 放置リスクセクション用のインフォグラフィック画像 (横 1400px、JPEG 化)
+{
+  const risksDir = path.join(DEST, 'risks');
+  await fs.mkdir(risksDir, { recursive: true });
+  const map = [
+    ['ChatGPT11.png', 'risk-01.jpg'],
+    ['ChatGPT12.png', 'risk-02.jpg'],
+    ['ChatGPT13.png', 'risk-03.jpg'],
+    ['ChatGPT14.png', 'risk-04.jpg'],
+  ];
+  for (const [srcName, outName] of map) {
+    const src = path.join(ROOT, srcName);
+    const out = path.join(risksDir, outName);
+    try {
+      await sharp(src)
+        .resize({ width: 1400, withoutEnlargement: true })
+        .jpeg({ quality: 85, mozjpeg: false })
+        .toFile(out);
+      console.log(`  - risks/${outName}`);
+    } catch (e) {
+      console.log(`  - risks/${outName}  (skipped: ${e.code || e.message})`);
+    }
+  }
+  // リスクセクションの「警告者」用バストアップ
+  {
+    const src = path.join(ROOT, 'ChatGPT10.png');
+    const out = path.join(risksDir, 'warner.jpg');
+    try {
+      await sharp(src)
+        .resize({ width: 600, withoutEnlargement: true })
+        .jpeg({ quality: 88, mozjpeg: false })
+        .toFile(out);
+      console.log(`  - risks/warner.jpg`);
+    } catch (e) {
+      console.log(`  - risks/warner.jpg  (skipped: ${e.code || e.message})`);
+    }
+  }
 }
 
 // 4) メールアドレスのダミー画像 (Bot 対策、Step 4 では仮アドレス)

@@ -292,10 +292,25 @@ const faqs = [
   {/* ===== セクション 2: 共感 ===== */}
   <section class="section">
     <div class="container">
-      <SectionHeading
-        title="こんなお悩み、ありませんか？"
-        lead="私たちのもとに最も多く寄せられるのは、こんな声です。一つでも当てはまるなら、このページを最後までお読みください。"
-      />
+      <div class="problem-intro">
+        <div class="problem-intro__text">
+          <SectionHeading
+            title="こんなお悩み、ありませんか？"
+            lead="私たちのもとに最も多く寄せられるのは、こんな声です。一つでも当てはまるなら、このページを最後までお読みください。"
+          />
+        </div>
+        <figure class="problem-intro__asker" aria-hidden="true">
+          <img
+            src="/images/problems/asker.jpg"
+            alt=""
+            width="600"
+            height="600"
+            loading="lazy"
+            decoding="async"
+            class="problem-intro__asker-img"
+          />
+        </figure>
+      </div>
       <ol class="problem-list">
         {
           problems.map((p, i) => {
@@ -331,24 +346,53 @@ const faqs = [
   {/* ===== セクション 3: 放置リスク ===== */}
   <section class="section section--dark">
     <div class="container">
-      <SectionHeading
-        title="このまま、放置するとどうなるか。"
-        lead="厳しいことを申し上げますが、これは事実です。AI 活用の判断を先送りにすることには、見えないコストがあります。"
-      />
+      <div class="risk-intro">
+        <div class="risk-intro__text">
+          <SectionHeading
+            title="このまま、放置するとどうなるか。"
+            lead="厳しいことを申し上げますが、これは事実です。AI 活用の判断を先送りにすることには、見えないコストがあります。"
+          />
+        </div>
+        <figure class="risk-intro__warner" aria-hidden="true">
+          <img
+            src="/images/risks/warner.jpg"
+            alt=""
+            width="600"
+            height="600"
+            loading="lazy"
+            decoding="async"
+            class="risk-intro__warner-img"
+          />
+        </figure>
+      </div>
       <div class="risks">
         {
-          risks.map((r, i) => (
-            <article class="risk">
-              <span class="risk__bar" aria-hidden="true"></span>
-              <header class="risk__header">
-                <span class="risk__no">RISK {String(i + 1).padStart(2, '0')}</span>
-                <h3 class="risk__title">{r.title}</h3>
-              </header>
-              <div class="risk__body">
-                {r.body.map((para) => <p>{para}</p>)}
-              </div>
-            </article>
-          ))
+          risks.map((r, i) => {
+            const num = String(i + 1).padStart(2, '0');
+            return (
+              <article class="risk">
+                <span class="risk__bar" aria-hidden="true"></span>
+                <header class="risk__header">
+                  <span class="risk__no">RISK {num}</span>
+                  <h3 class="risk__title">{r.title}</h3>
+                </header>
+                <figure class="risk__figure">
+                  <img
+                    src={`/images/risks/risk-${num}.jpg`}
+                    alt={`RISK ${num}：${r.title}`}
+                    width="1400"
+                    height="788"
+                    loading="lazy"
+                    decoding="async"
+                    class="risk__img"
+                  />
+                </figure>
+                <div class="risk__body">
+                  {r.body.map((para) => <p>{para}</p>)}
+                </div>
+              </article>
+            );
+          })
         }
       </div>
       <p class="risks__close">
@@ -818,6 +862,43 @@ const faqs = [
   }
 
   /* ===== 共感 (problems) ===== */
+  .problem-intro {
+    display: grid;
+    grid-template-columns: 1fr 240px;
+    gap: 32px;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .problem-intro__asker {
+    margin: 0;
+    width: 240px;
+    height: 240px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-card-bg);
+    box-shadow: var(--shadow);
+    justify-self: end;
+  }
+  .problem-intro__asker-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  @media (max-width: 720px) {
+    .problem-intro {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .problem-intro__asker {
+      width: 160px;
+      height: 160px;
+      justify-self: center;
+    }
+  }
+
   .problem-list {
     list-style: none;
     padding: 0;
@@ -868,8 +949,6 @@ const faqs = [
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
   }
   .problem-item__body p {
     margin: 0 0 1em;
@@ -895,6 +974,43 @@ const faqs = [
   }
 
   /* ===== 放置リスク (risks) ===== */
+  .risk-intro {
+    display: grid;
+    grid-template-columns: 1fr 240px;
+    gap: 32px;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .risk-intro__warner {
+    margin: 0;
+    width: 240px;
+    height: 240px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+    justify-self: end;
+  }
+  .risk-intro__warner-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  @media (max-width: 720px) {
+    .risk-intro {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .risk-intro__warner {
+      width: 160px;
+      height: 160px;
+      justify-self: center;
+    }
+  }
+
   .section--dark {
     background: linear-gradient(135deg, #1a1a1a 0%, #2b1505 100%);
     color: #ffffff;
@@ -965,6 +1081,19 @@ const faqs = [
   }
   .risk__body p:last-child {
     margin-bottom: 0;
+  }
+  .risk__figure {
+    margin: 0 0 24px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  }
+  .risk__img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
   .risks__close {
     margin: 48px 0 0;
