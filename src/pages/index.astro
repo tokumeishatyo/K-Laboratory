@@ -599,18 +599,31 @@ const faqs = [
       />
       <ol class="strength-list">
         {
-          strengths.map((s, i) => (
-            <li class:list={['strength-item', { 'strength-item--accent': s.accent }]}>
-              <header class="strength-item__header">
-                <span class="strength-item__no">STRENGTH {String(i + 1).padStart(2, '0')}</span>
-                <span class="strength-item__star" aria-hidden="true">★</span>
-                <h3 class="strength-item__title">{s.title}</h3>
-              </header>
-              <div class="strength-item__body">
-                {s.body.map((para) => <p set:html={para} />)}
-              </div>
-            </li>
-          ))
+          strengths.map((s, i) => {
+            const num = String(i + 1).padStart(2, '0');
+            return (
+              <li class:list={['strength-item', { 'strength-item--accent': s.accent }]}>
+                <header class="strength-item__header">
+                  <span class="strength-item__no">STRENGTH {num}</span>
+                  <span class="strength-item__star" aria-hidden="true">★</span>
+                  <h3 class="strength-item__title">{s.title}</h3>
+                </header>
+                <figure class="strength-item__figure">
+                  <img
+                    src={`/images/strengths/strength-${num}.jpg`}
+                    alt={`STRENGTH ${num}：${s.title}`}
+                    width="1400"
+                    loading="lazy"
+                    decoding="async"
+                    class="strength-item__img"
+                  />
+                </figure>
+                <div class="strength-item__body">
+                  {s.body.map((para) => <p set:html={para} />)}
+                </div>
+              </li>
+            );
+          })
         }
       </ol>
     </div>
@@ -1466,14 +1479,14 @@ const faqs = [
   .strength-item {
     background: var(--c-card-bg);
     border: 1px solid var(--c-border);
-    border-left: 4px solid var(--c-orange-700);
+    border-left: 4px solid var(--c-green-900);
     border-radius: var(--radius-sm);
     padding: 28px 32px 24px;
   }
   .strength-item--accent {
-    background: linear-gradient(135deg, var(--c-orange-100) 0%, #ffffff 100%);
-    border-color: var(--c-orange-200);
-    border-left-color: var(--c-orange-500);
+    background: linear-gradient(135deg, var(--c-green-100) 0%, #ffffff 100%);
+    border-color: var(--c-green-200);
+    border-left-color: var(--c-green-900);
   }
   .strength-item__header {
     display: flex;
@@ -1489,22 +1502,18 @@ const faqs = [
     font-family: var(--ff-mono);
     font-size: 12px;
     font-weight: 700;
-    color: var(--c-green-700);
+    color: #ffffff;
+    background: var(--c-green-900);
     letter-spacing: 0.18em;
-    padding: 3px 10px;
-    border: 1px solid var(--c-green-700);
+    padding: 4px 12px;
     border-radius: 999px;
-  }
-  .strength-item--accent .strength-item__no {
-    color: var(--c-orange-700);
-    border-color: var(--c-orange-700);
   }
   .strength-item__star {
     flex-shrink: 0;
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: var(--c-green-700);
+    background: var(--c-green-900);
     color: #ffffff;
     font-weight: 700;
     display: inline-flex;
@@ -1512,15 +1521,25 @@ const faqs = [
     justify-content: center;
     font-size: 14px;
   }
-  .strength-item--accent .strength-item__star {
-    background: var(--c-orange-700);
-  }
   .strength-item__title {
     margin: 0;
     font-size: 17px;
     font-weight: 700;
     color: var(--c-text);
     line-height: 1.55;
+  }
+  .strength-item__figure {
+    margin: 0 0 24px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-bg-alt);
+    box-shadow: var(--shadow);
+  }
+  .strength-item__img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
   .strength-item__body p {
     margin: 0 0 1em;
@@ -1533,8 +1552,8 @@ const faqs = [
   }
   .strength-item__body :global(.strength-item__highlight) {
     font-weight: 700;
-    color: var(--c-orange-900);
-    background: linear-gradient(transparent 62%, var(--c-orange-200) 62%);
+    color: var(--c-green-900);
+    background: linear-gradient(transparent 62%, var(--c-green-200) 62%);
     padding: 0 2px;
   }
   @media (max-width: 600px) {
