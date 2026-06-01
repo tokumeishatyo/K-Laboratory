@@ -404,24 +404,52 @@ const faqs = [
   {/* ===== セクション 4: 解決策 ===== */}
   <section class="section">
     <div class="container">
-      <SectionHeading
-        title="私たち K Laboratory が、伴走します。"
-        lead="「外注して納品を受け取って終わり」ではありません。御社が AI を使いこなせる組織になるまで、構想段階から運用定着まで、伴走するパートナーです。"
-      />
+      <div class="promise-intro">
+        <div class="promise-intro__text">
+          <SectionHeading
+            title="私たち K Laboratory が、伴走します。"
+            lead="「外注して納品を受け取って終わり」ではありません。御社が AI を使いこなせる組織になるまで、構想段階から運用定着まで、伴走するパートナーです。"
+          />
+        </div>
+        <figure class="promise-intro__partners" aria-hidden="true">
+          <img
+            src="/images/promises/partners.jpg"
+            alt=""
+            width="800"
+            height="600"
+            loading="lazy"
+            decoding="async"
+            class="promise-intro__partners-img"
+          />
+        </figure>
+      </div>
       <ol class="promise-list">
         {
-          promises.map((p, i) => (
-            <li class="promise-item">
-              <header class="promise-item__header">
-                <span class="promise-item__no">{String(i + 1).padStart(2, '0')}</span>
-                <span class="promise-item__check" aria-hidden="true">✓</span>
-                <h3 class="promise-item__title">{p.title}</h3>
-              </header>
-              <div class="promise-item__body">
-                {p.body.map((para) => <p>{para}</p>)}
-              </div>
-            </li>
-          ))
+          promises.map((p, i) => {
+            const num = String(i + 1).padStart(2, '0');
+            return (
+              <li class="promise-item">
+                <header class="promise-item__header">
+                  <span class="promise-item__no">{num}</span>
+                  <span class="promise-item__check" aria-hidden="true">✓</span>
+                  <h3 class="promise-item__title">{p.title}</h3>
+                </header>
+                <figure class="promise-item__figure">
+                  <img
+                    src={`/images/promises/promise-${num}.jpg`}
+                    alt={`お約束 ${num}：${p.title}`}
+                    width="1400"
+                    loading="lazy"
+                    decoding="async"
+                    class="promise-item__img"
+                  />
+                </figure>
+                <div class="promise-item__body">
+                  {p.body.map((para) => <p>{para}</p>)}
+                </div>
+              </li>
+            );
+          })
         }
       </ol>
     </div>
@@ -1112,6 +1140,43 @@ const faqs = [
   }
 
   /* ===== 解決策 (promise) ===== */
+  .promise-intro {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .promise-intro__partners {
+    margin: 0;
+    width: 320px;
+    height: 240px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-card-bg);
+    box-shadow: var(--shadow);
+    justify-self: end;
+  }
+  .promise-intro__partners-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  @media (max-width: 720px) {
+    .promise-intro {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .promise-intro__partners {
+      width: 280px;
+      height: 210px;
+      justify-self: center;
+    }
+  }
+
   .promise-list {
     list-style: none;
     padding: 0;
@@ -1163,6 +1228,19 @@ const faqs = [
     font-weight: 700;
     color: var(--c-text);
     line-height: 1.55;
+  }
+  .promise-item__figure {
+    margin: 0 0 24px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-bg-alt);
+    box-shadow: var(--shadow);
+  }
+  .promise-item__img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
   .promise-item__body p {
     margin: 0 0 1em;

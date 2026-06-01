@@ -147,6 +147,44 @@ console.log('Building site assets to public/images/ ...');
   }
 }
 
+// 7) 伴走 (PROMISE) セクション用のインフォグラフィック画像 (横 1400px、JPEG 化)
+{
+  const promisesDir = path.join(DEST, 'promises');
+  await fs.mkdir(promisesDir, { recursive: true });
+  const map = [
+    ['ChatGPT31.png', 'promise-01.jpg'],
+    ['ChatGPT32.png', 'promise-02.jpg'],
+    ['ChatGPT33.png', 'promise-03.jpg'],
+  ];
+  for (const [srcName, outName] of map) {
+    const src = path.join(ROOT, srcName);
+    const out = path.join(promisesDir, outName);
+    try {
+      await sharp(src)
+        .resize({ width: 1400, withoutEnlargement: true })
+        .jpeg({ quality: 85, mozjpeg: false })
+        .toFile(out);
+      console.log(`  - promises/${outName}`);
+    } catch (e) {
+      console.log(`  - promises/${outName}  (skipped: ${e.code || e.message})`);
+    }
+  }
+  // 伴走セクションの「代表 + OL の 2 ショット」グリーター
+  {
+    const src = path.join(ROOT, 'ChatGPT30.png');
+    const out = path.join(promisesDir, 'partners.jpg');
+    try {
+      await sharp(src)
+        .resize({ width: 800, withoutEnlargement: true })
+        .jpeg({ quality: 88, mozjpeg: false })
+        .toFile(out);
+      console.log(`  - promises/partners.jpg`);
+    } catch (e) {
+      console.log(`  - promises/partners.jpg  (skipped: ${e.code || e.message})`);
+    }
+  }
+}
+
 // 4) メールアドレスのダミー画像 (Bot 対策、Step 4 では仮アドレス)
 {
   const out = path.join(DEST, 'email.png');
