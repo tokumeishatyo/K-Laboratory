@@ -185,6 +185,29 @@ console.log('Building site assets to public/images/ ...');
   }
 }
 
+// 8) Manifesto セクション「あえて週5日にしない」用のインフォグラフィック画像 (横 1400px、JPEG 化)
+{
+  const manifestoDir = path.join(DEST, 'manifesto');
+  await fs.mkdir(manifestoDir, { recursive: true });
+  const map = [
+    ['ChatGPT40.png', 'manifesto-01.jpg'],
+    ['ChatGPT41.png', 'manifesto-02.jpg'],
+  ];
+  for (const [srcName, outName] of map) {
+    const src = path.join(ROOT, srcName);
+    const out = path.join(manifestoDir, outName);
+    try {
+      await sharp(src)
+        .resize({ width: 1400, withoutEnlargement: true })
+        .jpeg({ quality: 85, mozjpeg: false })
+        .toFile(out);
+      console.log(`  - manifesto/${outName}`);
+    } catch (e) {
+      console.log(`  - manifesto/${outName}  (skipped: ${e.code || e.message})`);
+    }
+  }
+}
+
 // 4) メールアドレスのダミー画像 (Bot 対策、Step 4 では仮アドレス)
 {
   const out = path.join(DEST, 'email.png');
