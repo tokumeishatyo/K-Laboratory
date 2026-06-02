@@ -667,6 +667,16 @@ const faqs = [
         title="ご提供の流れ"
         lead="ご相談から内製化体制構築まで、4 ステップで段階的に伴走します。各ステップで判断ポイントを設け、お客様が「これで進める」と確信してから次に進みます。"
       />
+      <figure class="flow-figure">
+        <img
+          src="/images/flow/flow-01.jpg"
+          alt="ご提供の流れ：4 ステップで確信しながら次へ。Step 1 初回相談（無料 60 分）→ Step 2 アセスメント（優先順位確定）→ Step 3 PoC・実装（成果可視化）→ Step 4 内製化体制構築（自走開始）。各ステップに判断ポイントあり。初回相談 60 分は無料、『まだ何も決まっていない』段階からお気軽にどうぞ。"
+          width="1400"
+          loading="lazy"
+          decoding="async"
+          class="flow-figure__img"
+        />
+      </figure>
       <div class="steps">
         {
           steps.map((s, i) => (
@@ -681,9 +691,6 @@ const faqs = [
           ))
         }
       </div>
-      <p class="steps__highlight">
-        <strong>初回相談（オンライン 60 分）は無料です。</strong>「まだ何も決まっていない」段階でも、お気軽にどうぞ。
-      </p>
     </div>
   </section>
 
@@ -1632,6 +1639,19 @@ const faqs = [
   }
 
   /* ===== フロー (steps) ===== */
+  .flow-figure {
+    margin: 0 0 32px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--c-purple-200);
+    background: var(--c-card-bg);
+    box-shadow: var(--shadow);
+  }
+  .flow-figure__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
   .steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1642,7 +1662,7 @@ const faqs = [
     padding: 28px 24px 24px;
     background: var(--c-card-bg);
     border: 1px solid var(--c-border);
-    border-top: 4px solid var(--c-orange-700);
+    border-top: 4px solid var(--c-purple-900);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
   }
@@ -1656,11 +1676,11 @@ const faqs = [
     font-family: var(--ff-mono);
     font-size: 13px;
     font-weight: 700;
-    color: var(--c-orange-700);
+    color: var(--c-purple-900);
     letter-spacing: 0.1em;
   }
   .step__arrow {
-    color: var(--c-orange-300, var(--c-orange-200));
+    color: var(--c-purple-200);
     font-size: 14px;
   }
   .step__title {
@@ -1674,19 +1694,6 @@ const faqs = [
     font-size: 13px;
     color: var(--c-text-sub);
     line-height: 1.8;
-  }
-  .steps__highlight {
-    margin: 32px 0 0;
-    padding: 20px 28px;
-    background: var(--c-card-bg);
-    border: 1px solid var(--c-orange-200);
-    border-radius: var(--radius-sm);
-    font-size: 15px;
-    color: var(--c-text);
-    text-align: center;
-  }
-  .steps__highlight strong {
-    color: var(--c-orange-700);
   }
 
   /* ===== Plan (3 ヶ月集中伴走プラン) ===== */

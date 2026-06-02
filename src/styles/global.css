@@ -23,6 +23,12 @@
   --c-green-100: #e8f5e9;
   --c-green-50:  #f1f8e9;
 
+  /* Mulberry purple — FLOW section identity */
+  --c-purple-900: #5b2d6e;
+  --c-purple-200: #c6a5cf;
+  --c-purple-100: #e4d4e8;
+  --c-purple-50:  #f5edf7;
+
   /* Neutrals */
   --c-bg:        #ffffff;
   --c-bg-alt:    #faf8f3;
