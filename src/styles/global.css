@@ -29,6 +29,13 @@
   --c-purple-100: #e4d4e8;
   --c-purple-50:  #f5edf7;
 
+  /* Deep teal — PLAN section identity (ASSET + PACE 01-03) */
+  --c-teal-900: #073c56;
+  --c-teal-700: #1b5e6e;
+  --c-teal-200: #b3d4d8;
+  --c-teal-100: #d6e8eb;
+  --c-teal-50:  #ecf4f5;
+
   /* Neutrals */
   --c-bg:        #ffffff;
   --c-bg-alt:    #faf8f3;

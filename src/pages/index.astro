@@ -731,21 +731,16 @@ const faqs = [
         <p class="plan-investment__lead">
           中小企業で<strong>派遣スタッフを 1 名、3 ヶ月雇い入れる予算</strong>。それと同じ規模の投資で、御社の中に AI 活用のナレッジと運用力が「資産」として残ります。
         </p>
-        <div class="plan-investment__compare">
-          <div class="plan-investment__col plan-investment__col--other">
-            <p class="plan-investment__col-label">派遣社員 1 人を 3 ヶ月</p>
-            <p class="plan-investment__col-body">
-              終わったあとに残るのは、<br /><strong>人件費の記録だけ。</strong>
-            </p>
-          </div>
-          <div class="plan-investment__arrow" aria-hidden="true">VS</div>
-          <div class="plan-investment__col plan-investment__col--ours">
-            <p class="plan-investment__col-label">K Laboratory 3 ヶ月集中伴走</p>
-            <p class="plan-investment__col-body">
-              御社の中に、<br /><strong>AI を回せる力が残る。</strong>
-            </p>
-          </div>
-        </div>
+        <figure class="plan-asset-figure">
+          <img
+            src="/images/plan/asset.jpg"
+            alt="同じ予算で、得るものが決定的に違う：派遣社員 1 人を 3 ヶ月雇うと、終わった後に残るのは人件費の記録だけ。K Laboratory の 3 ヶ月集中伴走なら、御社の中に AI を回せる『資産』が残る。"
+            width="1400"
+            loading="lazy"
+            decoding="async"
+            class="plan-asset-figure__img"
+          />
+        </figure>
         <p class="plan-investment__close">
           同じくらいの予算で、<strong>得るものが決定的に違います。</strong>
         </p>
@@ -763,12 +758,25 @@ const faqs = [
         <h3 class="plan-block__title">プラン内容</h3>
         <dl class="plan-contents">
           {
-            planContents.map((c) => (
-              <div class="plan-contents__row">
-                <dt>{c.label}</dt>
-                <dd>{c.body}</dd>
-              </div>
-            ))
+            planContents.map((c, i) => {
+              const num = String(i + 1).padStart(2, '0');
+              return (
+                <div class="plan-contents__row">
+                  <figure class="plan-contents__figure">
+                    <img
+                      src={`/images/plan/pace-${num}.jpg`}
+                      alt={`PACE ${num}：${c.label}`}
+                      width="1400"
+                      loading="lazy"
+                      decoding="async"
+                      class="plan-contents__img"
+                    />
+                  </figure>
+                  <dt>{c.label}</dt>
+                  <dd>{c.body}</dd>
+                </div>
+              );
+            })
           }
         </dl>
       </div>
@@ -1698,13 +1706,13 @@ const faqs = [
 
   /* ===== Plan (3 ヶ月集中伴走プラン) ===== */
   .section--plan {
-    background: linear-gradient(180deg, #ffffff 0%, var(--c-orange-50) 100%);
+    background: linear-gradient(180deg, #ffffff 0%, var(--c-teal-50) 100%);
   }
   .plan-badge {
     display: inline-block;
     margin: 8px 0 24px;
     padding: 8px 20px;
-    background: var(--c-orange-700);
+    background: var(--c-teal-900);
     color: #ffffff;
     border-radius: 999px;
     font-size: 13px;
@@ -1718,7 +1726,7 @@ const faqs = [
     gap: 32px;
     padding: 40px 48px;
     background: var(--c-card-bg);
-    border: 2px solid var(--c-orange-700);
+    border: 2px solid var(--c-teal-900);
     border-radius: var(--radius);
     box-shadow: var(--shadow-lg);
     max-width: 880px;
@@ -1739,7 +1747,7 @@ const faqs = [
     display: inline-flex;
     align-items: baseline;
     gap: 4px;
-    color: var(--c-orange-900);
+    color: var(--c-teal-900);
     font-weight: 700;
   }
   .price-card__amount-value {
@@ -1769,7 +1777,7 @@ const faqs = [
     color: var(--c-text-mute);
   }
   .price-card__sub strong {
-    color: var(--c-orange-900);
+    color: var(--c-teal-900);
     font-weight: 700;
   }
   .price-card__divider {
@@ -1800,8 +1808,8 @@ const faqs = [
   .plan-investment {
     margin: 32px 0 0;
     padding: 28px 32px;
-    background: var(--c-orange-50);
-    border: 1px solid var(--c-orange-200);
+    background: var(--c-teal-50);
+    border: 1px solid var(--c-teal-200);
     border-radius: var(--radius);
   }
   .plan-investment__lead {
@@ -1811,52 +1819,21 @@ const faqs = [
     color: var(--c-text);
   }
   .plan-investment__lead strong {
-    color: var(--c-orange-900);
+    color: var(--c-teal-900);
     font-weight: 700;
   }
-  .plan-investment__compare {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 16px;
+  .plan-asset-figure {
     margin: 0 0 20px;
-  }
-  .plan-investment__col {
-    padding: 20px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--c-teal-200);
     background: var(--c-card-bg);
-    border: 1px solid var(--c-border);
-    border-radius: var(--radius-sm);
-    text-align: center;
+    box-shadow: var(--shadow);
   }
-  .plan-investment__col--ours {
-    background: linear-gradient(135deg, var(--c-orange-100) 0%, #ffffff 100%);
-    border-color: var(--c-orange-200);
-  }
-  .plan-investment__col-label {
-    margin: 0 0 8px;
-    font-size: 12px;
-    color: var(--c-text-sub);
-    letter-spacing: 0.04em;
-    font-weight: 600;
-  }
-  .plan-investment__col-body {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.7;
-    color: var(--c-text);
-  }
-  .plan-investment__col-body strong {
-    font-weight: 700;
-  }
-  .plan-investment__col--ours .plan-investment__col-body strong {
-    color: var(--c-orange-900);
-  }
-  .plan-investment__arrow {
-    font-family: var(--ff-mono);
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--c-text-mute);
-    letter-spacing: 0.1em;
+  .plan-asset-figure__img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
   .plan-investment__close {
     margin: 0;
@@ -1867,8 +1844,8 @@ const faqs = [
     text-align: center;
   }
   .plan-investment__close strong {
-    color: var(--c-orange-900);
-    background: linear-gradient(transparent 62%, var(--c-orange-200) 62%);
+    color: var(--c-teal-900);
+    background: linear-gradient(transparent 62%, var(--c-teal-200) 62%);
     padding: 0 4px;
   }
   .plan-investment__note {
@@ -1883,12 +1860,6 @@ const faqs = [
     .plan-investment {
       padding: 22px 20px;
     }
-    .plan-investment__compare {
-      grid-template-columns: 1fr;
-    }
-    .plan-investment__arrow {
-      padding: 4px 0;
-    }
   }
 
   .plan-reassurance {
@@ -1899,8 +1870,8 @@ const faqs = [
     max-width: 720px;
   }
   .plan-reassurance strong {
-    color: var(--c-orange-900);
-    background: linear-gradient(transparent 62%, var(--c-orange-200) 62%);
+    color: var(--c-teal-900);
+    background: linear-gradient(transparent 62%, var(--c-teal-200) 62%);
     padding: 0 4px;
     font-weight: 700;
   }
@@ -1911,7 +1882,7 @@ const faqs = [
     font-size: 19px;
     margin: 0 0 16px;
     padding-left: 14px;
-    border-left: 4px solid var(--c-orange-700);
+    border-left: 4px solid var(--c-teal-900);
     color: var(--c-text);
     line-height: 1.5;
   }
@@ -1930,21 +1901,30 @@ const faqs = [
     overflow: hidden;
   }
   .plan-contents__row {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 0;
-    padding: 18px 22px;
+    padding: 24px 22px;
     border-top: 1px solid var(--c-divider);
-    align-items: start;
   }
   .plan-contents__row:first-of-type {
     border-top: none;
   }
+  .plan-contents__figure {
+    margin: 0 0 18px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-bg-alt);
+    box-shadow: var(--shadow);
+  }
+  .plan-contents__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
   .plan-contents__row dt {
-    margin: 0;
-    font-size: 14px;
+    margin: 0 0 6px;
+    font-size: 16px;
     font-weight: 700;
-    color: var(--c-orange-900);
+    color: var(--c-teal-900);
     line-height: 1.6;
   }
   .plan-contents__row dd {
@@ -1952,12 +1932,6 @@ const faqs = [
     font-size: 14px;
     color: var(--c-text);
     line-height: 1.85;
-  }
-  @media (max-width: 600px) {
-    .plan-contents__row {
-      grid-template-columns: 1fr;
-      gap: 6px;
-    }
   }
   .plan-promises {
     list-style: none;
@@ -1973,14 +1947,14 @@ const faqs = [
     gap: 20px;
     padding: 22px 26px;
     background: var(--c-card-bg);
-    border: 1px solid var(--c-orange-200);
+    border: 1px solid var(--c-teal-200);
     border-radius: var(--radius-sm);
   }
   .plan-promise__no {
     font-family: var(--ff-mono);
     font-size: 32px;
     font-weight: 700;
-    color: var(--c-orange-700);
+    color: var(--c-teal-900);
     line-height: 1;
   }
   .plan-promise__title {
@@ -2009,8 +1983,8 @@ const faqs = [
     margin: 48px 0 0;
     padding: 32px 36px 28px;
     background: var(--c-card-bg);
-    border: 1px solid var(--c-orange-200);
-    border-left: 6px solid var(--c-orange-700);
+    border: 1px solid var(--c-teal-200);
+    border-left: 6px solid var(--c-teal-900);
     border-radius: 0 var(--radius) var(--radius) 0;
     box-shadow: var(--shadow);
   }
@@ -2018,7 +1992,7 @@ const faqs = [
     display: inline-block;
     margin: 0 0 12px;
     padding: 4px 12px;
-    background: var(--c-orange-700);
+    background: var(--c-teal-900);
     color: #ffffff;
     border-radius: 999px;
     font-size: 12px;
@@ -2028,7 +2002,7 @@ const faqs = [
   .plan-decision__title {
     margin: 0 0 20px;
     font-size: clamp(20px, 3vw, 26px);
-    color: var(--c-orange-900);
+    color: var(--c-teal-900);
     line-height: 1.5;
     font-weight: 700;
   }
@@ -2043,8 +2017,8 @@ const faqs = [
   }
   .plan-decision__body strong {
     font-weight: 700;
-    color: var(--c-orange-900);
-    background: linear-gradient(transparent 62%, var(--c-orange-200) 62%);
+    color: var(--c-teal-900);
+    background: linear-gradient(transparent 62%, var(--c-teal-200) 62%);
     padding: 0 4px;
   }
   @media (max-width: 600px) {
@@ -2064,7 +2038,7 @@ const faqs = [
     color: var(--c-text);
   }
   .plan-scarcity strong {
-    color: var(--c-orange-900);
+    color: var(--c-teal-900);
     font-weight: 700;
   }
   .plan-cta {
