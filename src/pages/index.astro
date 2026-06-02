@@ -789,15 +789,28 @@ const faqs = [
         </p>
         <ol class="plan-promises">
           {
-            planPromises.map((p) => (
-              <li class="plan-promise">
-                <span class="plan-promise__no">{p.no}</span>
-                <div class="plan-promise__body">
-                  <h4 class="plan-promise__title">{p.title}</h4>
-                  <p class="plan-promise__text">{p.body}</p>
-                </div>
-              </li>
-            ))
+            planPromises.map((p, i) => {
+              const num = String(i + 1).padStart(2, '0');
+              return (
+                <li class="plan-promise">
+                  <figure class="plan-promise__figure">
+                    <img
+                      src={`/images/plan/commit-${num}.jpg`}
+                      alt={`COMMIT ${num}：${p.title}`}
+                      width="1400"
+                      loading="lazy"
+                      decoding="async"
+                      class="plan-promise__img"
+                    />
+                  </figure>
+                  <span class="plan-promise__no">{p.no}</span>
+                  <div class="plan-promise__body">
+                    <h4 class="plan-promise__title">{p.title}</h4>
+                    <p class="plan-promise__text">{p.body}</p>
+                  </div>
+                </li>
+              );
+            })
           }
         </ol>
       </div>
@@ -805,21 +818,28 @@ const faqs = [
       <aside class="plan-decision">
         <p class="plan-decision__label">弊社からの一つの提案</p>
         <h3 class="plan-decision__title">決断は、最初の 1 週間で。</h3>
+        <figure class="plan-decision__figure">
+          <img
+            src="/images/plan/commit-03.jpg"
+            alt="COMMIT 03：決断は最初の 1 週間で。初週の 5 日を一緒に走ってから、金曜の夜に最終判断。続行を選べば 3 ヶ月集中伴走へ、終了を選べば初週分 15 万円のみで完了。どちらの選択も歓迎します。"
+            width="1400"
+            loading="lazy"
+            decoding="async"
+            class="plan-decision__img"
+          />
+        </figure>
         <div class="plan-decision__body">
           <p>
             無料相談を経て契約を結んでいただきます。けれど、本当に「やる」と決めていただくのは、その時点ではありません。
           </p>
           <p>
-            初週のキックオフ集中ウィーク ── 月曜から金曜まで、私たちが御社に深く入り込んで一緒に動く 5 日間 ── を実際に体験していただいた上で、「やはり止めたい」と感じられたら、遠慮なくお伝えください。その時点でクローズします。初週分のキックオフ料として <strong>15 万円（税別）</strong>のお支払いで完了です。
+            初週のキックオフ集中ウィーク ── 月曜から金曜まで、私たちが御社に深く入り込んで一緒に動く 5 日間 ── を実際に体験していただいた上で、金曜の夜に最終判断していただきます。
           </p>
           <p>
-            「うまくいかなかったのに、なぜ支払いが必要なのか」── そう感じられるかもしれません。けれど「合わなかった」のは、私たちの見極め不足や相性の問題でもあり、御社だけの責任ではありません。それでも私たちは 5 日間、御社のために本気で稼働します。相応の対価として、初週分のお支払いはお引き受けいただきます。
+            続行を選ばれた場合は、そのまま 3 ヶ月集中伴走プランへ進みます。終了を選ばれた場合は、初週分のキックオフ料 <strong>15 万円（税別）</strong>のお支払いで完了です。<strong>どちらの選択も、私たちは歓迎します。</strong>最終判断は、御社のタイミングで。
           </p>
           <p>
-            同時に申し上げたいのは、AI 活用と内製化で一歩抜け出すには、<strong>経営者の覚悟が絶対に必要</strong>ということです。他人任せでは、必ずうまくいきません。「やる」と決めることそのものに、覚悟と投資が伴います。私たちは、その覚悟をお持ちの企業さまだけと、ご一緒したいと考えています。
-          </p>
-          <p>
-            「全額返金保証」のような形で安心を演出するつもりはありません。私たちが提供するのは、<strong>初週を一緒に走ってから決めていただく</strong>という、もう一段現実的な仕組みです。最終決断は、初週が終わってから。考える時間は、十分にあります。
+            「全額返金保証」のような形で安心を演出するつもりはありません。私たちが提供するのは、<strong>初週を一緒に走ってから決めていただく</strong>という、もう一段現実的な仕組みです。考える時間は、十分にあります。
           </p>
         </div>
       </aside>
@@ -1944,18 +1964,40 @@ const faqs = [
   .plan-promise {
     display: grid;
     grid-template-columns: 64px 1fr;
-    gap: 20px;
+    grid-template-areas:
+      "figure figure"
+      "no body";
+    column-gap: 20px;
+    row-gap: 18px;
     padding: 22px 26px;
     background: var(--c-card-bg);
     border: 1px solid var(--c-teal-200);
     border-radius: var(--radius-sm);
   }
+  .plan-promise__figure {
+    grid-area: figure;
+    margin: 0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-bg-alt);
+    box-shadow: var(--shadow);
+  }
+  .plan-promise__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
   .plan-promise__no {
+    grid-area: no;
     font-family: var(--ff-mono);
     font-size: 32px;
     font-weight: 700;
     color: var(--c-teal-900);
     line-height: 1;
+  }
+  .plan-promise__body {
+    grid-area: body;
   }
   .plan-promise__title {
     margin: 0 0 8px;
@@ -1972,7 +2014,11 @@ const faqs = [
   @media (max-width: 600px) {
     .plan-promise {
       grid-template-columns: 1fr;
-      gap: 8px;
+      grid-template-areas:
+        "figure"
+        "no"
+        "body";
+      gap: 12px;
       padding: 20px 22px;
     }
     .plan-promise__no {
@@ -2005,6 +2051,19 @@ const faqs = [
     color: var(--c-teal-900);
     line-height: 1.5;
     font-weight: 700;
+  }
+  .plan-decision__figure {
+    margin: 0 0 24px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-bg-alt);
+    box-shadow: var(--shadow);
+  }
+  .plan-decision__img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
   .plan-decision__body p {
     margin: 0 0 1em;
