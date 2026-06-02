@@ -1381,13 +1381,15 @@ const faqs = [
     color: var(--c-orange-900);
   }
   .manifesto__body {
-    max-width: 760px;
+    /* container 幅まで広げ、図版だけは横幅いっぱい使う。
+       長文段落と引用ブロックは個別に 760px で抑える */
   }
-  .manifesto__body p {
+  .manifesto__body > p {
     font-size: 16px;
     line-height: 1.95;
     margin: 0 0 1.2em;
     color: var(--c-text);
+    max-width: 760px;
   }
   .manifesto__body strong {
     color: var(--c-orange-900);
@@ -1400,6 +1402,7 @@ const faqs = [
     border-left: 6px solid var(--c-orange-700);
     border-radius: 0 var(--radius) var(--radius) 0;
     box-shadow: var(--shadow);
+    max-width: 760px;
   }
   .manifesto__quote p {
     margin: 0;
@@ -1413,7 +1416,6 @@ const faqs = [
     border: 1px solid var(--c-orange-200);
     background: var(--c-card-bg);
     box-shadow: var(--shadow);
-    max-width: 880px;
   }
   .manifesto__img {
     display: block;
