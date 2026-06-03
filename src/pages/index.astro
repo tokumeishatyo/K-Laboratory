@@ -122,26 +122,37 @@ const comparison = [
     label: '相談開始のタイミング',
     other: '仕様・要件が固まってから',
     ours: 'ふわっとした課題段階から OK',
+    imageOther: '/images/compare/consult-other.jpg',
+    imageOurs: '/images/compare/consult-ours.jpg',
+    imageOtherAlt: '通常の IT エージェント：クライアント担当者がラフな付箋やスケッチを持ち寄っても、「要件定義書」を整えてから来いと押し付けられる',
+    imageOursAlt: 'K Laboratory：代表とクライアント担当者が同じテーブルで、ふわっとしたラフメモを広げて一緒に整理を始める',
   },
   {
     label: 'ゴール',
     other: '成果物の納品',
     ours: '御社の内製能力構築',
+    imageOther: '/images/compare/goal-other.jpg',
+    imageOurs: '/images/compare/goal-ours.jpg',
+    imageOtherAlt: '通常の IT エージェント：成果物を納品し、担当者は退出。クライアント担当者は分厚いファイルだけ抱えて立ち尽くす',
+    imageOursAlt: 'K Laboratory：代表とメガネとクライアント担当者が同じテーブルで協働。AI 内製化に向けて知見を共有',
   },
   {
     label: '関与スタイル',
     other: '工程ごとの請負',
     ours: '上流から運用まで伴走',
-  },
-  {
-    label: '対応する人材',
-    other: '案件にアサインされた担当',
-    ours: '代表が直接、相談から実装まで',
+    imageOther: '/images/compare/engage-other.jpg',
+    imageOurs: '/images/compare/engage-ours.jpg',
+    imageOtherAlt: '通常の IT エージェント：工程ごとに別の請負業者と契約。前のフェーズ担当者は退出し、次のフェーズ担当者が着任、クライアント担当者は引き継ぎ書類を抱えて板挟みになる',
+    imageOursAlt: 'K Laboratory：代表とメガネとクライアント担当者が同じチームとして、要件定義から運用までを連続的に並走する',
   },
   {
     label: '最終的な姿',
     other: '外注依存が続く',
     ours: '御社が AI を自走できる',
+    imageOther: '/images/compare/result-other.jpg',
+    imageOurs: '/images/compare/result-ours.jpg',
+    imageOtherAlt: '通常の IT エージェント：クライアント担当者が自社デスクで電話片手に発注を繰り返し、見積もり依頼・改修依頼・障害対応・追加発注・保守契約の書類が山積みになる外注依存ループ',
+    imageOursAlt: 'K Laboratory：クライアント担当者が自社デスクで AI ダッシュボードを自分で運用し、代表とメガネが背景で笑顔で手を振る自走できる組織',
   },
 ];
 
@@ -476,15 +487,54 @@ const faqs = [
       <div class="compare-table">
         <div class="compare-row compare-row--head">
           <div class="compare-cell compare-cell--label"></div>
-          <div class="compare-cell compare-cell--other">通常の IT エージェント</div>
-          <div class="compare-cell compare-cell--ours">K Laboratory</div>
+          <div class="compare-cell compare-cell--other">
+            <span class="compare-cell__text">通常の IT エージェント</span>
+          </div>
+          <div class="compare-cell compare-cell--ours">
+            <span class="compare-cell__star" aria-hidden="true">★</span>
+            <span class="compare-cell__text">K Laboratory</span>
+          </div>
         </div>
         {
           comparison.map((c) => (
-            <div class="compare-row">
+            <div class:list={['compare-row', { 'compare-row--with-figure': c.imageOther }]}>
               <div class="compare-cell compare-cell--label">{c.label}</div>
-              <div class="compare-cell compare-cell--other">{c.other}</div>
-              <div class="compare-cell compare-cell--ours">{c.ours}</div>
+              <div class="compare-cell compare-cell--other">
+                {c.imageOther && (
+                  <figure class="compare-cell__figure">
+                    <img
+                      src={c.imageOther}
+                      alt={c.imageOtherAlt}
+                      width="700"
+                      loading="lazy"
+                      decoding="async"
+                      class="compare-cell__img"
+                    />
+                  </figure>
+                )}
+                <div class="compare-cell__inner">
+                  <span class="compare-cell__mark compare-cell__mark--no" aria-hidden="true">✕</span>
+                  <span class="compare-cell__text">{c.other}</span>
+                </div>
+              </div>
+              <div class="compare-cell compare-cell--ours">
+                {c.imageOurs && (
+                  <figure class="compare-cell__figure">
+                    <img
+                      src={c.imageOurs}
+                      alt={c.imageOursAlt}
+                      width="700"
+                      loading="lazy"
+                      decoding="async"
+                      class="compare-cell__img"
+                    />
+                  </figure>
+                )}
+                <div class="compare-cell__inner">
+                  <span class="compare-cell__mark compare-cell__mark--yes" aria-hidden="true">✓</span>
+                  <span class="compare-cell__text">{c.ours}</span>
+                </div>
+              </div>
             </div>
           ))
         }
@@ -1372,50 +1422,134 @@ const faqs = [
     border-radius: var(--radius);
     overflow: hidden;
     background: var(--c-card-bg);
+    box-shadow: var(--shadow-lg);
   }
   .compare-row {
     display: grid;
     grid-template-columns: 1.4fr 1.5fr 1.6fr;
     border-bottom: 1px solid var(--c-divider);
+    transition: background 0.2s ease;
   }
   .compare-row:last-child {
     border-bottom: none;
   }
+  .compare-row:not(.compare-row--head):hover {
+    background: rgba(0, 0, 0, 0.015);
+  }
   .compare-row--head {
     background: var(--c-bg-alt);
     font-weight: 700;
+    font-size: 17px;
   }
   .compare-cell {
-    padding: 14px 18px;
-    font-size: 14px;
-    line-height: 1.7;
+    padding: 22px 26px;
+    font-size: 17px;
+    line-height: 1.65;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .compare-cell__inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    flex: 1;
+  }
+  .compare-cell__figure {
+    margin: 0 0 16px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--c-bg-alt);
+    border: 1px solid var(--c-border);
+    box-shadow: var(--shadow);
+    width: 100%;
+    line-height: 0;
+  }
+  .compare-cell__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .compare-row--with-figure .compare-cell--other,
+  .compare-row--with-figure .compare-cell--ours {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
   }
   .compare-cell--label {
     background: var(--c-bg-alt);
     color: var(--c-text);
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    display: block;
   }
   .compare-cell--other {
-    color: var(--c-text-sub);
+    background: rgba(0, 0, 0, 0.025);
+    color: var(--c-text-mute);
   }
   .compare-cell--ours {
-    background: var(--c-orange-50);
+    background: var(--c-orange-100);
     color: var(--c-orange-900);
-    font-weight: 600;
+    font-weight: 700;
+    border-left: 4px solid var(--c-orange-700);
+  }
+  .compare-row--head .compare-cell--other {
+    background: rgba(0, 0, 0, 0.045);
+    color: var(--c-text-sub);
   }
   .compare-row--head .compare-cell--ours {
     background: var(--c-orange-700);
     color: #ffffff;
+    border-left: 4px solid var(--c-orange-900);
   }
-  .compare-row--head .compare-cell--other {
-    color: var(--c-text-sub);
+  .compare-cell__text {
+    flex: 1;
+  }
+  .compare-cell__mark {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .compare-cell__mark--no {
+    background: rgba(0, 0, 0, 0.08);
+    color: var(--c-text-mute);
+  }
+  .compare-cell__mark--yes {
+    background: var(--c-green-700);
+    color: #ffffff;
+  }
+  .compare-cell__star {
+    flex-shrink: 0;
+    color: var(--c-orange-200);
+    font-size: 14px;
+    margin-top: 2px;
   }
   @media (max-width: 640px) {
     .compare-row {
       grid-template-columns: 1fr;
     }
+    .compare-cell {
+      padding: 16px 20px;
+    }
     .compare-cell--label {
-      padding-bottom: 4px;
+      padding: 14px 20px 4px;
+      background: var(--c-bg-alt);
+    }
+    .compare-cell--ours {
+      border-left: none;
+      border-top: 3px solid var(--c-orange-700);
+    }
+    .compare-row--head .compare-cell--ours {
+      border-left: none;
+      border-top: 3px solid var(--c-orange-900);
     }
   }
 
