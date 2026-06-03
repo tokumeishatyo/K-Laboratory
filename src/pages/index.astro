@@ -1050,7 +1050,6 @@ const faqs = [
     line-height: 1.95;
     margin: 0 0 40px;
     color: rgba(255, 255, 255, 0.94);
-    max-width: 760px;
   }
   .hero__lead strong {
     color: var(--c-orange-200);
@@ -1622,15 +1621,14 @@ const faqs = [
     color: var(--c-orange-900);
   }
   .manifesto__body {
-    /* container 幅まで広げ、図版だけは横幅いっぱい使う。
-       長文段落と引用ブロックは個別に 760px で抑える */
+    /* container 幅まで広げ、図版・長文段落・引用ブロックすべて
+       container 幅で折り返す（画像と同じ幅で wrap） */
   }
   .manifesto__body > p {
     font-size: 16px;
     line-height: 1.95;
     margin: 0 0 1.2em;
     color: var(--c-text);
-    max-width: 760px;
   }
   .manifesto__body strong {
     color: var(--c-orange-900);
@@ -1643,7 +1641,6 @@ const faqs = [
     border-left: 6px solid var(--c-orange-700);
     border-radius: 0 var(--radius) var(--radius) 0;
     box-shadow: var(--shadow);
-    max-width: 760px;
   }
   .manifesto__quote p {
     margin: 0;
@@ -2093,7 +2090,6 @@ const faqs = [
     font-size: 16px;
     line-height: 1.85;
     color: var(--c-text);
-    max-width: 720px;
   }
   .plan-reassurance strong {
     color: var(--c-teal-900);
@@ -2117,7 +2113,6 @@ const faqs = [
     font-size: 14px;
     color: var(--c-text-sub);
     line-height: 1.85;
-    max-width: 760px;
   }
   .plan-contents {
     margin: 0;
