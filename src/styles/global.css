@@ -328,6 +328,21 @@ main {
   margin-top: 48px;
 }
 
+/* 視覚的にのみ隠す（DOM とアクセシビリティ層には残る）。
+   SEO 重要な見出しテキストを画像と二重表示せずクローラー/スクリーンリーダーに届けるための標準パターン。
+   .sr-only と同義（screen-reader only）。 */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 /* skip link (accessibility) */
 .skip-link {
   position: absolute;

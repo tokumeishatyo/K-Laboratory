@@ -335,10 +335,6 @@ const faqs = [
         そんな経営者のために、<strong>有限会社 K Laboratory</strong> は、ふわっとした
         相談段階から内製化までを伴走します。
       </p>
-      <div class="hero__cta">
-        <Button href="#contact" variant="primary">まずは無料でご相談</Button>
-        <Button href="#why-different" variant="ghost">他社との違いを見る</Button>
-      </div>
       <figure class="hero__figure">
         <img
           src="/images/hero/hero.jpg"
@@ -381,7 +377,11 @@ const faqs = [
             const num = String(i + 1).padStart(2, '0');
             return (
               <li class="problem-item">
-                <header class="problem-item__header">
+                {/*
+                  ヘッダー（番号 + タイトル）は画像内に焼き込み済みのテキストと重複するため
+                  視覚的には隠す。<h3> は DOM に残り SEO / スクリーンリーダーには届く。
+                */}
+                <header class="problem-item__header visually-hidden">
                   <span class="problem-item__no">{num}</span>
                   <h3 class="problem-item__title">{p.title}</h3>
                 </header>
@@ -436,7 +436,8 @@ const faqs = [
             return (
               <article class="risk">
                 <span class="risk__bar" aria-hidden="true"></span>
-                <header class="risk__header">
+                {/* ヘッダーは画像内テキストと重複するため視覚的には隠す（h3 は DOM に残る） */}
+                <header class="risk__header visually-hidden">
                   <span class="risk__no">RISK {num}</span>
                   <h3 class="risk__title">{r.title}</h3>
                 </header>
@@ -493,7 +494,8 @@ const faqs = [
             const num = String(i + 1).padStart(2, '0');
             return (
               <li class="promise-item">
-                <header class="promise-item__header">
+                {/* ヘッダーは画像内テキストと重複するため視覚的には隠す（h3 は DOM に残る） */}
+                <header class="promise-item__header visually-hidden">
                   <span class="promise-item__no">{num}</span>
                   <span class="promise-item__check" aria-hidden="true">✓</span>
                   <h3 class="promise-item__title">{p.title}</h3>
@@ -706,7 +708,8 @@ const faqs = [
             const num = String(i + 1).padStart(2, '0');
             return (
               <li class:list={['strength-item', { 'strength-item--accent': s.accent }]}>
-                <header class="strength-item__header">
+                {/* ヘッダーは画像内テキストと重複するため視覚的には隠す（h3 は DOM に残る） */}
+                <header class="strength-item__header visually-hidden">
                   <span class="strength-item__no">STRENGTH {num}</span>
                   <span class="strength-item__star" aria-hidden="true">★</span>
                   <h3 class="strength-item__title">{s.title}</h3>
@@ -1040,11 +1043,6 @@ const faqs = [
   .hero__lead strong {
     color: var(--c-orange-200);
     font-weight: 700;
-  }
-  .hero__cta {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
   }
   .hero__figure {
     margin: 56px 0 0;
