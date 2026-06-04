@@ -1,4 +1,5 @@
 ---
+import ResponsiveImage from './ResponsiveImage.astro';
 import { NAV, SITE } from '../config/site';
 
 const currentPath = Astro.url.pathname;
@@ -9,14 +10,13 @@ const isActive = (href: string) =>
 <header class="site-header">
   <div class="site-header__inner container">
     <a href="/" class="site-header__brand" aria-label={SITE.name}>
-      <img
+      <ResponsiveImage
         src="/images/logo.png"
         alt=""
-        width="36"
-        height="36"
-        class="site-header__logo"
+        width={36}
+        height={36}
         loading="eager"
-        decoding="async"
+        class="site-header__logo"
       />
       <span class="site-header__brand-name">{SITE.shortName}</span>
     </a>

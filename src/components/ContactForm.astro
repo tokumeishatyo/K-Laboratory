@@ -139,6 +139,12 @@ const recaptchaSiteKey =
       に同意の上、送信します
     </Checkbox>
 
+    {/*
+      reCAPTCHA ウィジェットコンテナ。data-sitekey は遅延ロードする api.js が
+      自動的にここを検出して描画する。スクリプトロード自体はフォームが viewport
+      に近づいた瞬間に IntersectionObserver で動的注入される（下の <script> 参照）。
+      これにより Lighthouse の初期計測時にサードパーティ Cookie を発火させない。
+    */}
     <div class="contact-form__recaptcha">
       <div class="g-recaptcha" data-sitekey={recaptchaSiteKey}></div>
     </div>
@@ -151,7 +157,52 @@ const recaptchaSiteKey =
   </form>
 </div>
 
-<script src="https://www.google.com/recaptcha/api.js" async defer is:inline></script>
+<script>
+  // reCAPTCHA を遅延ロード（Best Practices / Performance 改善）
+  // - 初期ページロードでは Google API を読み込まない（サードパーティ Cookie 発生回避）
+  // - フォームが viewport に近づいた瞬間、または任意のフォームフィールドが
+  //   フォーカスを受けた瞬間に動的にスクリプトを注入する
+  // - 一度ロードしたら以後は通常の reCAPTCHA として動作する
+  const recaptchaContainer = document.querySelector<HTMLElement>('.contact-form__recaptcha');
+  if (recaptchaContainer) {
+    let loaded = false;
+    function loadRecaptcha() {
+      if (loaded) return;
+      loaded = true;
+      const s = document.createElement('script');
+      s.src = 'https://www.google.com/recaptcha/api.js';
+      s.async = true;
+      s.defer = true;
+      document.head.appendChild(s);
+    }
+
+    // フォームが画面に入る 300px 手前で先回りロード
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              loadRecaptcha();
+              observer.disconnect();
+              break;
+            }
+          }
+        },
+        { rootMargin: '300px 0px' }
+      );
+      observer.observe(recaptchaContainer);
+    } else {
+      // IntersectionObserver 非対応の古いブラウザはすぐロード
+      loadRecaptcha();
+    }
+
+    // ユーザーがフォームに触れた瞬間にも保険でロード
+    const contactFormEl = document.getElementById('contact-form');
+    if (contactFormEl) {
+      contactFormEl.addEventListener('focusin', loadRecaptcha, { once: true });
+    }
+  }
+</script>
 
 <script>
   // クライアント側バリデーション。

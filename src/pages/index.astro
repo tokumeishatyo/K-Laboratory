@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import Button from '../components/Button.astro';
 import ContactForm from '../components/ContactForm.astro';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
 import { SITE } from '../config/site';
 
 // =============================================================
@@ -336,13 +337,14 @@ const faqs = [
         相談段階から内製化までを伴走します。
       </p>
       <figure class="hero__figure">
-        <img
+        <ResponsiveImage
           src="/images/hero/hero.jpg"
           alt="AI 関連の用語（生成 AI / LLM / RAG / DX / ChatGPT / Copilot / Gemini など）とニュース見出し（AI 革命到来、乗り遅れるな、DX 待ったなし）に取り囲まれ、デスクで思案する中小企業の経営者。情報の海の中で、何から手を付けるべきか考え込んでいる"
-          width="1400"
+          width={1400}
+          height={788}
           loading="eager"
-          decoding="async"
           fetchpriority="high"
+          hasSmall
           class="hero__img"
         />
       </figure>
@@ -360,13 +362,11 @@ const faqs = [
           />
         </div>
         <figure class="problem-intro__asker" aria-hidden="true">
-          <img
+          <ResponsiveImage
             src="/images/problems/asker.jpg"
             alt=""
-            width="600"
-            height="600"
-            loading="lazy"
-            decoding="async"
+            width={600}
+            height={600}
             class="problem-intro__asker-img"
           />
         </figure>
@@ -386,13 +386,12 @@ const faqs = [
                   <h3 class="problem-item__title">{p.title}</h3>
                 </header>
                 <figure class="problem-item__figure">
-                  <img
+                  <ResponsiveImage
                     src={`/images/problems/problem-${num}.jpg`}
                     alt={`お悩み ${num}：${p.title}`}
-                    width="1400"
-                    height="788"
-                    loading="lazy"
-                    decoding="async"
+                    width={1400}
+                    height={788}
+                    hasSmall={num === '01' || num === '02'}
                     class="problem-item__img"
                   />
                 </figure>
@@ -418,13 +417,11 @@ const faqs = [
           />
         </div>
         <figure class="risk-intro__warner" aria-hidden="true">
-          <img
+          <ResponsiveImage
             src="/images/risks/warner.jpg"
             alt=""
-            width="600"
-            height="600"
-            loading="lazy"
-            decoding="async"
+            width={600}
+            height={600}
             class="risk-intro__warner-img"
           />
         </figure>
@@ -442,13 +439,11 @@ const faqs = [
                   <h3 class="risk__title">{r.title}</h3>
                 </header>
                 <figure class="risk__figure">
-                  <img
+                  <ResponsiveImage
                     src={`/images/risks/risk-${num}.jpg`}
                     alt={`RISK ${num}：${r.title}`}
-                    width="1400"
-                    height="788"
-                    loading="lazy"
-                    decoding="async"
+                    width={1400}
+                    height={788}
                     class="risk__img"
                   />
                 </figure>
@@ -477,13 +472,11 @@ const faqs = [
           />
         </div>
         <figure class="promise-intro__partners" aria-hidden="true">
-          <img
+          <ResponsiveImage
             src="/images/promises/partners.jpg"
             alt=""
-            width="800"
-            height="600"
-            loading="lazy"
-            decoding="async"
+            width={800}
+            height={600}
             class="promise-intro__partners-img"
           />
         </figure>
@@ -501,12 +494,11 @@ const faqs = [
                   <h3 class="promise-item__title">{p.title}</h3>
                 </header>
                 <figure class="promise-item__figure">
-                  <img
+                  <ResponsiveImage
                     src={`/images/promises/promise-${num}.jpg`}
                     alt={`お約束 ${num}：${p.title}`}
-                    width="1400"
-                    loading="lazy"
-                    decoding="async"
+                    width={1400}
+                    height={788}
                     class="promise-item__img"
                   />
                 </figure>
@@ -546,12 +538,11 @@ const faqs = [
               <div class="compare-cell compare-cell--other">
                 {c.imageOther && (
                   <figure class="compare-cell__figure">
-                    <img
+                    <ResponsiveImage
                       src={c.imageOther}
                       alt={c.imageOtherAlt}
-                      width="700"
-                      loading="lazy"
-                      decoding="async"
+                      width={700}
+                      height={823}
                       class="compare-cell__img"
                     />
                   </figure>
@@ -564,12 +555,11 @@ const faqs = [
               <div class="compare-cell compare-cell--ours">
                 {c.imageOurs && (
                   <figure class="compare-cell__figure">
-                    <img
+                    <ResponsiveImage
                       src={c.imageOurs}
                       alt={c.imageOursAlt}
-                      width="700"
-                      loading="lazy"
-                      decoding="async"
+                      width={700}
+                      height={823}
                       class="compare-cell__img"
                     />
                   </figure>
@@ -606,12 +596,11 @@ const faqs = [
         </p>
 
         <figure class="manifesto__figure">
-          <img
+          <ResponsiveImage
             src="/images/manifesto/manifesto-01.jpg"
             alt="フル稼働の罠：担当者は消化しきれず、内製化は失敗する"
-            width="1400"
-            loading="lazy"
-            decoding="async"
+            width={1400}
+            height={788}
             class="manifesto__img"
           />
         </figure>
@@ -635,12 +624,11 @@ const faqs = [
         </p>
 
         <figure class="manifesto__figure">
-          <img
+          <ResponsiveImage
             src="/images/manifesto/manifesto-02.jpg"
             alt="御社の消化速度に合わせる：自立する人材、自走できる組織へ"
-            width="1400"
-            loading="lazy"
-            decoding="async"
+            width={1400}
+            height={788}
             class="manifesto__img"
           />
         </figure>
@@ -657,13 +645,11 @@ const faqs = [
       />
       <div class="rep">
         <div class="rep__photo">
-          <img
+          <ResponsiveImage
             src="/images/prof.jpg"
             alt="有限会社 K Laboratory 代表 川﨑 伸之"
-            width="800"
-            height="619"
-            loading="lazy"
-            decoding="async"
+            width={800}
+            height={619}
           />
         </div>
         <div class="rep__body">
@@ -715,12 +701,11 @@ const faqs = [
                   <h3 class="strength-item__title">{s.title}</h3>
                 </header>
                 <figure class="strength-item__figure">
-                  <img
+                  <ResponsiveImage
                     src={`/images/strengths/strength-${num}.jpg`}
                     alt={`STRENGTH ${num}：${s.title}`}
-                    width="1400"
-                    loading="lazy"
-                    decoding="async"
+                    width={1400}
+                    height={788}
                     class="strength-item__img"
                   />
                 </figure>
@@ -774,12 +759,11 @@ const faqs = [
         lead="ご相談から内製化体制構築まで、4 ステップで段階的に伴走します。各ステップで判断ポイントを設け、お客様が「これで進める」と確信してから次に進みます。"
       />
       <figure class="flow-figure">
-        <img
+        <ResponsiveImage
           src="/images/flow/flow-01.jpg"
           alt="ご提供の流れ：4 ステップで確信しながら次へ。Step 1 初回相談（無料 60 分）→ Step 2 アセスメント（優先順位確定）→ Step 3 PoC・実装（成果可視化）→ Step 4 内製化体制構築（自走開始）。各ステップに判断ポイントあり。初回相談 60 分は無料、『まだ何も決まっていない』段階からお気軽にどうぞ。"
-          width="1400"
-          loading="lazy"
-          decoding="async"
+          width={1400}
+          height={788}
           class="flow-figure__img"
         />
       </figure>
@@ -838,12 +822,11 @@ const faqs = [
           中小企業で<strong>派遣スタッフを 1 名、3 ヶ月雇い入れる予算</strong>。それと同じ規模の投資で、御社の中に AI 活用のナレッジと運用力が「資産」として残ります。
         </p>
         <figure class="plan-asset-figure">
-          <img
+          <ResponsiveImage
             src="/images/plan/asset.jpg"
             alt="同じ予算で、得るものが決定的に違う：派遣社員 1 人を 3 ヶ月雇うと、終わった後に残るのは人件費の記録だけ。K Laboratory の 3 ヶ月集中伴走なら、御社の中に AI を回せる『資産』が残る。"
-            width="1400"
-            loading="lazy"
-            decoding="async"
+            width={1400}
+            height={933}
             class="plan-asset-figure__img"
           />
         </figure>
@@ -869,12 +852,11 @@ const faqs = [
               return (
                 <div class="plan-contents__row">
                   <figure class="plan-contents__figure">
-                    <img
+                    <ResponsiveImage
                       src={`/images/plan/pace-${num}.jpg`}
                       alt={`PACE ${num}：${c.label}`}
-                      width="1400"
-                      loading="lazy"
-                      decoding="async"
+                      width={1400}
+                      height={933}
                       class="plan-contents__img"
                     />
                   </figure>
@@ -900,12 +882,11 @@ const faqs = [
               return (
                 <li class="plan-promise">
                   <figure class="plan-promise__figure">
-                    <img
+                    <ResponsiveImage
                       src={`/images/plan/commit-${num}.jpg`}
                       alt={`COMMIT ${num}：${p.title}`}
-                      width="1400"
-                      loading="lazy"
-                      decoding="async"
+                      width={1400}
+                      height={933}
                       class="plan-promise__img"
                     />
                   </figure>
@@ -925,12 +906,11 @@ const faqs = [
         <p class="plan-decision__label">弊社からの一つの提案</p>
         <h3 class="plan-decision__title">決断は、最初の 1 週間で。</h3>
         <figure class="plan-decision__figure">
-          <img
+          <ResponsiveImage
             src="/images/plan/commit-03.jpg"
             alt="COMMIT 03：決断は最初の 1 週間で。初週の 5 日を一緒に走ってから、金曜の夜に最終判断。続行を選べば 3 ヶ月集中伴走へ、終了を選べば初週分 15 万円のみで完了。どちらの選択も歓迎します。"
-            width="1400"
-            loading="lazy"
-            decoding="async"
+            width={1400}
+            height={933}
             class="plan-decision__img"
           />
         </figure>

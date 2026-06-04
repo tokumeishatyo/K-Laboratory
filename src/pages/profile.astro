@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import InfoTable from '../components/InfoTable.astro';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
 import { SITE } from '../config/site';
 
 // 提供された略歴文をもとに、年表 + 文章で構成。
@@ -34,13 +35,12 @@ const careerRows = [
     <div class="container">
       <div class="profile-hero">
         <div class="profile-hero__photo">
-          <img
+          <ResponsiveImage
             src="/images/prof.jpg"
             alt="代表者 川﨑 伸之"
-            width="800"
-            height="619"
+            width={800}
+            height={619}
             loading="eager"
-            decoding="async"
             class="profile-hero__photo-img"
           />
         </div>

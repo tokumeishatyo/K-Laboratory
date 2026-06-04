@@ -22,6 +22,9 @@ public/contact.config.php
 # reCAPTCHA keys memo (local only, never commit)
 reCAPTCHA.txt
 
+# Lighthouse reports kept locally for tuning sessions
+1klabcom*.html
+
 # macOS / Windows
 .DS_Store
 Thumbs.db

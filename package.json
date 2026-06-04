@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview --host",
     "astro": "astro",
-    "build:assets": "node scripts/build-assets.mjs"
+    "build:assets": "node scripts/build-assets.mjs",
+    "build:webp": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",

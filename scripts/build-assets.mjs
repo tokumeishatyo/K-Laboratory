@@ -33,14 +33,15 @@ await fs.mkdir(DEST, { recursive: true });
 console.log('Building site assets to public/images/ ...');
 
 // 1) ヘッダー用ロゴ
-// 元の正方形ロゴをそのまま 192x192 PNG にリサイズ (軽量化目的)。
+// Header.astro での実描画は 36x36 なので、DPR 2 でも十分な 72x72 PNG にリサイズする。
+// 以前の 192x192 は 99% が無駄バイトだった（Lighthouse 指摘）。
 {
   const out = path.join(DEST, 'logo.png');
   await sharp(LOGO_SRC)
-    .resize(192, 192, { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 0 } })
+    .resize(72, 72, { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 0 } })
     .png({ compressionLevel: 9 })
     .toFile(out);
-  console.log('  - logo.png        (192x192)');
+  console.log('  - logo.png        (72x72)');
 }
 
 // 2) OGP 画像 (SNS シェア用、1200x630)

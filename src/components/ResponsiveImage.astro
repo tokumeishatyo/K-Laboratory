@@ -1,0 +1,94 @@
+---
+// 最適化された画像配信のための薄いラッパ。
+// scripts/optimize-images.mjs が生成した派生ファイルを <picture> で配信する。
+//
+// 使い分け:
+//   - src="/images/foo.jpg" を渡すと WebP 派生 /images/foo.webp を自動配信
+//   - hasSmall を指定するとモバイル用 -small 派生も srcset で配信
+//
+// 全画像に <picture> を直接書くと冗長なので、このコンポーネントで集約する。
+
+interface Props {
+  /** 元画像パス（JPG または PNG） */
+  src: string;
+  /** alt テキスト */
+  alt: string;
+  /** 元画像の幅（CLS 防止に必須） */
+  width: number;
+  /** 元画像の高さ（CLS 防止に必須） */
+  height: number;
+  /** ロード戦略（既定: lazy） */
+  loading?: 'eager' | 'lazy';
+  /** デコード戦略（既定: async） */
+  decoding?: 'auto' | 'async' | 'sync';
+  /** LCP 画像など優先取得したい場合 */
+  fetchpriority?: 'high' | 'low' | 'auto';
+  /**
+   * モバイル用の `-small` 派生（800px 幅）を使うか。
+   * optimize-images.mjs の NEEDS_SMALL_VARIANT に含まれる画像のみ true にできる。
+   */
+  hasSmall?: boolean;
+  /** sizes 属性（srcset 用、hasSmall=true のとき有効） */
+  sizes?: string;
+  /** img 要素に付ける追加 class */
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  loading = 'lazy',
+  decoding = 'async',
+  fetchpriority,
+  hasSmall = false,
+  sizes = '(max-width: 800px) 100vw, 1400px',
+  class: className,
+} = Astro.props;
+
+// 拡張子分離してそれぞれの派生パスを組み立てる
+const extMatch = src.match(/\.(jpe?g|png)$/i);
+const stem = extMatch ? src.slice(0, -extMatch[0].length) : src;
+const ext = extMatch ? extMatch[0] : '.jpg';
+const isPng = /\.png$/i.test(ext);
+const mimeType = isPng ? 'image/png' : 'image/jpeg';
+
+const webpFull = `${stem}.webp`;
+const smallSameType = `${stem}-small${ext}`;
+const smallWebp = `${stem}-small.webp`;
+---
+
+<picture>
+  {/* WebP source（モバイル variant も srcset に含める） */}
+  {hasSmall ? (
+    <source
+      type="image/webp"
+      srcset={`${smallWebp} 800w, ${webpFull} 1400w`}
+      sizes={sizes}
+    />
+  ) : (
+    <source type="image/webp" srcset={webpFull} />
+  )}
+
+  {/* JPG/PNG fallback source（モバイル variant 含む） */}
+  {hasSmall && (
+    <source
+      type={mimeType}
+      srcset={`${smallSameType} 800w, ${src} 1400w`}
+      sizes={sizes}
+    />
+  )}
+
+  {/* 互換性フォールバック ── 旧ブラウザ用 */}
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding={decoding}
+    fetchpriority={fetchpriority}
+    class={className}
+  />
+</picture>
