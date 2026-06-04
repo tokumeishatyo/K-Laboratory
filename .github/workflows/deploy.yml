@@ -1,0 +1,88 @@
+name: Deploy to CORESERVER (FTPS)
+
+# main への push を契機に、自動で Astro ビルド + FTPS 同期を実行する。
+# 手動実行 (workflow_dispatch) は dry-run オプション付き（初回デプロイ前の差分確認用）。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'ドライラン（実際の FTPS アップロードを行わず差分のみ表示）'
+        required: false
+        default: false
+        type: boolean
+
+# 同時 push 時に複数ジョブが並走しないようにする（FTP 競合回避）。
+concurrency:
+  group: deploy-coreserver
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build & FTPS Sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Astro site
+        run: npm run build
+        env:
+          # PUBLIC_ プレフィックスなのでクライアント側コードに埋め込まれる
+          PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.PUBLIC_RECAPTCHA_SITE_KEY }}
+
+      # contact.config.php は git 管理外なので、Secrets から実値を埋めて生成する。
+      # public/contact.config.php.example が dist/ にコピーされているのを土台にする。
+      - name: Generate contact.config.php from secret
+        env:
+          RECAPTCHA_SECRET: ${{ secrets.RECAPTCHA_SECRET_KEY }}
+        run: |
+          if [ ! -f dist/contact.config.php.example ]; then
+            echo "::error::dist/contact.config.php.example not found after build"
+            exit 1
+          fi
+          mv dist/contact.config.php.example dist/contact.config.php
+          # @ をデリミタにして / を含まないようにする (reCAPTCHA secret は英数字のみ)
+          sed -i "s@YOUR_RECAPTCHA_V2_SECRET_KEY_HERE@${RECAPTCHA_SECRET}@" dist/contact.config.php
+          # 念のため公開ディレクトリに鍵が残っていないか sanity-check
+          if grep -q 'YOUR_RECAPTCHA_V2_SECRET_KEY_HERE' dist/contact.config.php; then
+            echo "::error::Secret substitution failed"
+            exit 1
+          fi
+
+      - name: Deploy to CORESERVER via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_REMOTE_DIR }}
+          # 差分アップロード状態ファイル（リモートに置かれる）
+          state-name: .ftp-deploy-sync-state.json
+          # 手動実行時は dry_run オプションでドライランに切り替え可能
+          dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          # 以下のパスは絶対に削除・上書きしない
+          # - .well-known: SSL 証明書の検証ファイル等
+          # - .htaccess は dist/ にもないので意図せず削除されないよう除外
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.well-known/**
+            **/.htaccess
+            **/.ftpquota
+          log-level: standard

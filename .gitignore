@@ -16,6 +16,12 @@ pnpm-debug.log*
 .env.production
 .env.development
 
+# contact form secrets (PHP backend)
+public/contact.config.php
+
+# reCAPTCHA keys memo (local only, never commit)
+reCAPTCHA.txt
+
 # macOS / Windows
 .DS_Store
 Thumbs.db

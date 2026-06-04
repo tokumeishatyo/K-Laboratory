@@ -1,0 +1,49 @@
+---
+// 単一チェックボックスの共通部品。
+// 主に個人情報取扱同意などスタンドアロンの用途で使用する。
+// 複数選択のグループ用途は CheckboxGroup を使う。
+
+interface Props {
+  /** name 属性 */
+  name: string;
+  /** ラベル文（HTML 含む可。リンクを含めたい場合は slot を使う） */
+  label?: string;
+  /** value 属性（既定: 'yes'） */
+  value?: string;
+  /** 必須フラグ */
+  required?: boolean;
+  /** 追加 class */
+  class?: string;
+}
+
+const {
+  name,
+  label,
+  value = 'yes',
+  required = false,
+  class: className,
+} = Astro.props;
+
+const fieldId = `field-${name}`;
+const errorId = `${fieldId}-error`;
+---
+
+<div class:list={['form-field form-field--checkbox', className]} data-field-name={name}>
+  <label for={fieldId} class="form-field__checkbox-label">
+    <input
+      id={fieldId}
+      name={name}
+      type="checkbox"
+      value={value}
+      required={required}
+      aria-describedby={errorId}
+      aria-invalid="false"
+      class="form-field__checkbox"
+    />
+    <span class="form-field__checkbox-text">
+      {label ? <Fragment set:html={label} /> : <slot />}
+      {required && <span class="form-field__required" aria-label="必須">必須</span>}
+    </span>
+  </label>
+  <p id={errorId} class="form-field__error" role="alert" aria-live="polite"></p>
+</div>

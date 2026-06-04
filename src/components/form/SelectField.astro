@@ -1,0 +1,55 @@
+---
+// プルダウン選択入力の共通部品。
+// 都道府県・業種・従業員数で使用する。
+
+interface Props {
+  /** name 属性 */
+  name: string;
+  /** 表示ラベル */
+  label: string;
+  /** 選択肢（先頭にプレースホルダ「選択してください」を自動付与） */
+  options: readonly string[];
+  /** 必須フラグ */
+  required?: boolean;
+  /** 補足説明文 */
+  help?: string;
+  /** プレースホルダ文言（既定: 「選択してください」） */
+  placeholder?: string;
+  /** 追加 class */
+  class?: string;
+}
+
+const {
+  name,
+  label,
+  options,
+  required = false,
+  help,
+  placeholder = '選択してください',
+  class: className,
+} = Astro.props;
+
+const fieldId = `field-${name}`;
+const errorId = `${fieldId}-error`;
+const helpId = `${fieldId}-help`;
+---
+
+<div class:list={['form-field', className]} data-field-name={name}>
+  <label for={fieldId} class="form-field__label">
+    {label}
+    {required && <span class="form-field__required" aria-label="必須">必須</span>}
+  </label>
+  {help && <p id={helpId} class="form-field__help">{help}</p>}
+  <select
+    id={fieldId}
+    name={name}
+    required={required}
+    aria-describedby={help ? `${helpId} ${errorId}` : errorId}
+    aria-invalid="false"
+    class="form-field__select"
+  >
+    <option value="">{placeholder}</option>
+    {options.map((opt) => <option value={opt}>{opt}</option>)}
+  </select>
+  <p id={errorId} class="form-field__error" role="alert" aria-live="polite"></p>
+</div>

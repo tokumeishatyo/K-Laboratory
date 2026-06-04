@@ -1,0 +1,65 @@
+---
+// 複数選択チェックボックスグループの共通部品。
+// 返信方法（メール / 電話）など、複数選択可フィールドで使用する。
+// 「最低 1 つ選択」の必須判定はクライアント側 JS で行う（HTML 標準の required は単一 checkbox 用なので利用不可）。
+
+interface Option {
+  /** 内部値 */
+  value: string;
+  /** 表示ラベル */
+  label: string;
+}
+
+interface Props {
+  /** name 属性（PHP 側では配列として受け取るため末尾に [] を付ける運用にする） */
+  name: string;
+  /** グループ全体の表示ラベル */
+  label: string;
+  /** 選択肢 */
+  options: readonly Option[];
+  /** 必須フラグ（最低 1 つ選択を要求） */
+  required?: boolean;
+  /** 補足説明文 */
+  help?: string;
+  /** 追加 class */
+  class?: string;
+}
+
+const { name, label, options, required = false, help, class: className } = Astro.props;
+
+const groupId = `field-${name}`;
+const errorId = `${groupId}-error`;
+const helpId = `${groupId}-help`;
+const inputName = `${name}[]`;
+---
+
+<fieldset
+  class:list={['form-field form-field--group', className]}
+  data-field-name={name}
+  data-required={required ? 'true' : 'false'}
+  aria-describedby={help ? `${helpId} ${errorId}` : errorId}
+>
+  <legend class="form-field__label">
+    {label}
+    {required && <span class="form-field__required" aria-label="必須">必須</span>}
+  </legend>
+  {help && <p id={helpId} class="form-field__help">{help}</p>}
+  <div class="form-field__checkbox-list">
+    {options.map((opt) => {
+      const itemId = `${groupId}-${opt.value}`;
+      return (
+        <label for={itemId} class="form-field__checkbox-label">
+          <input
+            id={itemId}
+            name={inputName}
+            type="checkbox"
+            value={opt.value}
+            class="form-field__checkbox"
+          />
+          <span class="form-field__checkbox-text">{opt.label}</span>
+        </label>
+      );
+    })}
+  </div>
+  <p id={errorId} class="form-field__error" role="alert" aria-live="polite"></p>
+</fieldset>

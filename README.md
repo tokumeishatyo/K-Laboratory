@@ -31,6 +31,26 @@ npm run build
 | `FTP_USERNAME` | FTP ユーザー名 |
 | `FTP_PASSWORD` | FTP パスワード |
 | `FTP_REMOTE_DIR` | アップロード先パス (例: `/public_html/1klab.com/`) |
+| `PUBLIC_RECAPTCHA_SITE_KEY` | Google reCAPTCHA v2 サイトキー（ビルド時に Astro へ注入） |
+| `RECAPTCHA_SECRET_KEY` | Google reCAPTCHA v2 シークレットキー（contact.config.php 生成に使用） |
+
+## お問い合わせフォーム
+
+`/contact.php` で受け付け、`klab_ai@1klab.com` へ転送 + 自動返信メールを送信。
+セキュリティ層は honeypot + reCAPTCHA v2 + サーバ側全フィールド再検証。
+
+**ローカル開発時の設定:**
+
+```bash
+cp .env.example .env
+# .env の PUBLIC_RECAPTCHA_SITE_KEY を設定（未設定時は Google 公式テストキーで動作）
+
+cp public/contact.config.php.example public/contact.config.php
+# contact.config.php の recaptcha_secret を実値に書き換え
+```
+
+`public/contact.config.php` は git 管理外。本番では GitHub Actions の Secrets から
+動的に生成して FTPS でアップロードする。
 
 ## ディレクトリ構成
 

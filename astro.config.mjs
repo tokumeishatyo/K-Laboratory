@@ -17,6 +17,8 @@ export default defineConfig({
       changefreq: 'monthly',
       priority: 0.7,
       lastmod: new Date(),
+      // フォーム送信完了ページは noindex 対象なので sitemap からも除外
+      filter: (page) => !page.includes('/contact/thanks/'),
     }),
   ],
 });

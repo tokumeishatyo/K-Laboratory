@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import Button from '../components/Button.astro';
+import ContactForm from '../components/ContactForm.astro';
 import { SITE } from '../config/site';
 
 // =============================================================
@@ -991,22 +992,7 @@ const faqs = [
         lead="初回相談は無料です。経営課題を整理しに来るだけ、でも構いません。気構えずにご連絡ください。"
         align="center"
       />
-      <div class="cta-contact">
-        <p class="cta-contact__label">お問い合わせ先メールアドレス</p>
-        <img
-          src="/images/email.png"
-          alt="メールアドレス (画像表示によるスパム対策)"
-          width="320"
-          height="40"
-          loading="lazy"
-          decoding="async"
-          class="cta-contact__email"
-        />
-        <p class="cta-contact__note">
-          ※ スパム対策のため、メールアドレスは画像で表示しています。<br />
-          お問い合わせをいただきましたら、通常 2 営業日以内に代表より直接ご返信します。
-        </p>
-      </div>
+      <ContactForm />
     </div>
   </section>
 </Layout>
@@ -2390,30 +2376,5 @@ const faqs = [
   /* ===== CTA ===== */
   .cta-section {
     background: linear-gradient(180deg, var(--c-orange-50), #ffffff);
-  }
-  .cta-contact {
-    text-align: center;
-    margin-top: 24px;
-  }
-  .cta-contact__label {
-    font-size: 14px;
-    color: var(--c-text-sub);
-    margin: 0 0 12px;
-    letter-spacing: 0.08em;
-  }
-  .cta-contact__email {
-    display: inline-block;
-    margin: 0 auto;
-    padding: 14px 24px;
-    background: var(--c-card-bg);
-    border: 2px solid var(--c-orange-200);
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow);
-  }
-  .cta-contact__note {
-    font-size: 13px;
-    color: var(--c-text-mute);
-    margin: 20px 0 0;
-    line-height: 1.85;
   }
 </style>

@@ -1,0 +1,27 @@
+<?php
+/**
+ * お問い合わせフォーム設定ファイル（雛形）。
+ *
+ * 本番運用手順:
+ *   1. このファイルを contact.config.php としてコピー
+ *   2. recaptcha_secret に Google reCAPTCHA Admin Console で発行された
+ *      シークレットキーを設定
+ *   3. contact.config.php は git 管理外（.gitignore 済み）
+ *   4. FTPS デプロイ時は別途サーバ上にアップロード（GitHub Actions では
+ *      Secrets から生成する運用にする）
+ *
+ * 注意:
+ *   - シークレットキーは絶対にリポジトリにコミットしないこと
+ *   - reCAPTCHA v2 (「私はロボットではありません」) 用のキーであること
+ */
+
+return [
+    /** Google reCAPTCHA v2 シークレットキー */
+    'recaptcha_secret' => 'YOUR_RECAPTCHA_V2_SECRET_KEY_HERE',
+
+    /** 管理者宛通知メールの送付先 + From/Reply-To アドレス */
+    'admin_email' => 'klab_ai@1klab.com',
+
+    /** サイト URL（リダイレクト先の組み立てに使用） */
+    'site_url' => 'https://1klab.com',
+];

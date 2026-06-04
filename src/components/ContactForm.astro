@@ -1,0 +1,344 @@
+---
+// お問い合わせフォーム本体。
+// セクション12「最後の一押し」の cta-contact ブロックを置き換える形で使用する。
+//
+// 構成:
+//   - フォーム冒頭リード文（SLA: 3 営業日以内）
+//   - 10 項目の入力フィールド
+//   - honeypot 隠しフィールド（bot 防止）
+//   - reCAPTCHA v2 ウィジェット（「私はロボットではありません」）
+//   - 個人情報取扱同意チェック
+//   - 送信ボタン
+//
+// クライアント側の挙動:
+//   - 業種で「その他」を選んだとき自由記述欄を出現・必須化
+//   - 返信方法「電話」をチェックしたとき電話番号を必須化
+//   - 返信方法チェックボックスは最低 1 つ必須（HTML 標準の required では表現不可なので JS で制御）
+//   - 送信前に全フィールドを再検査
+//
+// サーバ側 (public/contact.php):
+//   - 全フィールド再検証 + reCAPTCHA verify + honeypot 検査
+//   - 成功時は CONTACT_THANKS_PATH へ 302 リダイレクト
+//   - 失敗時は元ページ (#contact) へエラー hash 付きで戻す
+
+import TextInput from './form/TextInput.astro';
+import SelectField from './form/SelectField.astro';
+import TextArea from './form/TextArea.astro';
+import Checkbox from './form/Checkbox.astro';
+import CheckboxGroup from './form/CheckboxGroup.astro';
+import Button from './Button.astro';
+import {
+  PREFECTURES,
+  INDUSTRIES,
+  EMPLOYEE_RANGES,
+  CONTACT_METHODS,
+  INDUSTRY_OTHER_VALUE,
+  HONEYPOT_FIELD_NAME,
+  CONTACT_FORM_ACTION,
+  REPLY_SLA_TEXT,
+} from '../config/form';
+
+// reCAPTCHA サイトキー: 環境変数 PUBLIC_RECAPTCHA_SITE_KEY から取得。
+// 未設定（開発中など）の場合は Google 公式テストキーへフォールバック。
+// テストキーは「常に検証が通る」キーなので本番では必ず実キーに差し替える。
+const recaptchaSiteKey =
+  import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ||
+  '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+---
+
+<div class="contact-form">
+  <p class="contact-form__sla">{REPLY_SLA_TEXT}</p>
+
+  <form
+    action={CONTACT_FORM_ACTION}
+    method="POST"
+    novalidate
+    class="contact-form__form"
+    id="contact-form"
+  >
+    <TextInput name="name" label="お名前" required autocomplete="name" />
+    <TextInput name="company" label="会社名" required autocomplete="organization" />
+
+    <SelectField
+      name="prefecture"
+      label="会社所在地（都道府県）"
+      options={PREFECTURES}
+      required
+    />
+
+    <SelectField
+      name="industry"
+      label="業種"
+      options={INDUSTRIES}
+      required
+    />
+    <TextInput
+      name="industry_other"
+      label="業種（自由記述）"
+      class="form-field--industry-other"
+      help="「その他」を選択された場合のみご記入ください"
+    />
+
+    <SelectField
+      name="employees"
+      label="従業員数"
+      options={EMPLOYEE_RANGES}
+      required
+    />
+
+    <TextInput
+      name="email"
+      label="メールアドレス"
+      type="email"
+      required
+      autocomplete="email"
+      placeholder="example@example.com"
+    />
+    <TextInput
+      name="phone"
+      label="電話番号（任意）"
+      type="tel"
+      autocomplete="tel"
+      inputmode="numeric"
+      pattern="[0-9]{10,11}"
+      placeholder="09012345678"
+      help="半角数字のみ・ハイフンなし 10〜11 桁でご入力ください。返信方法で「電話」を選択された場合は必須となります"
+    />
+
+    <CheckboxGroup
+      name="reply_method"
+      label="ご返信のご希望方法"
+      options={CONTACT_METHODS}
+      required
+      help="複数選択可。最低 1 つお選びください。"
+    />
+
+    <TextArea
+      name="message"
+      label="お問い合わせ内容"
+      required
+      rows={7}
+      placeholder="ご相談内容・現状の課題など、お気軽にご記入ください。"
+    />
+
+    {/* honeypot: 人間には見えないが bot が自動入力しがちな隠しフィールド */}
+    <div class="form-field--honeypot" aria-hidden="true">
+      <label>
+        ウェブサイト URL（記入しないでください）
+        <input
+          type="text"
+          name={HONEYPOT_FIELD_NAME}
+          tabindex="-1"
+          autocomplete="off"
+        />
+      </label>
+    </div>
+
+    <Checkbox name="privacy_consent" required>
+      <a href="/privacy/" target="_blank" rel="noopener">プライバシーポリシー</a>
+      に同意の上、送信します
+    </Checkbox>
+
+    <div class="contact-form__recaptcha">
+      <div class="g-recaptcha" data-sitekey={recaptchaSiteKey}></div>
+    </div>
+
+    <p class="contact-form__general-error" role="alert" aria-live="polite" id="contact-form-general-error"></p>
+
+    <div class="contact-form__submit">
+      <Button type="submit" variant="primary">この内容で送信する</Button>
+    </div>
+  </form>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer is:inline></script>
+
+<script>
+  // クライアント側バリデーション。
+  // - 必須・形式チェック
+  // - 業種=その他 → 自由記述欄を出現・必須化
+  // - 返信方法=電話 → 電話番号必須化
+  // - 返信方法 → 最低 1 つ必須
+
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    const industrySelect = form.querySelector<HTMLSelectElement>('select[name="industry"]');
+    const industryOtherField = form.querySelector<HTMLElement>('.form-field--industry-other');
+    const industryOtherInput = form.querySelector<HTMLInputElement>('input[name="industry_other"]');
+    const phoneInput = form.querySelector<HTMLInputElement>('input[name="phone"]');
+    const replyMethodFieldset = form.querySelector<HTMLFieldSetElement>('fieldset[data-field-name="reply_method"]');
+    const replyMethodCheckboxes = form.querySelectorAll<HTMLInputElement>('input[name="reply_method[]"]');
+    const generalError = document.getElementById('contact-form-general-error');
+
+    const OTHER_VALUE = 'その他';
+
+    function setFieldError(name: string, message: string) {
+      const wrapper = form.querySelector(`[data-field-name="${name}"]`);
+      if (!wrapper) return;
+      const errorEl = wrapper.querySelector('.form-field__error');
+      const input = wrapper.querySelector('input, select, textarea');
+      if (errorEl) errorEl.textContent = message;
+      if (input) input.setAttribute('aria-invalid', message ? 'true' : 'false');
+    }
+
+    function clearAllErrors() {
+      form.querySelectorAll('.form-field__error').forEach((el) => (el.textContent = ''));
+      form
+        .querySelectorAll('[aria-invalid="true"]')
+        .forEach((el) => el.setAttribute('aria-invalid', 'false'));
+      if (generalError) generalError.textContent = '';
+    }
+
+    function showIndustryOther() {
+      if (!industryOtherField || !industryOtherInput) return;
+      const isOther = industrySelect?.value === OTHER_VALUE;
+      industryOtherField.style.display = isOther ? '' : 'none';
+      industryOtherInput.required = isOther;
+      if (!isOther) industryOtherInput.value = '';
+    }
+
+    // 初期状態では業種=その他 自由記述欄を非表示
+    if (industryOtherField) industryOtherField.style.display = 'none';
+    industrySelect?.addEventListener('change', showIndustryOther);
+
+    function updatePhoneRequirement() {
+      if (!phoneInput) return;
+      const phoneChecked = Array.from(replyMethodCheckboxes).some(
+        (cb) => cb.value === 'phone' && cb.checked
+      );
+      phoneInput.required = phoneChecked;
+    }
+    replyMethodCheckboxes.forEach((cb) => cb.addEventListener('change', updatePhoneRequirement));
+
+    function validateReplyMethod(): boolean {
+      const anyChecked = Array.from(replyMethodCheckboxes).some((cb) => cb.checked);
+      if (!anyChecked) {
+        setFieldError('reply_method', '返信方法を 1 つ以上選択してください');
+        return false;
+      }
+      setFieldError('reply_method', '');
+      return true;
+    }
+
+    function validatePhone(): boolean {
+      if (!phoneInput) return true;
+      const value = phoneInput.value.trim();
+      const phoneChecked = Array.from(replyMethodCheckboxes).some(
+        (cb) => cb.value === 'phone' && cb.checked
+      );
+      if (phoneChecked && !value) {
+        setFieldError('phone', '電話でのご返信ご希望の場合は電話番号をご入力ください');
+        return false;
+      }
+      // 入力済みの場合は半角数字 10〜11 桁のみを許可（ハイフン・全角・空白すべて NG）
+      if (value && !/^[0-9]{10,11}$/.test(value)) {
+        setFieldError('phone', '電話番号は半角数字のみ・ハイフンなし 10〜11 桁でご入力ください');
+        return false;
+      }
+      setFieldError('phone', '');
+      return true;
+    }
+
+    function validateIndustryOtherIfRequired(): boolean {
+      if (!industryOtherInput) return true;
+      if (industrySelect?.value === OTHER_VALUE && !industryOtherInput.value.trim()) {
+        setFieldError('industry_other', '業種をご記入ください');
+        return false;
+      }
+      setFieldError('industry_other', '');
+      return true;
+    }
+
+    function validateRecaptcha(): boolean {
+      // grecaptcha がロードされていない場合は素通り（保険：本番では必ずロードされる前提）
+      const grecaptcha = (window as unknown as { grecaptcha?: { getResponse: () => string } })
+        .grecaptcha;
+      if (!grecaptcha) return true;
+      const token = grecaptcha.getResponse();
+      if (!token) {
+        if (generalError) generalError.textContent = '「私はロボットではありません」にチェックしてください';
+        return false;
+      }
+      return true;
+    }
+
+    form.addEventListener('submit', (e) => {
+      clearAllErrors();
+
+      // HTML 標準 required を含むバリデーション
+      let isValid = true;
+      form
+        .querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+          'input[required], select[required], textarea[required]'
+        )
+        .forEach((field) => {
+          if (!field.checkValidity()) {
+            const fieldName = field.getAttribute('name') ?? '';
+            const message = field.value.trim() ? '入力内容をご確認ください' : '必須項目です';
+            setFieldError(fieldName.replace('[]', ''), message);
+            isValid = false;
+          }
+        });
+
+      if (!validateReplyMethod()) isValid = false;
+      if (!validatePhone()) isValid = false;
+      if (!validateIndustryOtherIfRequired()) isValid = false;
+      if (!validateRecaptcha()) isValid = false;
+
+      if (!isValid) {
+        e.preventDefault();
+        // 最初のエラー箇所までスクロール
+        const firstError = form.querySelector('[aria-invalid="true"]') as HTMLElement | null;
+        firstError?.focus();
+        firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  }
+</script>
+
+<style>
+  .contact-form {
+    max-width: 720px;
+    margin: 32px auto 0;
+    background: #ffffff;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: clamp(24px, 4vw, 40px);
+    box-shadow: var(--shadow);
+  }
+  .contact-form__sla {
+    margin: 0 0 24px;
+    padding: 12px 16px;
+    background: var(--c-orange-50);
+    border-left: 4px solid var(--c-orange-700);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--c-text);
+    line-height: 1.7;
+  }
+  .contact-form__form {
+    margin: 0;
+  }
+  .contact-form__recaptcha {
+    margin: 24px 0 16px;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .contact-form__general-error {
+    font-size: 14px;
+    color: var(--c-orange-900);
+    margin: 0 0 16px;
+    min-height: 0;
+  }
+  .contact-form__general-error:empty {
+    display: none;
+  }
+  .contact-form__submit {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .contact-form__submit :global(.btn) {
+    min-width: 240px;
+  }
+</style>

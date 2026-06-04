@@ -1,0 +1,119 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Button from '../../components/Button.astro';
+import { REPLY_SLA_TEXT } from '../../config/form';
+
+// お問い合わせフォーム送信完了ページ。
+// PHP バックエンド (public/contact.php) から 302 リダイレクトで遷移してくる。
+// 検索エンジンへの露出は不要なので noindex を設定する。
+---
+
+<Layout
+  title="お問い合わせ受付完了"
+  description="お問い合わせを受け付けました。"
+>
+  <Fragment slot="head">
+    <meta name="robots" content="noindex,nofollow" />
+  </Fragment>
+
+  <section class="page-header">
+    <div class="container">
+      <h1>お問い合わせを受け付けました</h1>
+      <p class="page-header__lead">
+        この度はお問い合わせをいただき、誠にありがとうございます。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="thanks-card">
+        <div class="thanks-card__icon" aria-hidden="true">✓</div>
+        <h2 class="thanks-card__title">送信完了</h2>
+
+        <p class="thanks-card__sla">
+          {REPLY_SLA_TEXT}<br />
+          ご入力いただいたメールアドレス宛に、受付確認の自動返信メールをお送りしています。
+        </p>
+
+        <div class="thanks-card__notes">
+          <h3>もし自動返信メールが届かない場合</h3>
+          <ul>
+            <li>迷惑メールフォルダをご確認ください</li>
+            <li>メールアドレスのご入力に誤りがあった可能性があります（その場合は再度お問い合わせください）</li>
+            <li>お急ぎの場合は、お電話または直接メール（klab_ai@1klab.com）にてご連絡ください</li>
+          </ul>
+        </div>
+
+        <div class="thanks-card__cta">
+          <Button href="/" variant="primary">トップページへ戻る</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .thanks-card {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    padding: clamp(32px, 5vw, 56px);
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .thanks-card__icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: var(--c-green-700);
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .thanks-card__title {
+    font-size: 24px;
+    margin: 0 0 16px;
+    color: var(--c-text);
+  }
+  .thanks-card__sla {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--c-text-sub);
+    margin: 0 0 32px;
+    padding: 16px 20px;
+    background: var(--c-orange-50);
+    border-radius: var(--radius-sm);
+    text-align: left;
+  }
+  .thanks-card__notes {
+    text-align: left;
+    margin: 0 0 32px;
+    padding: 20px;
+    background: var(--c-bg-alt);
+    border-radius: var(--radius-sm);
+  }
+  .thanks-card__notes h3 {
+    font-size: 15px;
+    margin: 0 0 12px;
+    color: var(--c-text);
+  }
+  .thanks-card__notes ul {
+    margin: 0;
+    padding-left: 1.2em;
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--c-text-sub);
+  }
+  .thanks-card__cta {
+    display: flex;
+    justify-content: center;
+  }
+</style>

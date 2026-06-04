@@ -342,3 +342,117 @@ main {
   left: 8px;
   top: 8px;
 }
+
+/* ===========================================
+   フォーム部品共通スタイル
+   src/components/form/ 配下のコンポーネントから参照される。
+   =========================================== */
+.form-field {
+  margin: 0 0 20px;
+}
+.form-field--group {
+  border: 0;
+  padding: 0;
+  margin: 0 0 20px;
+}
+.form-field__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--c-text);
+  margin: 0 0 6px;
+  padding: 0;
+}
+.form-field__required {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--c-orange-700);
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+}
+.form-field__help {
+  font-size: 12px;
+  color: var(--c-text-mute);
+  margin: 0 0 6px;
+}
+.form-field__input,
+.form-field__select,
+.form-field__textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--c-text);
+  background: #ffffff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.form-field__textarea {
+  resize: vertical;
+  min-height: 140px;
+  line-height: 1.7;
+}
+.form-field__input:focus,
+.form-field__select:focus,
+.form-field__textarea:focus {
+  outline: none;
+  border-color: var(--c-orange-700);
+  box-shadow: 0 0 0 3px var(--c-orange-100);
+}
+.form-field__input[aria-invalid='true'],
+.form-field__select[aria-invalid='true'],
+.form-field__textarea[aria-invalid='true'] {
+  border-color: var(--c-orange-900);
+  background: #fff7f4;
+}
+.form-field__error {
+  font-size: 13px;
+  color: var(--c-orange-900);
+  margin: 6px 0 0;
+  min-height: 0;
+}
+.form-field__error:empty {
+  display: none;
+}
+.form-field__checkbox-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  margin-top: 4px;
+}
+.form-field__checkbox-label {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.form-field__checkbox {
+  margin-top: 4px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--c-orange-700);
+  cursor: pointer;
+}
+.form-field__checkbox-text {
+  flex: 1;
+}
+.form-field--checkbox {
+  margin: 0 0 16px;
+}
+/* honeypot - 視覚的に隠す（display:none ではなく off-screen にすることで bot に検出させやすくする） */
+.form-field--honeypot {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

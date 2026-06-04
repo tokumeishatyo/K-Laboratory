@@ -1,0 +1,54 @@
+---
+// 複数行テキスト入力の共通部品。
+// お問い合わせ本文用。
+
+interface Props {
+  /** name 属性 */
+  name: string;
+  /** 表示ラベル */
+  label: string;
+  /** 行数（既定: 6） */
+  rows?: number;
+  /** 必須フラグ */
+  required?: boolean;
+  /** プレースホルダ */
+  placeholder?: string;
+  /** 補足説明文 */
+  help?: string;
+  /** 追加 class */
+  class?: string;
+}
+
+const {
+  name,
+  label,
+  rows = 6,
+  required = false,
+  placeholder,
+  help,
+  class: className,
+} = Astro.props;
+
+const fieldId = `field-${name}`;
+const errorId = `${fieldId}-error`;
+const helpId = `${fieldId}-help`;
+---
+
+<div class:list={['form-field', className]} data-field-name={name}>
+  <label for={fieldId} class="form-field__label">
+    {label}
+    {required && <span class="form-field__required" aria-label="必須">必須</span>}
+  </label>
+  {help && <p id={helpId} class="form-field__help">{help}</p>}
+  <textarea
+    id={fieldId}
+    name={name}
+    rows={rows}
+    required={required}
+    placeholder={placeholder}
+    aria-describedby={help ? `${helpId} ${errorId}` : errorId}
+    aria-invalid="false"
+    class="form-field__textarea"
+  ></textarea>
+  <p id={errorId} class="form-field__error" role="alert" aria-live="polite"></p>
+</div>
