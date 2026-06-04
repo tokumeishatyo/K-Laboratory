@@ -14,6 +14,11 @@
   --c-orange-100: #fff3e0;
   --c-orange-50:  #fff8f0;
 
+  /* Brand orange / WCAG-AA 安全色 ── 白テキストが乗る背景・白背景に乗るテキスト用。
+     orange-700 (#e65100) は 3.78:1 で WCAG AA 不足のため、文字隣接箇所はこちらを使う。
+     orange-900 (#bf360c) は 5.93:1 で AA 通過。装飾用途には --c-orange-700 を続行可。 */
+  --c-orange-text: var(--c-orange-900);
+
   /* Brand green — secondary accent (logo continuity) */
   --c-green-900: #1b5e20;
   --c-green-800: #2e7d32;
@@ -42,7 +47,7 @@
   --c-card-bg:   #ffffff;
   --c-text:      #1a1a1a;
   --c-text-sub:  #4a4a4a;
-  --c-text-mute: #8a8a8a;
+  --c-text-mute: #6a6a6a;  /* WCAG AA: 5.0:1 on #ffffff（以前 #8a8a8a は 3.45:1 で不足） */
   --c-border:    #e6e2d8;
   --c-divider:   #f0ede5;
 
@@ -98,7 +103,7 @@ img {
 }
 
 a {
-  color: var(--c-orange-700);
+  color: var(--c-orange-text);
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -193,9 +198,10 @@ main {
 }
 
 .btn--primary {
-  background: var(--c-orange-700);
+  /* WCAG: 白文字に対する orange-700 背景は 3.78:1、orange-text (-900) で 5.93:1 確保 */
+  background: var(--c-orange-text);
   color: #ffffff;
-  border-color: var(--c-orange-700);
+  border-color: var(--c-orange-text);
 }
 .btn--primary:hover {
   background: var(--c-orange-800);
@@ -220,8 +226,10 @@ main {
 
 .btn--outline {
   background: transparent;
-  color: var(--c-orange-700);
-  border-color: var(--c-orange-700);
+  /* テキスト隣接の orange-700 (#e65100) は白背景に対して 3.78:1 で WCAG 不足。
+     orange-900 (#bf360c) に切り替えて 5.93:1 を確保する */
+  color: var(--c-orange-900);
+  border-color: var(--c-orange-900);
 }
 .btn--outline:hover {
   background: var(--c-orange-700);
@@ -270,7 +278,7 @@ main {
   }
   .info-table th {
     background: transparent;
-    color: var(--c-orange-700);
+    color: var(--c-orange-text);
     padding-top: 16px;
     border-top: 1px solid var(--c-divider);
   }
@@ -348,7 +356,7 @@ main {
   position: absolute;
   left: -9999px;
   top: 0;
-  background: var(--c-orange-700);
+  background: var(--c-orange-text);
   color: #ffffff;
   padding: 8px 16px;
   z-index: 1000;
@@ -385,7 +393,7 @@ main {
   font-size: 11px;
   font-weight: 700;
   color: #ffffff;
-  background: var(--c-orange-700);
+  background: var(--c-orange-text);
   padding: 2px 6px;
   border-radius: 3px;
   letter-spacing: 0.04em;

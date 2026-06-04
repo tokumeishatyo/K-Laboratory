@@ -104,8 +104,9 @@ const isActive = (href: string) =>
     text-decoration: none;
   }
   .site-nav__link--active {
-    color: var(--c-orange-700);
-    border-bottom-color: var(--c-orange-700);
+    /* WCAG AA: 白背景に対する orange-700 は 3.78:1、orange-900 で 5.93:1 確保 */
+    color: var(--c-orange-900);
+    border-bottom-color: var(--c-orange-900);
   }
 
   @media (max-width: 600px) {
