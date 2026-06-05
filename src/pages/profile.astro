@@ -257,17 +257,18 @@ const career = [
     }
   }
 
-  /* 営業時代のループ画像群 ── 4 業界（建設/飲食/ホムセン/コスメ）
-     + 全国トップ収束図 を縦に並べる。サイト全体の他セクション
-     （problems / RISK / PROMISE / FLOW 等）と同じ縦並び・大判表示の
-     視覚言語に揃える。内部の 4 パネルテキスト可読性も担保される。 */
+  /* 営業時代のループ画像群 ── 4 業界（建設/飲食/ホムセン/コスメ）を
+     田の字（デスクトップ 2x2 / モバイル 1 列）で並べ、その下に「↓」
+     接続矢印を挟んで、全国トップ収束図（クライマックス）を全幅で配置。
+     圧縮版（田の字 1 枚に統合）はメッセージが「転職を繰り返した人」に
+     見えてしまったため、元の 4 画像を残しレイアウト側で圧縮する方針。 */
   .career-loop {
     list-style: none;
     padding: 0;
     margin: 32px 0 0;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 32px;
   }
   .career-loop__item {
     margin: 0;
@@ -284,5 +285,42 @@ const career = [
     display: block;
     width: 100%;
     height: auto;
+  }
+
+  /* クライマックス（全国トップ）── 4 業界の下に「↓」と共に登場し、
+     ストーリーが「4 業界の現場体験 → 3 年連続全国トップ」へ流れる
+     視覚を作る。 */
+  .career-loop__item--climax {
+    position: relative;
+    margin-top: 40px;
+  }
+  .career-loop__item--climax::before {
+    content: '↓';
+    display: block;
+    position: absolute;
+    top: -56px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 48px;
+    line-height: 1;
+    color: var(--c-orange-text);
+    font-weight: 700;
+  }
+
+  @media (min-width: 800px) {
+    /* デスクトップ：4 業界を 2x2 田の字。クライマックスは全幅にスパン。
+       内部パネル細部は読みにくくなるが、4 業界並列のメッセージは強化。 */
+    .career-loop {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 28px;
+    }
+    .career-loop__item--climax {
+      grid-column: 1 / -1;
+      margin-top: 56px;
+    }
+    .career-loop__item--climax::before {
+      top: -64px;
+      font-size: 56px;
+    }
   }
 </style>
