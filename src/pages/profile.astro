@@ -1,21 +1,49 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import InfoTable from '../components/InfoTable.astro';
 import ResponsiveImage from '../components/ResponsiveImage.astro';
 import { SITE } from '../config/site';
 
-// 提供された略歴文をもとに、年表 + 文章で構成。
-// 年は要確認の箇所があるため、フェーズ1終盤で確定する。
-
-const careerRows = [
-  { label: '（要確認）卒業後', value: '法人対象のセールスマンとしてキャリアをスタート' },
-  { label: '（要確認）在職中', value: '3 年連続で全国トップの営業成績を獲得' },
-  { label: '1995 年頃', value: 'Windows 95 とインターネットの普及を機に IT 業界へ転身' },
-  { label: '2003 年 2 月', value: '有限会社 K Laboratory を設立、独立' },
-  { label: '2003 年〜', value: 'IT コンサルティング・システム開発に約 30 年従事' },
-  { label: '近年', value: 'AI の飛躍的発展を新たな時代の要請と捉え、AI 駆動開発へシフト' },
-];
+// 略歴は「期間 + 内容」の対のため <dl> + <dt>/<dd> でマークアップ。
+// 内容が複数段落になる場合は <dd> 内に <p> を並べる。
+// <dl> の直接の子は dt/dd のみ（WCAG definition-list ルール）。
+const career = [
+  {
+    period: '卒業後',
+    body: [
+      '法人対象のセールスマンとしてキャリアをスタート。業界は建設業、飲食業、ホームセンター本部、コスメと多岐にわたり、営業先では顧客とともにダンプカーやショベルカーの操作、飲食店の厨房、ホームセンターの店頭販売、コスメ店の店舗ディスプレイと現場を経験し、机上の論理だけにとどまらない経験を積む。',
+      '当時の業界経験は、現在 K Laboratory が伴走支援する建設業・サービス業のお客様へのコンサルティングの基盤となっている。',
+    ],
+  },
+  {
+    period: '在職中',
+    body: [
+      '顧客との共同作業の成果もあり、3 年連続で全国トップの営業成績を獲得。',
+    ],
+  },
+  {
+    period: '1995 年頃',
+    body: [
+      'Windows 95 とインターネットの普及を機に IT 業界へ転職。ネットワークエンジニアとして IT 業界のキャリアをスタートし、その後一貫して IT 業界に携わる。',
+    ],
+  },
+  {
+    period: '2003 年 2 月',
+    body: ['有限会社 K Laboratory を設立、独立。'],
+  },
+  {
+    period: '2003 年 2 月〜',
+    body: [
+      'IT コンサルティング・システム開発に従事。営業職時代の経験と経営的視点を活かした提案が好評。',
+    ],
+  },
+  {
+    period: '2025 年夏',
+    body: [
+      'AI の飛躍的発展を新たな時代の要請と捉え、AI 駆動開発へシフト。',
+    ],
+  },
+] as const;
 ---
 
 <Layout
@@ -48,7 +76,7 @@ const careerRows = [
           <p class="profile-hero__name">{SITE.company.representative}</p>
           <p class="profile-hero__role">代表取締役</p>
           <p class="profile-hero__summary">
-            （仮）30 年にわたる IT 領域での経験を土台に、近年は AI 駆動開発を軸とした事業を展開。中小企業の IT・AI 導入の伴走支援を主な活動領域としています。
+            30 年にわたる IT 領域での経験を土台に、近年は AI 駆動開発を軸とした事業を展開。中小企業の IT・AI 導入の伴走支援を主な活動領域としています。
           </p>
         </div>
       </div>
@@ -58,10 +86,18 @@ const careerRows = [
   <section class="section section--alt">
     <div class="container">
       <SectionHeading title="略歴" />
-      <InfoTable rows={careerRows} />
-      <p class="profile-note">
-        （仮）詳細な略歴は確定後に更新します。年については一部、確認の上で正式な情報に置き換えます。
-      </p>
+      <dl class="career-timeline">
+        {
+          career.map((c) => (
+            <>
+              <dt class="career-timeline__period">{c.period}</dt>
+              <dd class="career-timeline__body">
+                {c.body.map((p) => <p>{p}</p>)}
+              </dd>
+            </>
+          ))
+        }
+      </dl>
     </div>
   </section>
 </Layout>
@@ -106,9 +142,51 @@ const careerRows = [
     display: block;
   }
 
-  .profile-note {
-    margin-top: 24px;
-    font-size: 13px;
-    color: var(--c-text-mute);
+  /* 略歴タイムライン ── 期間 + 内容のペアを縦に列挙。
+     モバイル：1 列縦並び。720px 以上：「期間」カラム + 「内容」カラムの 2 列。 */
+  .career-timeline {
+    margin: 24px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .career-timeline__period {
+    margin: 0 0 8px;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--c-orange-text);
+    letter-spacing: 0.02em;
+    padding-left: 14px;
+    border-left: 4px solid var(--c-orange-700);
+    line-height: 1.5;
+  }
+  .career-timeline__body {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 15px;
+    color: var(--c-text);
+    line-height: 1.95;
+  }
+  .career-timeline__body p {
+    margin: 0 0 14px;
+  }
+  .career-timeline__body p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 720px) {
+    /* デスクトップでは「期間」カラム + 「内容」カラムの 2 列レイアウト */
+    .career-timeline {
+      grid-template-columns: minmax(140px, 180px) 1fr;
+      gap: 24px 32px;
+      align-items: baseline;
+    }
+    .career-timeline__period {
+      margin: 0;
+    }
+    .career-timeline__body {
+      padding-left: 0;
+    }
   }
 </style>
