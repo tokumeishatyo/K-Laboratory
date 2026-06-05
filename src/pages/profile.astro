@@ -100,6 +100,73 @@ const career = [
       </dl>
     </div>
   </section>
+
+  {/* ===== 営業時代のループ ── 4 業界 + 全国トップ収束図 ===== */}
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title="「現場を知る提案ループ」── 営業時代の方法論"
+        lead="「商談 → 現場体験 → 現場のままフィードバック → 提案採用」の独自プロセスで、4 業界での現場経験を積み重ね、3 年連続全国トップの営業成績を実現しました。"
+      />
+      <ul class="career-loop">
+        <li class="career-loop__item">
+          <figure class="career-loop__figure">
+            <ResponsiveImage
+              src="/images/career/career-construction.jpg"
+              alt="建設業のループ：スーツ姿で社長と商談 → 作業着でショベルカーを実際に操作 → 作業着のまま社長室で現場の声をフィードバック → 提案採用・契約成立"
+              width={1400}
+              height={933}
+              class="career-loop__img"
+            />
+          </figure>
+        </li>
+        <li class="career-loop__item">
+          <figure class="career-loop__figure">
+            <ResponsiveImage
+              src="/images/career/career-food.jpg"
+              alt="飲食業のループ：スーツ姿で店長と商談 → コックコートで厨房で実際に料理 → コックコートのまま店長室で現場の声をフィードバック → 提案採用・契約成立"
+              width={1400}
+              height={933}
+              class="career-loop__img"
+            />
+          </figure>
+        </li>
+        <li class="career-loop__item">
+          <figure class="career-loop__figure">
+            <ResponsiveImage
+              src="/images/career/career-homecenter.jpg"
+              alt="ホームセンター本部のループ：スーツ姿で本部バイヤーと商談 → 店舗エプロンで店頭で接客販売 → エプロンのまま本部バイヤー室で現場の声をフィードバック → 提案採用・契約成立"
+              width={1400}
+              height={933}
+              class="career-loop__img"
+            />
+          </figure>
+        </li>
+        <li class="career-loop__item">
+          <figure class="career-loop__figure">
+            <ResponsiveImage
+              src="/images/career/career-cosmetics.jpg"
+              alt="コスメブランド本部のループ：スーツ姿で女性ブランドバイヤーと商談 → 店舗エプロンでコスメ売場で実際にディスプレイ作業 → エプロンのままバイヤー室で現場の声をフィードバック → 提案採用・契約成立"
+              width={1400}
+              height={933}
+              class="career-loop__img"
+            />
+          </figure>
+        </li>
+        <li class="career-loop__item career-loop__item--climax">
+          <figure class="career-loop__figure">
+            <ResponsiveImage
+              src="/images/career/career-climax.jpg"
+              alt="3 年連続全国トップセールスのクライマックス：若手代表がトロフィーを掲げ、4 業界のお客様（建設社長・飲食店長・ホームセンター本部バイヤー・コスメブランドバイヤー）全員がサムズアップで支持を示す祝祭の場面"
+              width={1400}
+              height={933}
+              class="career-loop__img"
+            />
+          </figure>
+        </li>
+      </ul>
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -188,5 +255,34 @@ const career = [
     .career-timeline__body {
       padding-left: 0;
     }
+  }
+
+  /* 営業時代のループ画像群 ── 4 業界（建設/飲食/ホムセン/コスメ）
+     + 全国トップ収束図 を縦に並べる。サイト全体の他セクション
+     （problems / RISK / PROMISE / FLOW 等）と同じ縦並び・大判表示の
+     視覚言語に揃える。内部の 4 パネルテキスト可読性も担保される。 */
+  .career-loop {
+    list-style: none;
+    padding: 0;
+    margin: 32px 0 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .career-loop__item {
+    margin: 0;
+  }
+  .career-loop__figure {
+    margin: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-bg-alt);
+    box-shadow: var(--shadow);
+  }
+  .career-loop__img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 </style>
