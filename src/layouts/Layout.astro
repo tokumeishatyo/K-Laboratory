@@ -33,6 +33,8 @@ const organizationJsonLd = {
   url: SITE.url,
   logo: new URL('/images/logo.png', SITE.url).toString(),
   foundingDate: '2003-02',
+  // 国税庁法人番号 (Japan corporate number) を taxID として明示
+  taxID: SITE.company.corporateNumber,
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'JP',

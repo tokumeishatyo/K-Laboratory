@@ -30,6 +30,8 @@ export const SITE = {
     address: '神奈川県高座郡寒川町',
     representative: '川﨑 伸之',
     capital: '300万円',
+    /** 国税庁法人番号 (13 桁)。schema.org Organization の taxID にも展開する。 */
+    corporateNumber: '6021002036363',
   },
 } as const;
 

@@ -4,13 +4,48 @@ import SectionHeading from '../components/SectionHeading.astro';
 import InfoTable from '../components/InfoTable.astro';
 import { SITE } from '../config/site';
 
+// 事業内容を 5 カテゴリで構造化して列挙する。
+// dt/dd の組合せで「分野名 + 内容説明」を表現する（WCAG: dl の直接の子は dt/dd のみ）。
+const services = [
+  {
+    title: 'AI 導入伴走支援',
+    description:
+      '中小企業向け AI 活用方針の策定、PoC 設計、業務組み込みまでを伴走。「何から始めればよいか分からない」段階から、実際に成果が出るシステムへと段階的に育てていきます。',
+  },
+  {
+    title: '内製化支援',
+    description:
+      '経営層との対話を起点に、社内人材の育成と自走できる体制づくりを支援。外注依存ではなく、御社の中に AI・IT 活用のノウハウが残ることを目指します。',
+  },
+  {
+    title: 'フルスタックシステム開発',
+    description:
+      '業務システム、業務アプリ、Web サービスの設計・開発・運用までを一貫して提供。30 年のフルスタック経験と AI 駆動開発で、コストパフォーマンスの高い実装を実現します。',
+  },
+  {
+    title: '既存システムの刷新・連携',
+    description:
+      'レガシーシステムの段階的なモダナイズと、API 連携による業務効率化。「全部作り直し」ではなく、必要な部分から優先順位を立てて刷新します。',
+  },
+  {
+    title: 'IT 経営コンサルティング',
+    description:
+      '経営層に伴走する IT 戦略・投資判断支援。技術選定や予算配分など、経営的な意思決定の土台となる情報整理と方針策定をご一緒します。',
+  },
+] as const;
+
+// 会社概要表。社員数・電話番号は現状非掲載。
+// 事業内容は別セクションで詳述するため、ここでは短いサマリを記載する。
 const companyRows = [
   { label: '商号', value: SITE.company.legalName },
   { label: '設立', value: SITE.company.founded },
   { label: '所在地', value: SITE.company.address },
   { label: '代表者', value: SITE.company.representative },
   { label: '資本金', value: SITE.company.capital },
-  { label: '事業内容', value: '中小企業向け IT コンサルティング、IT 業務全般、システム開発' },
+  { label: '法人番号', value: SITE.company.corporateNumber },
+  { label: '事業内容', value: 'IT・AI コンサルティング、システム開発、内製化支援' },
+  { label: '取引銀行', value: '平塚信用金庫、三菱UFJ銀行、PayPay銀行' },
+  { label: '主要取引業種', value: '製造業 / 建設業 / サービス業' },
 ];
 ---
 
@@ -29,10 +64,20 @@ const companyRows = [
 
   <section class="section">
     <div class="container">
-      <SectionHeading title="事業内容" />
-      <p>
-        （仮）有限会社 K Laboratory は、中小企業のお客様を主な対象として、IT コンサルティング、IT 業務全般、システム開発を提供しています。経営層の意思決定に寄り添い、IT・AI の導入から定着までを伴走支援します。
-      </p>
+      <SectionHeading
+        title="事業内容"
+        lead="中小企業のお客様を主な対象として、IT コンサルティング、IT 業務全般、システム開発を提供しています。経営層の意思決定に寄り添い、IT・AI の導入から定着までを伴走支援します。"
+      />
+      <dl class="services-list">
+        {
+          services.map((s) => (
+            <>
+              <dt class="services-list__term">{s.title}</dt>
+              <dd class="services-list__desc">{s.description}</dd>
+            </>
+          ))
+        }
+      </dl>
     </div>
   </section>
 
@@ -43,3 +88,48 @@ const companyRows = [
     </div>
   </section>
 </Layout>
+
+<style>
+  /* 事業内容リスト ── 「分野名」「内容説明」のペアを縦に列挙する。
+     mobile-first：1 列縦並び。広い画面では分野名カラム＋説明カラムの 2 列レイアウト。 */
+  .services-list {
+    margin: 24px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .services-list__term {
+    margin: 0 0 6px;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--c-orange-text);
+    letter-spacing: 0.02em;
+    padding-left: 14px;
+    border-left: 4px solid var(--c-orange-700);
+    line-height: 1.5;
+  }
+  .services-list__desc {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.95;
+    color: var(--c-text);
+    padding-left: 18px;
+  }
+
+  @media (min-width: 720px) {
+    /* デスクトップでは 2 カラム（分野名 | 説明）にする */
+    .services-list {
+      grid-template-columns: minmax(180px, 240px) 1fr;
+      gap: 24px 32px;
+      align-items: baseline;
+    }
+    .services-list__term {
+      padding-left: 14px;
+      margin: 0;
+    }
+    .services-list__desc {
+      padding-left: 0;
+    }
+  }
+</style>
