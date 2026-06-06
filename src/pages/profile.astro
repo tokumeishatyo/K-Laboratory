@@ -203,6 +203,129 @@ const career = [
       </ul>
     </div>
   </section>
+
+  {/* ===== IT 業界編 ── 5 枚シリーズ（進出 + 全工程 + 起業 + 3 視点 + AI 駆動） =====
+       前半 2 枚（進出ループ + 全工程経験）= キャリア初期の方法論と技術習得 → 2x2 田の字
+       後半 3 枚（起業 + 3 視点 + AI 駆動）= 節目の年表（2003〜現在）→ 縦並び大表示
+       1, 2 番は同じキャリア初期段階を並列に並べる構造、3 番以降は時系列の節目なので
+       レイアウトを変えてそれぞれの構造を視覚的にも伝える。 */}
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeading
+        title="IT 業界での歩み ── 進出から、AI 駆動の今まで"
+        lead="1995 年、営業時代に確立した「現場を知る提案ループ」を IT 業界へ転用してキャリアをスタート。ネットワーク・開発・要件設計・テストの 4 領域を横断的に習得し、2003 年 2 月に独立。以後、3 視点を持つジェネラリストとして進化を続け、現在は AI 駆動へとシフトしています。"
+      />
+
+      {/* 前半 2 枚 ── 営業ノウハウ転用ループ + 4 領域横断（同時期の並列要素） */}
+      <ul class="career-loop">
+        <li class="career-loop__item">
+          <a
+            href="/images/career/career-it-routine.jpg"
+            target="_blank"
+            rel="noopener"
+            class="career-loop__zoom"
+            aria-label="IT 進出ループの画像を拡大表示します（新しいタブで開きます）"
+          >
+            <figure class="career-loop__figure">
+              <ResponsiveImage
+                src="/images/career/career-it-routine.jpg"
+                alt="IT 進出ループ：スーツ姿で情シス課長と商談 → 作業着で LAN 配線・サーバ設置を実作業 → 作業着のまま情シス課長へ現場の声をフィードバック → 全社 LAN 構築の発注（提案採用・契約成立）"
+                width={1400}
+                height={933}
+                class="career-loop__img"
+              />
+              <span class="career-loop__zoom-badge" aria-hidden="true">🔍 拡大</span>
+            </figure>
+          </a>
+        </li>
+        <li class="career-loop__item">
+          <a
+            href="/images/career/career-it-fullstack.jpg"
+            target="_blank"
+            rel="noopener"
+            class="career-loop__zoom"
+            aria-label="IT 全工程経験の画像を拡大表示します（新しいタブで開きます）"
+          >
+            <figure class="career-loop__figure">
+              <ResponsiveImage
+                src="/images/career/career-it-fullstack.jpg"
+                alt="IT 全工程経験：紺スーツの主人公が 4 領域（ネットワーク：サーバ・LAN・WAN の設計と実装 / 開発：業務システムのアプリケーション実装 / 要件設計：顧客と協働しての業務分析・仕様策定 / テスト：品質検証と運用引き渡し）を 1 人で横断的にカバーした実務経験を 1995〜2003 頃の時代背景で示す並列 4 領域図"
+                width={1400}
+                height={933}
+                class="career-loop__img"
+              />
+              <span class="career-loop__zoom-badge" aria-hidden="true">🔍 拡大</span>
+            </figure>
+          </a>
+        </li>
+      </ul>
+
+      {/* 後半 3 枚 ── 節目の年表（2003 起業 → 進化 → 現在の AI 駆動）
+           時系列の節目なので 1 枚ずつ大きく縦並びで配置し、ストーリーの進行を強調。 */}
+      <ul class="career-stages">
+        <li class="career-stages__item">
+          <a
+            href="/images/career/career-it-founding.jpg"
+            target="_blank"
+            rel="noopener"
+            class="career-stages__zoom"
+            aria-label="K Laboratory 創業の画像を拡大表示します（新しいタブで開きます）"
+          >
+            <figure class="career-stages__figure">
+              <ResponsiveImage
+                src="/images/career/career-it-founding.jpg"
+                alt="K Laboratory 創業：2003 年 2 月、若手の主人公が新オフィスのドア横に「有限会社 K Laboratory」のプレートを取り付けている瞬間。脚立に乗りドライバでネジ留めしながら、観葉植物の新緑と窓からの朝日に包まれた、独立と誕生の象徴的シーン。"
+                width={1400}
+                height={933}
+                class="career-stages__img"
+              />
+              <span class="career-stages__zoom-badge" aria-hidden="true">🔍 拡大</span>
+            </figure>
+          </a>
+        </li>
+        <li class="career-stages__item">
+          <a
+            href="/images/career/career-it-generalist.jpg"
+            target="_blank"
+            rel="noopener"
+            class="career-stages__zoom"
+            aria-label="両言語ジェネラリストの画像を拡大表示します（新しいタブで開きます）"
+          >
+            <figure class="career-stages__figure">
+              <ResponsiveImage
+                src="/images/career/career-it-generalist.jpg"
+                alt="両言語ジェネラリスト：髭ありの現代代表が中央に立ち、左パネルでクライアント経営者と経営会議（ホワイトボードにキャッシュフロー・ROI・意思決定・事業戦略）、右パネルで若手エンジニアと技術ディスカッション（API・DB・Cloud のアーキ図とシステム構成図）を行うシーン。経営の言葉とエンジニアの言葉、両方を自在に行き来できる翻訳者として描かれた本文 STRENGTH 03 連携の 3 ペイン構図。"
+                width={1400}
+                height={933}
+                class="career-stages__img"
+              />
+              <span class="career-stages__zoom-badge" aria-hidden="true">🔍 拡大</span>
+            </figure>
+          </a>
+        </li>
+        <li class="career-stages__item">
+          <a
+            href="/images/career/career-it-ai.jpg"
+            target="_blank"
+            rel="noopener"
+            class="career-stages__zoom"
+            aria-label="AI 駆動 ── いまここ の画像を拡大表示します（新しいタブで開きます）"
+          >
+            <figure class="career-stages__figure">
+              <ResponsiveImage
+                src="/images/career/career-it-ai.jpg"
+                alt="AI 駆動 ── いまここ：髭ありの現代代表が、白基調の親しみある人型 AI ロボット（暖色オレンジ LED の目・胸部に発光する AI シンボル）と横並びで肩を組んで立ち、お互いを対等な相棒として viewer 側を見据えるシーン。背景は現代マルチモニタ（コードエディタ・AI Assistant チャット・実行ログ）と窓から差す朝日のゴールド + オレンジ暖色光。本棚には「K Laboratory」の銘板が見え、3 番（独立起業）との視覚連続性も確保。シリーズ最終枚として、30 年の IT 実務 + 22 年の経営の積み重ねを経て「次の章は AI と共に」を象徴する締めくくり画像。"
+                width={1400}
+                height={933}
+                class="career-stages__img"
+              />
+              <span class="career-stages__zoom-badge" aria-hidden="true">🔍 拡大</span>
+            </figure>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -407,5 +530,131 @@ const career = [
       top: -64px;
       font-size: 56px;
     }
+  }
+
+  /* IT 進出編「制作中」プレースホルダ ── 残り 4 枚が来るまでの暫定表示。
+     dashed 枠 + 中央寄せで「未完成」感を明示し、続編を予告する。
+     画像が 5 枚揃った時点でこのブロックは li 4 つに置換される。 */
+  .career-loop__placeholder {
+    margin: 0;
+    padding: 36px 24px;
+    border: 2px dashed var(--c-border);
+    border-radius: var(--radius);
+    background: var(--c-bg);
+    text-align: center;
+    color: var(--c-text-sub);
+  }
+  .career-loop__placeholder-title {
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--c-orange-text);
+    letter-spacing: 0.06em;
+  }
+  .career-loop__placeholder-body {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  @media (min-width: 800px) {
+    .career-loop__placeholder {
+      grid-column: 1 / -1;
+      padding: 44px 32px;
+    }
+  }
+
+  /* IT 業界編 後半 ── 節目の年表（2003 起業 → 進化 → 現在の AI 駆動）。
+     前半 2 枚は 2x2 田の字（career-loop）だが、3-5 番は時系列の節目なので
+     1 枚ずつ大きく縦並び表示。container 幅いっぱいに 1 枚ずつ配置し、
+     ストーリーが「次の節目へ」と縦に流れる視覚を作る。 */
+  .career-stages {
+    list-style: none;
+    padding: 0;
+    margin: 48px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .career-stages__item {
+    margin: 0;
+  }
+  .career-stages__figure {
+    position: relative;
+    margin: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-bg-alt);
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .career-stages__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .career-stages__zoom {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: zoom-in;
+    border-radius: var(--radius);
+  }
+  .career-stages__zoom:hover .career-stages__figure,
+  .career-stages__zoom:focus-visible .career-stages__figure {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  .career-stages__zoom:focus-visible .career-stages__figure {
+    outline: 2px solid var(--c-orange-text);
+    outline-offset: 2px;
+  }
+  .career-stages__zoom-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: rgba(26, 26, 26, 0.7);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: background-color 0.2s ease;
+    pointer-events: none;
+  }
+  .career-stages__zoom:hover .career-stages__zoom-badge,
+  .career-stages__zoom:focus-visible .career-stages__zoom-badge {
+    background: var(--c-orange-text);
+  }
+
+  /* career-stages のプレースホルダ ── career-loop と同じトーンの dashed 枠だが、
+     縦並びレイアウト用に padding を増やし「大きいまま縦に並ぶ」サイズ感を維持。 */
+  .career-stages__placeholder {
+    margin: 0;
+    padding: 56px 24px;
+    border: 2px dashed var(--c-border);
+    border-radius: var(--radius);
+    background: var(--c-bg);
+    text-align: center;
+    color: var(--c-text-sub);
+  }
+  .career-stages__placeholder-title {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--c-orange-text);
+    letter-spacing: 0.04em;
+  }
+  .career-stages__placeholder-body {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.9;
   }
 </style>
