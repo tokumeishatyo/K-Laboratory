@@ -443,7 +443,7 @@ const career = [
     background: var(--c-orange-text);
   }
 
-  /* ネイティブ <dialog> ベースの画像拡大モーダル */
+  /* ネイティブ <dialog> ベースの画像拡大モーダル ── 本体は scoped で OK */
   .career-zoom-dialog {
     /* ビューポート中央配置：translate -50% 方式で画像サイズに依存せず確実に中央へ */
     position: fixed;
@@ -459,11 +459,6 @@ const career = [
     width: auto;
     height: auto;
     overflow: visible;
-  }
-  .career-zoom-dialog::backdrop {
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
   }
   .career-zoom-dialog__picture {
     display: block;
@@ -551,5 +546,19 @@ const career = [
       top: -64px;
       font-size: 56px;
     }
+  }
+</style>
+
+<style is:global>
+  /*
+    ネイティブ <dialog> の ::backdrop は top layer に描画されるため、
+    Astro の scoped CSS（[data-astro-cid-xxx] 属性付きセレクタ）と
+    相性が悪く、ブラウザによって暗いオーバーレイが描画されない問題が
+    確認された。is:global で完全に非スコープ化して確実に効かせる。
+  */
+  .career-zoom-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 </style>
