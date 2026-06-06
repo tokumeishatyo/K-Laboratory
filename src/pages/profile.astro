@@ -110,13 +110,12 @@ const career = [
       />
       <ul class="career-loop">
         <li class="career-loop__item">
-          <button
-            type="button"
+          <a
+            href="/images/career/career-construction.jpg"
+            target="_blank"
+            rel="noopener"
             class="career-loop__zoom"
-            data-zoom-jpg="/images/career/career-construction.jpg"
-            data-zoom-webp="/images/career/career-construction.webp"
-            data-zoom-alt="建設業のループ：スーツ姿で社長と商談 → 作業着でショベルカーを実際に操作 → 作業着のまま社長室で現場の声をフィードバック → 提案採用・契約成立"
-            aria-label="建設業ループの画像を拡大表示します"
+            aria-label="建設業ループの画像を拡大表示します（新しいタブで開きます）"
           >
             <figure class="career-loop__figure">
               <ResponsiveImage
@@ -128,16 +127,15 @@ const career = [
               />
               <span class="career-loop__zoom-badge" aria-hidden="true">🔍 拡大</span>
             </figure>
-          </button>
+          </a>
         </li>
         <li class="career-loop__item">
-          <button
-            type="button"
+          <a
+            href="/images/career/career-food.jpg"
+            target="_blank"
+            rel="noopener"
             class="career-loop__zoom"
-            data-zoom-jpg="/images/career/career-food.jpg"
-            data-zoom-webp="/images/career/career-food.webp"
-            data-zoom-alt="飲食業のループ：スーツ姿で店長と商談 → コックコートで厨房で実際に料理 → コックコートのまま店長室で現場の声をフィードバック → 提案採用・契約成立"
-            aria-label="飲食業ループの画像を拡大表示します"
+            aria-label="飲食業ループの画像を拡大表示します（新しいタブで開きます）"
           >
             <figure class="career-loop__figure">
               <ResponsiveImage
@@ -149,16 +147,15 @@ const career = [
               />
               <span class="career-loop__zoom-badge" aria-hidden="true">🔍 拡大</span>
             </figure>
-          </button>
+          </a>
         </li>
         <li class="career-loop__item">
-          <button
-            type="button"
+          <a
+            href="/images/career/career-homecenter.jpg"
+            target="_blank"
+            rel="noopener"
             class="career-loop__zoom"
-            data-zoom-jpg="/images/career/career-homecenter.jpg"
-            data-zoom-webp="/images/career/career-homecenter.webp"
-            data-zoom-alt="ホームセンター本部のループ：スーツ姿で本部バイヤーと商談 → 店舗エプロンで店頭で接客販売 → エプロンのまま本部バイヤー室で現場の声をフィードバック → 提案採用・契約成立"
-            aria-label="ホームセンター本部ループの画像を拡大表示します"
+            aria-label="ホームセンター本部ループの画像を拡大表示します（新しいタブで開きます）"
           >
             <figure class="career-loop__figure">
               <ResponsiveImage
@@ -170,16 +167,15 @@ const career = [
               />
               <span class="career-loop__zoom-badge" aria-hidden="true">🔍 拡大</span>
             </figure>
-          </button>
+          </a>
         </li>
         <li class="career-loop__item">
-          <button
-            type="button"
+          <a
+            href="/images/career/career-cosmetics.jpg"
+            target="_blank"
+            rel="noopener"
             class="career-loop__zoom"
-            data-zoom-jpg="/images/career/career-cosmetics.jpg"
-            data-zoom-webp="/images/career/career-cosmetics.webp"
-            data-zoom-alt="コスメブランド本部のループ：スーツ姿で女性ブランドバイヤーと商談 → 店舗エプロンでコスメ売場で実際にディスプレイ作業 → エプロンのままバイヤー室で現場の声をフィードバック → 提案採用・契約成立"
-            aria-label="コスメブランド本部ループの画像を拡大表示します"
+            aria-label="コスメブランド本部ループの画像を拡大表示します（新しいタブで開きます）"
           >
             <figure class="career-loop__figure">
               <ResponsiveImage
@@ -191,7 +187,7 @@ const career = [
               />
               <span class="career-loop__zoom-badge" aria-hidden="true">🔍 拡大</span>
             </figure>
-          </button>
+          </a>
         </li>
         <li class="career-loop__item career-loop__item--climax">
           <figure class="career-loop__figure">
@@ -205,72 +201,8 @@ const career = [
           </figure>
         </li>
       </ul>
-
-      {/* 共有 dialog ── 4 業界画像のいずれかをクリックすると、JS で
-          src を差し替えて開く。ネイティブ <dialog> 要素を使うことで、
-          ESC で閉じる・フォーカスシフト・background scroll 抑止 等が
-          ブラウザネイティブに動作する。 */}
-      <dialog class="career-zoom-dialog" id="career-zoom-dialog" aria-labelledby="career-zoom-title">
-        <h2 id="career-zoom-title" class="visually-hidden">画像の拡大表示</h2>
-        <button
-          type="button"
-          class="career-zoom-dialog__close"
-          aria-label="閉じる"
-          data-zoom-close
-        >×</button>
-        <picture class="career-zoom-dialog__picture">
-          <source type="image/webp" id="career-zoom-webp" />
-          <img class="career-zoom-dialog__img" id="career-zoom-img" alt="" />
-        </picture>
-      </dialog>
     </div>
   </section>
-
-  <script>
-    // 4 業界ループ画像のクリック拡大。
-    // ネイティブ <dialog> + 共有 src 差し替え方式。
-    // 同じ画像 URL（.webp / .jpg）を使うので、ブラウザはサムネイル時の
-    // キャッシュをそのまま使えて瞬時に表示される。
-    const dialog = document.getElementById('career-zoom-dialog') as HTMLDialogElement | null;
-    const dialogImg = document.getElementById('career-zoom-img') as HTMLImageElement | null;
-    const dialogWebpSource = document.getElementById('career-zoom-webp') as HTMLSourceElement | null;
-
-    if (dialog && dialogImg) {
-      // ボタン → 開く
-      document.querySelectorAll<HTMLButtonElement>('.career-loop__zoom').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const jpg = btn.dataset.zoomJpg;
-          const webp = btn.dataset.zoomWebp;
-          const alt = btn.dataset.zoomAlt ?? '';
-          if (!jpg) return;
-          dialogImg.src = jpg;
-          dialogImg.alt = alt;
-          if (dialogWebpSource && webp) {
-            dialogWebpSource.srcset = webp;
-          }
-          dialog.showModal();
-        });
-      });
-
-      // 閉じるボタン
-      document.querySelectorAll<HTMLButtonElement>('[data-zoom-close]').forEach((btn) => {
-        btn.addEventListener('click', () => dialog.close());
-      });
-
-      // backdrop（dialog の外側）クリックで閉じる
-      dialog.addEventListener('click', (e) => {
-        const rect = (dialog as HTMLElement).getBoundingClientRect();
-        const isInDialog =
-          e.clientY >= rect.top &&
-          e.clientY <= rect.bottom &&
-          e.clientX >= rect.left &&
-          e.clientX <= rect.right;
-        if (!isInDialog) {
-          dialog.close();
-        }
-      });
-    }
-  </script>
 </Layout>
 
 <style>
@@ -393,20 +325,17 @@ const career = [
     height: auto;
   }
 
-  /* クリック拡大：4 業界画像をラップする <button> + 右上に表示する拡大バッジ。
-     2x2 グリッドで内部 4 パネル細部が読みづらい問題への対応として、
-     ネイティブ <dialog> 要素でモーダル拡大表示する。 */
+  /* クリック拡大：4 業界画像をラップする <a target="_blank"> + 右上に
+     表示する拡大バッジ。2x2 グリッドで内部 4 パネル細部が読みづらい
+     問題への対応として、原寸画像（1400px 幅）を新タブで開く。
+     dialog 方式は Astro の scoped CSS と ::backdrop の相性問題があり
+     一部環境で暗いオーバーレイが効かなかったため、シンプルで確実な
+     新タブ方式を採用。 */
   .career-loop__zoom {
     display: block;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: transparent;
-    text-align: left;
+    text-decoration: none;
     color: inherit;
     cursor: zoom-in;
-    font: inherit;
     border-radius: var(--radius);
   }
   .career-loop__zoom:hover .career-loop__figure,
@@ -441,74 +370,6 @@ const career = [
   .career-loop__zoom:hover .career-loop__zoom-badge,
   .career-loop__zoom:focus-visible .career-loop__zoom-badge {
     background: var(--c-orange-text);
-  }
-
-  /* ネイティブ <dialog> ベースの画像拡大モーダル ── 本体は scoped で OK */
-  .career-zoom-dialog {
-    /* ビューポート中央配置：translate -50% 方式で画像サイズに依存せず確実に中央へ */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: 0;
-    border: none;
-    padding: 0;
-    background: transparent;
-    max-width: 95vw;
-    max-height: 95vh;
-    width: auto;
-    height: auto;
-    overflow: visible;
-  }
-  .career-zoom-dialog__picture {
-    display: block;
-  }
-  .career-zoom-dialog__img {
-    display: block;
-    max-width: 95vw;
-    max-height: 95vh;
-    width: auto;
-    height: auto;
-    border-radius: var(--radius);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  }
-  .career-zoom-dialog__close {
-    position: absolute;
-    top: -16px;
-    right: -16px;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: none;
-    background: #ffffff;
-    color: var(--c-text);
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    z-index: 1;
-    transition: transform 0.15s ease, background-color 0.15s ease;
-  }
-  .career-zoom-dialog__close:hover,
-  .career-zoom-dialog__close:focus-visible {
-    background: var(--c-orange-text);
-    color: #ffffff;
-    transform: scale(1.08);
-  }
-  @media (max-width: 600px) {
-    /* モバイルでは閉じるボタンが見切れないように画像内に重ねる */
-    .career-zoom-dialog__close {
-      top: 8px;
-      right: 8px;
-      width: 40px;
-      height: 40px;
-      font-size: 22px;
-    }
   }
 
   /* クライマックス（全国トップ）── 4 業界の下に「↓」と共に登場し、
@@ -546,19 +407,5 @@ const career = [
       top: -64px;
       font-size: 56px;
     }
-  }
-</style>
-
-<style is:global>
-  /*
-    ネイティブ <dialog> の ::backdrop は top layer に描画されるため、
-    Astro の scoped CSS（[data-astro-cid-xxx] 属性付きセレクタ）と
-    相性が悪く、ブラウザによって暗いオーバーレイが描画されない問題が
-    確認された。is:global で完全に非スコープ化して確実に効かせる。
-  */
-  .career-zoom-dialog::backdrop {
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
   }
 </style>
