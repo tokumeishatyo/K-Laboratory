@@ -326,6 +326,41 @@ const career = [
       </ul>
     </div>
   </section>
+
+  {/* ===== 結びの 1 枚 ── 次は、御社の番です ── ともに育てる、これからの物語 =====
+       Career Loop IT 5 枚シリーズの直後に独立して配置する締めくくり画像。
+       シリーズ全体の物語を「私たちの歩み」から「御社の歩み」へとバトンタッチする、
+       訪問者(=見込みクライアント)への直接の語りかけ。
+       代表 + クライアント経営者 + クライアント社員 + AI ロボの 4 人横並びサンドイッチ。
+       スピーチバブル付き(このシリーズで唯一の使用例外)。 */}
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title="次は、御社の番です ── ともに育てる、これからの物語"
+        lead="30 年の IT 実務、22 年の経営、そして AI という新しい相棒 ── これらすべては、御社の事業を育てるためにあります。次の物語の主役は、御社です。"
+      />
+      <div class="career-handoff">
+        <a
+          href="/images/career/career-handoff.jpg"
+          target="_blank"
+          rel="noopener"
+          class="career-handoff__zoom"
+          aria-label="「次は、御社の番です」結びの画像を拡大表示します（新しいタブで開きます）"
+        >
+          <figure class="career-handoff__figure">
+            <ResponsiveImage
+              src="/images/career/career-handoff.jpg"
+              alt="次は、御社の番です：髭ありの現代代表（左端）、クライアント企業の経営者（中央左）、クライアント企業の若手社員（中央右）、白基調の AI ロボ（右端）の 4 人が横並びで viewer 側に向き、代表が経営者の左肩に、ロボが社員の右肩に手を置いて両側から支えるサンドイッチ構図。代表のスピーチバブル「次は、御社の番です。」、ロボのスピーチバブル「私たちが、育てます。」が掲げられ、明るい会議室と観葉植物の若葉に朝日が差し込む、緑支配 + ゴールドアクセントの結び画像。"
+              width={1400}
+              height={933}
+              class="career-handoff__img"
+            />
+            <span class="career-handoff__zoom-badge" aria-hidden="true">🔍 拡大</span>
+          </figure>
+        </a>
+      </div>
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -656,5 +691,68 @@ const career = [
     margin: 0;
     font-size: 14px;
     line-height: 1.9;
+  }
+
+  /* 結びの 1 枚（career-handoff）── 代表略歴ページ最後の独立画像。
+     career-stages__item と機能的には同じ（単体大表示 + クリック拡大）だが、
+     IT シリーズの一部ではなく「我々の物語 → 御社の物語」へのバトンタッチを
+     担う独立要素のため、別クラス名でセマンティックに分離。 */
+  .career-handoff {
+    margin: 32px 0 0;
+  }
+  .career-handoff__figure {
+    position: relative;
+    margin: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-bg-alt);
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .career-handoff__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .career-handoff__zoom {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: zoom-in;
+    border-radius: var(--radius);
+  }
+  .career-handoff__zoom:hover .career-handoff__figure,
+  .career-handoff__zoom:focus-visible .career-handoff__figure {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  .career-handoff__zoom:focus-visible .career-handoff__figure {
+    outline: 2px solid var(--c-orange-text);
+    outline-offset: 2px;
+  }
+  .career-handoff__zoom-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: rgba(26, 26, 26, 0.7);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: background-color 0.2s ease;
+    pointer-events: none;
+  }
+  .career-handoff__zoom:hover .career-handoff__zoom-badge,
+  .career-handoff__zoom:focus-visible .career-handoff__zoom-badge {
+    background: var(--c-orange-text);
   }
 </style>
